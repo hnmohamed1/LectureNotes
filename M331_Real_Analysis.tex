@@ -1,0 +1,563 @@
+\documentclass[11pt,a4paper]{article}
+
+% --- PACKAGES ---
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+% Commands
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+% --- COLOR PALETTE ---
+\definecolor{primaryColor}{RGB}{28, 54, 115}      % Dark Navy (Definitions / Primary)
+\definecolor{accentColor}{RGB}{0, 150, 136}       % Teal (Key Takeaways / Tips)
+\definecolor{theoremColor}{RGB}{74, 20, 140}      % Deep Purple (Theorems / Propositions)
+\definecolor{corollaryColor}{RGB}{21, 101, 192}    % Blue (Corollaries)
+\definecolor{exampleColor}{RGB}{46, 125, 50}      % Forest Green (Examples)
+\definecolor{cautionColor}{RGB}{198, 40, 40}      % Crimson Red (Cautions)
+\definecolor{remarkColor}{RGB}{106, 27, 154}      % Amethyst (Remarks)
+\definecolor{boxBg}{RGB}{245, 247, 250}          % Light Gray-Blue Background
+
+% Colors for the hierarchy diagram
+\definecolor{topologicalColor}{RGB}{180, 150, 200}
+\definecolor{metricColor}{RGB}{220, 220, 100}
+\definecolor{normedColor}{RGB}{160, 220, 180}
+\definecolor{banachColor}{RGB}{120, 200, 150}
+\definecolor{innerProductColor}{RGB}{80, 200, 140}
+\definecolor{hilbertColor}{RGB}{40, 200, 220}
+\definecolor{rnColor}{RGB}{255, 120, 120}
+
+% --- PAGE SETUP (HEADERS & FOOTERS) ---
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textbf{M331: Real Analysis}}
+\rhead{\leftmark}
+\lfoot{\textit{Dept. of Math, Cairo University}}
+\rfoot{Page \thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% --- CUSTOM STYLED BOX TEMPLATE ---
+\mdfdefinestyle{custombox}{
+  backgroundcolor=boxBg,
+  topline=false,
+  rightline=false,
+  bottomline=false,
+  linewidth=2pt,
+  innertopmargin=12pt,      
+  innerbottommargin=12pt,   
+  innerrightmargin=14pt,    
+  innerleftmargin=14pt,     
+  skipabove=12pt,
+  skipbelow=12pt,
+  nobreak=true
+}
+
+% Box Environment Declarations
+\newmdenv[style=custombox, linecolor=primaryColor]{definitionbox}
+\newmdenv[style=custombox, linecolor=accentColor]{tipbox}
+\newmdenv[style=custombox, linecolor=theoremColor]{theorembox}
+\newmdenv[style=custombox, linecolor=corollaryColor]{corollarybox}
+\newmdenv[style=custombox, linecolor=exampleColor]{examplebox}
+\newmdenv[style=custombox, linecolor=cautionColor]{cautionbox}
+\newmdenv[style=custombox, linecolor=remarkColor]{remarkbox}
+
+% --- CUSTOM COMMANDS FOR BOXED ENVIRONMENTS ---
+
+% 1. Definition
+\newcommand{\definition}[2]{
+  \begin{definitionbox}
+    \textbf{\color{primaryColor}Definition (#1):} #2
+  \end{definitionbox}
+}
+
+% 2. Key Takeaway / Tip
+\newcommand{\takeaway}[1]{
+  \begin{tipbox}
+    \textbf{\color{accentColor}Key Takeaway:} #1
+  \end{tipbox}
+}
+
+% 3. Theorem
+\newcommand{\theorem}[2][]{
+  \begin{theorembox}
+    \textbf{\color{theoremColor}Theorem\ifx&#1&\else\ (#1)\fi:} #2
+  \end{theorembox}
+}
+
+% 4. Proposition
+\newcommand{\proposition}[2][]{
+  \begin{theorembox}
+    \textbf{\color{theoremColor}Proposition\ifx&#1&\else\ (#1)\fi:} #2
+  \end{theorembox}
+}
+
+% 5. Corollary
+\newcommand{\corollary}[2][]{
+  \begin{corollarybox}
+    \textbf{\color{corollaryColor}Corollary\ifx&#1&\else\ (#1)\fi:} #2
+  \end{corollarybox}
+}
+
+% 6. Example (Auto-numbered per section/lecture)
+\newcounter{examplecnt}[section]
+\newcommand{\example}[2][]{
+  \stepcounter{examplecnt}
+  \begin{examplebox}
+    \textbf{\color{exampleColor}Example \arabic{examplecnt}\ifx&#1&\else\ (\mathbf{#1})\fi:} #2
+  \end{examplebox}
+}
+
+% 7. Caution
+\newcommand{\caution}[1]{
+  \begin{cautionbox}
+    \textbf{\color{cautionColor}Caution:} #1
+  \end{cautionbox}
+}
+
+% 8. Remark
+\newcommand{\remark}[1]{
+  \begin{remarkbox}
+    \textbf{\color{remarkColor}Remark:} #1
+  \end{remarkbox}
+}
+
+% --- HYPERLINK SETUP ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primaryColor,
+    urlcolor=accentColor
+}
+
+\begin{document}
+
+% ==========================================
+% COVER PAGE WITH UNIVERSITY LOGO
+% ==========================================
+\begin{titlepage}
+    \centering
+    \thispagestyle{empty}
+    
+    % Cairo University Logo
+    \includegraphics[width=0.25\textwidth]{cairo_university_new_logo.png}\\[1em]
+    
+    % University / Department Header
+    {\Large \textbf{Cairo University}}\\[0.3em]
+    {\large \textsc{Department of Mathematics}}\\[2em]
+    
+    % Title & Subtitle
+    {\Huge \textbf{Real Analysis}}\\[0.6em]
+    {\Large \textbf{Lecture Notes}}\\[1.5em]
+    
+    % Central Figure: Hierarchy of Spaces
+    \vfill
+    \begin{tikzpicture}[scale=1.1, font=\sffamily]
+        
+        % Topological Spaces
+        \draw[fill=violet!30, draw=violet, thick] (0,0) rectangle (10,10);
+        \node[text=violet!90!black, font=\bfseries\Large, anchor=west] at (0.4, 9.5) {Topological Spaces};
+
+        % Metric Spaces
+        \draw[fill=yellow!40, draw=olive, thick] (0.4, 0.4) rectangle (9.6, 9.0);
+        \node[text=olive!80!black, font=\bfseries\large, anchor=west] at (0.8, 8.5) {Metric Spaces};
+
+        % Normed Vector Spaces
+        \draw[fill=green!20, draw=teal, thick] (0.8, 0.8) rectangle (9.2, 8.0);
+        \node[text=teal!90!black, font=\bfseries, anchor=west] at (1.2, 7.5) {Normed Vector Spaces};
+
+        % Banach Spaces
+        \draw[fill=green!40!black, fill opacity=0.25, draw=green!50!black, thick] (1.2, 1.2) rectangle (6.2, 7.0);
+        \node[text=green!50!black, font=\bfseries, anchor=west, opacity=1] at (1.6, 6.3) {Banach Spaces};
+
+        % Inner Product Spaces 
+        \draw[fill=green!60!black, fill opacity=0.25, draw=green!60!black, thick] (3.8, 1.6) rectangle (8.8, 5.6);
+        \node[text=green!40!black, font=\bfseries, align=center, opacity=1] at (7.5, 3.6) {Inner\\[0.3em]Product\\[0.3em]Spaces};
+
+        % Hilbert Spaces (Intersection of Banach and Inner Product)
+        \draw[fill=cyan!50, draw=blue!50, thick, fill opacity=0.9] (3.8, 1.6) rectangle (6.2, 5.6);
+        \node[text=blue!70!black, font=\bfseries, align=center] at (5.0, 2.8) {Hilbert\\[0.3em]Spaces};
+
+        % R^n 
+        \draw[fill=red!40, draw=red, thick, fill opacity=1] (5.0, 4.3) circle (0.45);
+        \node[text=red!80!black, font=\bfseries] at (5.0, 4.3) {$\R^n$};
+        
+    \end{tikzpicture}
+    \vfill
+    
+    % Author and Lecturer Details
+    \vspace{1cm}
+    \begin{minipage}{0.45\textwidth}
+        \begin{flushleft}
+            \textit{Lecturer:}\\
+            \textbf{Prof. Moemen Abu-Risha}
+            
+        \end{flushleft}
+    \end{minipage}
+    \begin{minipage}{0.45\textwidth}
+        \begin{flushright}
+            \textcolor{white}{\textit{Author:}}\\
+            \textcolor{white}{\textbf{Mohamed Asubhi}}
+        \end{flushright}
+    \end{minipage}\\[2.5em]
+    
+    % Date / Term
+    {\large Fall Term 2026}
+\end{titlepage}
+
+\newpage
+
+% ==========================================
+% TABLE OF CONTENTS
+% ==========================================
+\tableofcontents
+\newpage
+
+
+\section{Lecture 1: Introduction to Metric Spaces}
+\rhead{Lecture 1: Introduction to Metric Spaces}
+\textit{Date: Sep 26, 2026}
+
+\subsection{Metric Space}
+\definition{Metric Space}{By Metric Spaces $(M,d)$ we mean a non-empty set $M$ with function 
+\[
+d: M \times M \to \R
+\]
+such that:
+\begin{enumerate}
+    \item \textbf{Non-negativity and Definiteness:}
+    \[
+    d(x,y)\geq 0, \quad \forall x,y \in M
+    \]
+    and
+    \[
+    d(x,y) = 0 \iff x=y
+    \]
+    
+    \item \textbf{Symmetry:}
+    \[
+    d(x,y)=  d(y,x), \quad \forall x,y \in M
+    \]
+    
+    \item \textbf{Triangle Inequality:}
+    \[
+    d(x,z)\leq d(x,y)+d(y,z), \quad \forall x,y,z \in M
+    \]
+\end{enumerate}
+}
+
+\example{On $M = \R$ define: 
+\[
+d(x,y) = |x-y|, \quad \forall x,y \in \R
+\]
+
+Let $M = \mathbb{R}$ and define the distance function as:
+\[ d(x, y) = |x - y| \]
+To show it is a metric, we verify the three main properties:
+\begin{enumerate}
+    \item \textbf{Non-negativity:} 
+    \[d(x, y) = |x - y| \geq 0\]
+    \item \textbf{Symmetry:}
+    \[d(x, y) = |x - y| = |-(y - x)| = |y - x| = d(y, x)\]
+    \item \textbf{Triangle Inequality:} 
+    \[ d(x, z) = |x - z| = |(x - y) + (y - z)| \leq |x - y| + |y - z| = d(x, y) + d(y, z) \]
+\end{enumerate}
+For any two complex numbers $z_1 = x_1 + iy_1$ and $z_2 = x_2 + iy_2$, the distance (Euclidean metric) is defined as:
+\[ |z_1 - z_2| = \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2} \]
+}
+
+\example{Let $M$ be any non-empty set and define the distance function as:
+\[ d(x, y) = \begin{cases} 0 & \text{if } x = y \\ 1 & \text{if } x \neq y \end{cases} \]
+
+This satisfies:
+\begin{enumerate}
+    \item \textbf{Non-negativity:} it is clear that $d(x,y) \ge 0$.
+    \item \textbf{Symmetry:} it is clear that $d(x,y) = d(y,x)$.
+    \item \textbf{Triangle Inequality:} We want to show that $d(x, z) \leq d(x, y) + d(y, z)$ for any $x, y, z \in M$. We consider two cases:
+    \begin{itemize}
+        \item \textbf{Case 1 ($x = z$):} Then $d(x, z) = 0$. Since distances are non-negative ($d(x, y) \geq 0$ and $d(y, z) \geq 0$), their sum is $\geq 0$, so $0 \leq d(x, y) + d(y, z)$ holds.
+        \item \textbf{Case 2 ($x \neq z$):} Then $d(x, z) = 1$. Since $x \neq z$, the point $y$ cannot be equal to both $x$ and $z$ simultaneously. Thus, at least one of $d(x, y)$ or $d(y, z)$ must equal $1$, meaning $d(x, y) + d(y, z) \geq 1$. Therefore, $1 \leq d(x, y) + d(y, z)$ holds.
+    \end{itemize}
+\end{enumerate}}
+
+\example{On $\R^2$ for any points $x = (x_1, y_1)$ and $y = (x_2, y_2)$ in $\R^2$, we may define different metrics:
+\begin{enumerate}
+    \item 
+    \[ d_1(x, y) = |x_1 - x_2| + |y_1 - y_2| \]
+    
+    \item
+    \[ d_2(x, y) = \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2} \]
+    
+    \item 
+    \[ d_\infty(x, y) = \max(|x_1 - x_2|, |y_1 - y_2|) \]
+    
+    \item 
+    \[ d_p(x, y) = \left( |x_1 - x_2|^p + |y_1 - y_2|^p \right)^{1/p} \]
+\end{enumerate}}
+
+\subsection{Cauchy--Schwarz Inequality}
+\theorem[Cauchy--Schwarz Inequality]{
+For any  $(a_1, a_2, \dots, a_n)$ and $(b_1, b_2, \dots, b_n)$ in $\mathbb{R}^n$, the Cauchy--Schwarz inequality states:
+\[ \left( \sum_{i=1}^{n} a_i b_i \right)^2 \leq \left( \sum_{i=1}^{n} a_i^2 \right) \left( \sum_{i=1}^{n} b_i^2 \right) \]
+}
+
+\begin{proof}
+Consider the non-negative quadratic expression for any real parameter $t$:
+\[ \sum_{i=1}^{n} (a_i - t b_i)^2 \geq 0 \]
+
+\noindent Expanding this gives:
+\[ \sum_{i=1}^{n} \left(a_i^2 - 2t a_i b_i + t^2 b_i^2\right) = \left(\sum_{i=1}^{n} a_i^2\right) - 2t \left(\sum_{i=1}^{n} a_i b_i\right) + t^2 \left(\sum_{i=1}^{n} b_i^2\right) \geq 0 \]
+
+\noindent Letting $A = \sum_{i=1}^{n} a_i^2$, $B = \sum_{i=1}^{n} a_i b_i$, and $C = \sum_{i=1}^{n} b_i^2$, the inequality becomes a quadratic in $t$:
+\[ At^2 - 2Bt + C \geq 0 \]
+
+\noindent For this quadratic to remain non-negative for all real $t$, its discriminant ($\Delta = b^2 - 4ac$) must be less than or equal to zero:
+\[ (-2B)^2 - 4(A)(C) \leq 0 \implies 4B^2 - 4AC \leq 0 \implies B^2 \leq AC \]
+
+\noindent Substituting back $A$, $B$, and $C$ yields the Cauchy--Schwarz inequality:
+\[ \left( \sum_{i=1}^{n} a_i b_i \right)^2 \leq \left( \sum_{i=1}^{n} a_i^2 \right) \left( \sum_{i=1}^{n} b_i^2 \right) \]
+\end{proof}
+
+\newpage
+\section{Lecture 2: Open Balls and Metric Space Topology}
+\rhead{Lecture: Open Balls and Metric Space Topology}
+\textit{Date: Sep 29, 2026}
+
+\subsection{Open Balls and Bounded Sets}
+
+\definition{Open Ball}{Let $(M,d)$ be a metric space, $x_0 \in M$ and $r \in \mathbb{R}^{+}$. The set defined by 
+\[
+B(x_0; r) := \{x \in M : d(x_0, x) < r\}
+\]
+is called the open ball centered at $x_0$ with radius $r$.}
+
+\remark{Boundedness in $\mathbb{R}$:
+A subset $E \subseteq \mathbb{R}$ is bounded if and only if any of the following equivalent conditions hold:
+\begin{enumerate}
+    \item There exist real numbers $l, L \in \mathbb{R}$ such that:
+    \[
+    l < x < L \quad \forall x \in E
+    \]
+    \item There exists a positive real number $M > 0$ such that:
+    \[
+    -M < x < M \quad (\text{or } |x| < M) \quad \forall x \in E
+    \]
+\end{enumerate}
+}
+
+\definition{Bounded Set}{A subset $E$ of a metric space $(M,d)$ is called bounded if it is contained in a ball $E \subseteq B(x_0; r)$ for some $x_0 \in M$ and $r \in \mathbb{R}^{+}$.}
+
+\theorem{The union of any two (finite numbers of) Bounded Sets}
+\begin{proof}
+Let $E_1$ and $E_2$ be bounded sets, that is, $\exists x_1, x_2 \in M;~ r_1,r_2\in\R^+ 
+$,
+\[
+E_k \subseteq B(x_k;r_k), \quad k=1,2
+\]
+
+\noindent It suffices to show that there is an open ball containing these two open balls. 
+
+\noindent Let:
+\[
+R = d(x_1, x_2) + r_2
+\]
+Then $B_1(x_1; r_1) \cup B_2(x_2; r_2) \subseteq B(x_1; R)$. \medskip
+
+\noindent If $x \in B(x_1; r_1)$, then $d(x_1, x) < r_1 \le R$, if $x \in B(x_2; r_2)$, then $d(x_2, x) < r_2 \le R$.
+
+\noindent So in both cases, $x \in B(x_1; R)$. Thus, the union is bounded.
+\end{proof}
+
+\subsection{Interior Points and Open Sets}
+
+\definition{Interior Point}{Let $E \subseteq M$ where $(M,d)$ is a metric space. A point $x_0 \in E$ is called an interior point of $E$ if there is exists $\varepsilon > 0$ such that $B(x_0; \varepsilon) \subseteq E$. The set of all interior points of $E$ is denoted by $E^\circ$.}
+
+\definition{Open Set}{A subset $G$ of a metric space $(M,d)$ is called an open set if all its points are interior points, that is, $G = G^\circ$.}
+
+
+\definition{Intervals}{$I \subseteq \R $ is called an interval if 
+\[
+\forall x,y,z \in  \R, \quad x < y < z, \quad x,z \in I \implies y \in I
+\]
+} 
+
+\example{\begin{itemize}
+    \item Let $G = \left]0,1\right[ \implies G^\circ = G$.
+    \item Let $E = [a, b]$. Then $E^\circ = (a, b)$.
+\end{itemize}}
+
+ 
+
+\example{In $\mathbb{R}^2$ (with the Euclidean distance), let $E = [0,1] \times [0,1]$. Then $E$ is not open because boundary points (such as $(1, 1)$) are not interior points.
+
+\vspace{0.5em}
+\centering
+\begin{tikzpicture}[scale=2.0, font=\sffamily]
+    % Axes
+    \draw[->, thick] (-0.3, 0) -- (1.4, 0) node[right] {$x_1$};
+    \draw[->, thick] (0, -0.3) -- (0, 1.4) node[above] {$x_2$};
+    
+    % Rectangle E = [0,1] \times [0,1] with background fill and shading
+    \draw[thick, primaryColor, fill=boxBg] (0, 0) rectangle (1, 1);
+    \fill[primaryColor, opacity=0.12] (0, 0) rectangle (1, 1);
+    
+    % Dashed lines to axes for coordinates
+    \draw[dashed, thin, gray] (1, 0) node[below, text=black] {$1$} -- (1, 1);
+    \draw[dashed, thin, gray] (0, 1) node[left, text=black] {$1$} -- (1, 1);
+    
+    % Set Label
+    \node[primaryColor, font=\bfseries\large] at (0.5, 0.5) {$E$};
+    
+    % Highlight boundary point that is not interior (top-right corner)
+    \fill[cautionColor] (1, 1) circle (1.5pt);
+    \node[anchor=south west, font=\small, text=cautionColor] at (1, 1) {$(1, 1)$ (not interior)};
+\end{tikzpicture}
+\vspace{0.5em}
+}
+
+\remark{
+    \begin{enumerate}[label=(\alph*)]
+        \item $G = \{ (x,y) \in \R^2 : x>0, y>0, x+y<1 \}$
+        \item $G = \{ (x,y) \in \R^2 : x>0, y>0, xy<1 \}$
+    \end{enumerate}
+
+    \vspace{0.5em}
+    \begin{center}
+        \begin{minipage}[t]{0.48\textwidth}
+            \centering
+            \begin{tikzpicture}[scale=1.5, font=\sffamily]
+                % Axes
+                \draw[->, thick] (-0.5, 0) -- (1.5, 0) node[right] {$x$};
+                \draw[->, thick] (0, -0.5) -- (0, 1.5) node[above] {$y$};
+                
+                % Coordinates of the vertices
+                \coordinate (A) at (0, 0); 
+                \coordinate (B) at (1, 0); 
+                \coordinate (C) at (0, 1); 
+                
+                % Fill triangle with background color
+                \fill[primaryColor, opacity=0.12] (A) -- (B) -- (C) -- cycle;
+                
+                % Triangle edges
+                \draw[thick, primaryColor] (A) -- (B) node[midway, below] {$1$};
+                \draw[thick, primaryColor] (A) -- (C) node[midway, left] {$1$};
+                \draw[thick, theoremColor] (B) -- (C) node[midway, above right] {$\sqrt{2}$};
+                
+                % Right angle symbol at origin
+                \draw[thin, gray] (0.1, 0) -- (0.1, 0.1) -- (0, 0.1);
+                
+                % Vertex coordinate labels
+                \node[anchor=north east, font=\small] at (A) {$(0,0)$};
+                \node[anchor=north west, font=\small] at (B) {$(1,0)$};
+                \node[anchor=south east, font=\small] at (C) {$(0,1)$};
+                
+                % Label for set G inside the triangle
+                \node[primaryColor, font=\bfseries\large] at (0.35, 0.35) {$G$};     
+            \end{tikzpicture}
+            \vspace{0.3em}
+            
+            \textbf{Figure (a)}
+        \end{minipage}%
+        \hfill
+        \begin{minipage}[t]{0.48\textwidth}
+            \centering
+            \begin{tikzpicture}[scale=0.9, font=\sffamily]
+                % Axes
+                \draw[->, thick] (-0.5, 0) -- (3.2, 0) node[right] {$x$};
+                \draw[->, thick] (0, -0.5) -- (0, 3.2) node[above] {$y$};
+                
+                % Shaded region G (x > 0, y > 0, xy < 1 => y < 1/x)
+                \fill[primaryColor, opacity=0.12] plot[domain=0.33:3.0, samples=100] (\x, {1/\x}) -- (3.0, 0) -- (0.33, 0) -- cycle;
+                
+                % The curve xy = 1 bounding the set
+                \draw[thick, primaryColor, domain=0.28:3.2, samples=100] plot (\x, {1/\x});
+                \node[text=primaryColor, font=\bfseries] at (2.2, 0.7) {$xy = 1$};
+                
+                % Label for set G inside the region
+                \node[primaryColor, font=\bfseries\Large] at (1.0, 0.8) {$G$};
+            \end{tikzpicture}
+            \vspace{0.3em}
+            
+            \textbf{Figure (b)}
+        \end{minipage}
+    \end{center}
+}
+
+\subsection{Properties of Open Sets}
+
+\remark{Basic relationships for interior sets:
+\begin{enumerate}
+    \item $(G_1 \cup G_2)^\circ \supseteq G_1^\circ \cup G_2^\circ$
+    \item $(G_1 \cap G_2)^\circ = G_1^\circ \cap G_2^\circ$
+\end{enumerate}}
+
+\theorem[Properties of Open Sets]{
+\begin{enumerate}
+    \item $\emptyset$ and $M$ are open sets.
+    \item The intersection of any two (finite number of) open sets is open.
+    \item The arbitrary union of open sets is open.
+\end{enumerate}
+}
+
+\begin{proof}
+\begin{enumerate}
+    \item \textbf{For $\emptyset$ and $M$:} 
+    The empty set $\emptyset$ contains no points, so the condition of containing an open ball around every point is vacuously true. For the space $M$ itself, given any point $x \in M$ and any radius $r > 0$, the open ball $B(x; r)$ is a subset of $M$ by definition ($B(x; r) \subseteq M$). Thus, every point in $M$ is an interior point, making $M$ an open set.
+
+    \item \textbf{For Finite Intersection:} 
+    Let $G_1$ and $G_2$ be two open sets and let $x_0 \in G_1 \cap G_2$. Then $x_0 \in G_1$ and $x_0 \in G_2$. \medskip
+
+    \noindent Since $G_1$ and $G_2$ are open, there exist $r_1, r_2 > 0$ such that:
+    \[
+    B(x_0, r_1) \subseteq G_1 \quad \text{and} \quad B(x_0, r_2) \subseteq G_2
+    \]
+    Taking $r = \min(r_1, r_2)$, we obtain:
+    \[
+    B(x_0, r) = B(x_0, r_1) \cap B(x_0, r_2) \subseteq G_1 \cap G_2
+    \]
+    Therefore, $x_0$ is an interior point of $G_1 \cap G_2$, which proves that $G_1 \cap G_2$ is open.
+
+    \vspace{0.5em}
+    \begin{center}
+        \begin{tikzpicture}[scale=1.1, font=\sffamily]
+            % Set G1 (Left horizontal non-regular rectangular shape)
+            \draw[thick, primaryColor, fill=primaryColor, fill opacity=0.08, smooth cycle] plot coordinates {
+                (-3.0, 0.8) (-1.5, 1.1) (0.2, 1.0) (0.6, 0.5) (0.5, -0.5) (0.2, -1.0) (-1.5, -1.1) (-3.0, -0.8)
+            };
+            \node[text=primaryColor, font=\bfseries\large] at (-2.0, 0.0) {$G_1$};
+            
+            % Set G2 (Right horizontal non-regular rectangular shape, overlapping)
+            \draw[thick, theoremColor, fill=theoremColor, fill opacity=0.08, smooth cycle] plot coordinates {
+                (-0.2, 1.0) (1.5, 1.1) (3.0, 0.8) (3.0, -0.8) (1.5, -1.1) (-0.2, -1.0) (-0.5, -0.5) (-0.5, 0.5)
+            };
+            \node[text=theoremColor, font=\bfseries\large] at (2.0, 0.0) {$G_2$};
+            
+            % Point x_0 inside the intersection
+            \coordinate (x0) at (0.0, 0.0);
+            \fill[black] (x0) circle (1.8pt);
+            \node[text=black, font=\small\bfseries] at (0.25, -0.25) {$x_0$};
+            
+            % Open Ball B(x_0; r) centered at x_0 inside the intersection
+            \draw[thick, accentColor, dashed, fill=accentColor, fill opacity=0.15] (x0) circle (0.45cm);
+            
+            % Label and arrow pointing to the open ball
+            \node[text=accentColor, font=\small\bfseries] at (0.0, 1.7) {$B(x_0; r)$};
+            \draw[->, >=stealth, thin, accentColor] (0.0, 1.4) -- (0.0, 0.45);
+        \end{tikzpicture}
+    \end{center}
+    \vspace{0.5em}
+
+    \item \textbf{For Arbitrary Union:} 
+    Let $\{G_i\}_{i \in I}$ be a collection of open sets and let $G = \bigcup_{i \in I} G_i$. If $x \in G$, then there exists an index $k \in I$ such that $x \in G_k$. \medskip
+
+    \noindent Since $G_k$ is open, there exists an open ball around $x$ that is contained in $G_k$, and since $G_k \subseteq G$, this ball is also contained in $G$. Thus, every point in $G$ is an interior point, proving that $G$ is open.
+\end{enumerate}
+\end{proof}
+\end{document}

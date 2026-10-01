@@ -1,0 +1,1117 @@
+\documentclass[11pt,a4paper]{article}
+
+% --- PACKAGES ---
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+% Commands
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+
+% --- COLOR PALETTE ---
+\definecolor{primaryColor}{RGB}{28, 54, 115}      % Dark Navy (Definitions / Primary)
+\definecolor{accentColor}{RGB}{0, 150, 136}        % Teal (Key Takeaways / Tips)
+\definecolor{theoremColor}{RGB}{74, 20, 140}      % Deep Purple (Theorems / Propositions)
+\definecolor{corollaryColor}{RGB}{21, 101, 192}    % Blue (Corollaries)
+\definecolor{exampleColor}{RGB}{46, 125, 50}      % Forest Green (Examples)
+\definecolor{cautionColor}{RGB}{198, 40, 40}      % Crimson Red (Cautions)
+\definecolor{remarkColor}{RGB}{106, 27, 154}      % Amethyst (Remarks)
+\definecolor{recallColor}{RGB}{41, 128, 185}      % Slate Blue (Recalls)
+\definecolor{boxBg}{RGB}{245, 247, 250}          % Light Gray-Blue Background
+\definecolor{exerciseColor}{RGB}{211, 84, 0}      % Rust/Orange (Exercises)
+
+% --- PAGE SETUP (HEADERS & FOOTERS) ---
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textbf{M311: Abstract Algebra}}
+\rhead{\leftmark}
+\lfoot{\textit{Dept. of Math, Cairo University}}
+\rfoot{Page \thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% --- CUSTOM STYLED BOX TEMPLATE ---
+\mdfdefinestyle{custombox}{
+  backgroundcolor=boxBg,
+  topline=false,
+  rightline=false,
+  bottomline=false,
+  linewidth=2pt,
+  innertopmargin=12pt,      
+  innerbottommargin=12pt,   
+  innerrightmargin=14pt,    
+  innerleftmargin=14pt,     
+  skipabove=12pt,
+  skipbelow=12pt,
+  nobreak=true
+}
+
+% Box Environment Declarations
+\newmdenv[style=custombox, linecolor=primaryColor]{definitionbox}
+\newmdenv[style=custombox, linecolor=accentColor]{tipbox}
+\newmdenv[style=custombox, linecolor=theoremColor]{theorembox}
+\newmdenv[style=custombox, linecolor=corollaryColor]{corollarybox}
+\newmdenv[style=custombox, linecolor=exampleColor]{examplebox}
+\newmdenv[style=custombox, linecolor=cautionColor]{cautionbox}
+\newmdenv[style=custombox, linecolor=remarkColor]{remarkbox}
+\newmdenv[style=custombox, linecolor=recallColor]{recallbox}
+\newmdenv[style=custombox, linecolor=exerciseColor]{exercisebox}
+
+% --- CUSTOM ENVIRONMENTS FOR BOXED SECTIONS ---
+\newenvironment{definition}[1]{
+  \begin{definitionbox}
+    \textbf{\color{primaryColor}Definition (#1):} 
+}{
+  \end{definitionbox}
+}
+
+\newenvironment{takeaway}{
+  \begin{tipbox}
+    \textbf{\color{accentColor}Key Takeaway:} 
+}{
+  \end{tipbox}
+}
+
+% --- CORRECTED CUSTOM ENVIRONMENTS ---
+
+\newenvironment{theorem}[1][]{
+  \def\temp{#1}%
+  \begin{theorembox}
+    \textbf{\color{theoremColor}Theorem%
+    \ifx\temp\empty\relax\else\ (#1)\fi:} 
+}{
+  \end{theorembox}
+}
+
+\newenvironment{proposition}[1][]{
+  \def\temp{#1}%
+  \begin{theorembox}
+    \textbf{\color{theoremColor}Proposition%
+    \ifx\temp\empty\relax\else\ (#1)\fi:} 
+}{
+  \end{theorembox}
+}
+
+\newenvironment{corollary}[1][]{
+  \def\temp{#1}%
+  \begin{corollarybox}
+    \textbf{\color{corollaryColor}Corollary%
+    \ifx\temp\empty\relax\else\ (#1)\fi:} 
+}{
+  \end{corollarybox}
+}
+
+\newcounter{examplecnt}[section]
+\newenvironment{example}[1][]{
+  \stepcounter{examplecnt}
+  \begin{examplebox}
+    \textbf{\color{exampleColor}Example \arabic{examplecnt}\ifx&#1&\else\ (\mathbf{#1})\fi:} 
+}{
+  \end{examplebox}
+}
+
+\newenvironment{caution}{
+  \begin{cautionbox}
+    \textbf{\color{cautionColor}Caution:} 
+}{
+  \end{cautionbox}
+}
+
+\newenvironment{remark}{
+  \begin{remarkbox}
+    \textbf{\color{remarkColor}Remark:} 
+}{
+  \end{remarkbox}
+}
+
+\newenvironment{recall}[1][]{
+  \begin{recallbox}
+    \textbf{\color{recallColor}Recall\ifx&#1&\else\ (#1)\fi:} 
+}{
+  \end{recallbox}
+}
+
+% --- HYPERLINK SETUP ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primaryColor,
+    urlcolor=accentColor
+}
+
+\newcounter{exercisecnt}[section]
+\newenvironment{exercise}[1][]{
+  \stepcounter{exercisecnt}
+  \begin{exercisebox}
+    \textbf{\color{exerciseColor}Exercise \arabic{exercisecnt}\ifx&#1&\else\ (\mathbf{#1})\fi:} 
+}{
+  \end{exercisebox}
+}
+
+\begin{document}
+
+% ==========================================
+% COVER PAGE 
+% ==========================================
+\begin{titlepage}
+    \centering
+    \thispagestyle{empty}
+    
+    % Cairo University Logo (Placeholder to match your style)
+    \includegraphics[width=0.25\textwidth]{cairo_university_new_logo.png}\\[1em]
+    
+    % University / Department Header
+    {\Large \textbf{Cairo University}}\\[0.3em]
+    {\large \textsc{Department of Mathematics}}\\[2em]
+    
+    % Title & Subtitle
+    {\Huge \textbf{Abstract Algebra}}\\[0.6em]
+    {\Large \textbf{Lecture Notes}}\\[1.5em]
+    
+    % Central Figure: Hierarchy of Algebraic Structures
+    \vfill
+    \begin{tikzpicture}[scale=1.1, font=\sffamily]
+        
+        % Groups
+        \draw[fill=violet!30, draw=violet, thick] (0,0) rectangle (10,10);
+        \node[text=violet!90!black, font=\bfseries\Large, anchor=west] at (0.4, 9.5) {Groups};
+
+        % Abelian Groups
+        \draw[fill=yellow!40, draw=olive, thick] (0.4, 0.4) rectangle (9.6, 9.0);
+        \node[text=olive!80!black, font=\bfseries\large, anchor=west] at (0.8, 8.5) {Abelian Groups};
+
+        % Finitely Generated Abelian Groups
+        \draw[fill=green!20, draw=teal, thick] (0.8, 0.8) rectangle (9.2, 8.0);
+        \node[text=teal!90!black, font=\bfseries, anchor=west] at (1.2, 7.5) {Finitely Generated Abelian Groups};
+
+        % Cyclic Groups
+        \draw[fill=green!40!black, fill opacity=0.25, draw=green!50!black, thick] (1.2, 1.2) rectangle (8.8, 7.0);
+        \node[text=green!50!black, font=\bfseries, anchor=west, opacity=1] at (1.6, 6.3) {Cyclic Groups};
+
+        % Finite Cyclic Groups
+        \draw[fill=cyan!50, draw=blue!50, thick, fill opacity=0.9] (3.0, 2.0) rectangle (7.0, 5.6);
+        \node[text=blue!70!black, font=\bfseries, align=center] at (5.0, 4.8) {Finite Cyclic\\[0.3em]Groups};
+
+        % Z_n 
+        \draw[fill=red!40, draw=red, thick, fill opacity=1] (5.0, 3.2) circle (0.6);
+        \node[text=red!80!black, font=\bfseries] at (5.0, 3.2) {$\Z_n$};
+        
+    \end{tikzpicture}
+    \vfill
+    
+    % Author and Lecturer Details
+    \vspace{1cm}
+    \begin{minipage}{0.45\textwidth}
+        \begin{flushleft}
+            \textit{Lecturer:}\\
+            \textbf{Prof. Mohamed Ramadan}
+        \end{flushleft}
+    \end{minipage}
+    \begin{minipage}{0.45\textwidth}
+        \begin{flushright}
+            \textcolor{white}{\textit{Author:}}\\
+            \textcolor{white}{\textbf{Mohamed Asubhi}}
+        \end{flushright}
+    \end{minipage}\\[2.5em]
+    
+    % Date / Term
+    {\large Fall Term 2026}
+\end{titlepage}
+
+\newpage
+
+% ==========================================
+% TABLE OF CONTENTS
+% ==========================================
+\tableofcontents
+
+
+\newpage
+\section{Lecture 1: Introduction to Groups \& Fundamental Algebraic Structures}
+\rhead{Lecture 1: Fundamental Structures}
+\textit{Date: Sep 23, 2026}
+
+\subsection{Congruence Modulo n}
+
+\begin{definition}{Congruence Modulo $n$}
+Let $a, b \in \mathbb{Z}$ and $n \in \mathbb{Z}^+$. We say that $a$ is congruent to $b$ modulo $n$ if $n$ divides $(a - b)$. We denote it by:
+\[
+a \equiv b \pmod{n} \quad \text{or} \quad a \equiv_n b
+\]
+Equivalently:
+\[
+a \equiv b \pmod{n} \iff n \mid (a - b) \iff a - b = n k, \; k \in \mathbb{Z} \iff a = b + n k, \; k \in \mathbb{Z}
+\]
+\end{definition}
+
+\begin{example}
+\begin{itemize}
+    \item $17 \equiv 5 \pmod{6}$ and $5 \equiv 17 \pmod{6}$.
+    \item $17 \equiv 17 \pmod{n}$ for all $n \in \mathbb{Z}^+$.
+    \item $2 \equiv -4 \pmod{6}$ and $-4 \equiv 8 \pmod{6} \implies 2 \equiv 8 \pmod{6}$.
+\end{itemize}
+\end{example}
+
+\begin{proposition}[Equivalence Relation]
+The relation $\equiv_n$ is reflexive, symmetric, and transitive. Hence, $\equiv_n$ is an equivalence relation on $\mathbb{Z}$, \textcolor{red}{(Ex: Prove it)}.
+\end{proposition}
+
+\begin{definition}{Equivalence Class}
+    The relation $\equiv_n$ partitions $\mathbb{Z}$ into $n$ equivalence classes. The equivalence class generated by $a \in \mathbb{Z}$ is denoted $\bar{a}$ or $[a]$ and is defined as:
+    \[
+    \bar{a} = \{ b \in \mathbb{Z} \mid b \equiv a \pmod{n} \} = \{ b \in \mathbb{Z} \mid b = a + nk, \; k \in \mathbb{Z} \} = \{ a + nk \mid k \in \mathbb{Z} \}
+    \]
+\end{definition}
+
+\begin{example}[Equivalence Classes for $n = 3$]
+\begin{itemize}
+    \item $\bar{0} = \{ 0 + 3k \mid k \in \mathbb{Z} \} = \{ \dots, -6, -3, 0, 3, 6, \dots \}$
+    \item $\bar{1} = \{ 1 + 3k \mid k \in \mathbb{Z} \} = \{ \dots, -5, -2, 1, 4, 7, \dots \}$
+    \item $\bar{2} = \{ 2 + 3k \mid k \in \mathbb{Z} \} = \{ \dots, -4, -1, 2, 5, 8, \dots \}$
+\end{itemize}
+\end{example}
+
+\begin{definition}{The Set $\mathbb{Z}_n$}
+    We denote the set of equivalence classes modulo $n$ as:
+    \[
+    \mathbb{Z}_n = \{ \bar{0}, \bar{1}, \bar{2}, \dots, \overline{n-1} \}
+    \]
+    We define binary operations $\oplus$ and $\otimes$ on $\mathbb{Z}_n$ by:
+    \[
+    \forall \bar{a}, \bar{b} \in \mathbb{Z}_n, \quad \bar{a} \oplus \bar{b} = \overline{a + b} \quad \text{and} \quad \bar{a} \otimes \bar{b} = \overline{a \cdot b}
+    \]
+    It is clear that $\oplus, \otimes$ are a binary operation on $\Z_n$
+\end{definition}
+
+\begin{proposition}[Group Structures on $\mathbb{Z}_n$]
+$(\mathbb{Z}_n, \oplus)$ is an abelian group for any $n \ge 1$. However, $(\mathbb{Z}_n, \otimes)$ is not a group because $\bar{0}$ has no multiplicative inverse.
+\end{proposition}
+
+\begin{example}
+    The Cayley tables for $(\mathbb{Z}_5, \oplus)$ and $(\mathbb{Z}_5, \otimes)$ are presented below:
+    
+    \begin{center}
+    \begin{minipage}{0.48\textwidth}
+    \centering
+    \textbf{Addition Modulo 5 ($\oplus$)} \\[0.5em]
+    \[
+    \begin{array}{c|ccccc}
+    \oplus & \bar{0} & \bar{1} & \bar{2} & \bar{3} & \bar{4} \\ \hline
+    \bar{0} & \bar{0} & \bar{1} & \bar{2} & \bar{3} & \bar{4} \\
+    \bar{1} & \bar{1} & \bar{2} & \bar{3} & \bar{4} & \bar{0} \\
+    \bar{2} & \bar{2} & \bar{3} & \bar{4} & \bar{0} & \bar{1} \\
+    \bar{3} & \bar{3} & \bar{4} & \bar{0} & \bar{1} & \bar{2} \\
+    \bar{4} & \bar{4} & \bar{0} & \bar{1} & \bar{2} & \bar{3}
+    \end{array}
+    \]
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+    \centering
+    \textbf{Multiplication Modulo 5 ($\otimes$)} \\[0.5em]
+    \[
+    \begin{array}{c|ccccc}
+    \otimes & \bar{0} & \bar{1} & \bar{2} & \bar{3} & \bar{4} \\ \hline
+    \bar{0} & \bar{0} & \bar{0} & \bar{0} & \bar{0} & \bar{0} \\
+    \bar{1} & \bar{0} & \bar{1} & \bar{2} & \bar{3} & \bar{4} \\
+    \bar{2} & \bar{0} & \bar{2} & \bar{4} & \bar{1} & \bar{3} \\
+    \bar{3} & \bar{0} & \bar{3} & \bar{1} & \bar{4} & \bar{2} \\
+    \bar{4} & \bar{0} & \bar{4} & \bar{3} & \bar{2} & \bar{1}
+    \end{array}
+    \]
+    \end{minipage}
+    \end{center}
+    \textbf{Why $(\mathbb{Z}_5, \oplus)$ is an Abelian Group:}
+    \begin{enumerate}[leftmargin=2em]
+        \item \textbf{Closure:} Every entry in the addition table belongs to $\mathbb{Z}_5$.
+        \item \textbf{Associativity:} Inherited from the associativity of integer addition.
+        \item \textbf{Identity Element:} $\bar{0}$ acts as the additive identity ($\bar{a} \oplus \bar{0} = \bar{a}$).
+        \item \textbf{Inverse Elements:} Every element has an additive inverse: 
+        $\bar{0}^{-1} = \bar{0}$, $\bar{1}^{-1} = \bar{4}$, $\bar{2}^{-1} = \bar{3}$, $\bar{3}^{-1} = \bar{2}$, and $\bar{4}^{-1} = \bar{1}$.
+        \item \textbf{Commutativity:} The addition table is symmetric along its main diagonal, meaning $\bar{a} \oplus \bar{b} = \bar{b} \oplus \bar{a}$.
+    \end{enumerate}
+    \textbf{Why $(\mathbb{Z}_5, \otimes)$ is NOT a Group:}
+    Although multiplication is associative, commutative, and has an identity element ($\bar{1}$), \textbf{it fails the inverse axiom}. 
+    Specifically, the element $\bar{0}$ has no multiplicative inverse because there is no element $x \in \mathbb{Z}_5$ such that $\bar{0} \otimes x = \bar{1}$.
+
+\end{example}
+
+\begin{remark}
+If $p$ is a prime number, then $\mathbb{Z}_p^* = \mathbb{Z}_p \setminus \{ \bar{0} \}$ forms an abelian group under multiplication $(\mathbb{Z}_p^*, \otimes)$.
+\end{remark}
+
+% ------------------------------------------
+
+\subsection{Groups, Order of Group, and Order of Elements}
+
+\begin{definition}{Order of a Group}
+Let $G$ be a group. The \textbf{order} of $G$, denoted $|G|$, is the number of distinct elements in $G$.
+\begin{itemize}
+    \item If $|G|$ is finite, $G$ is called a \textbf{finite group}.
+    \item If $|G|$ is infinite, $G$ is called an \textbf{infinite group}.
+\end{itemize}
+\end{definition}
+
+\begin{example}[Group Orders]
+\begin{itemize}
+    \item $(\mathbb{Z}, +)$ is an infinite group since $|\mathbb{Z}|$ is infinite.
+    \item $G = \{1, -1, i, -i\}$ under complex multiplication is a finite group of order $|G| = 4$.
+\end{itemize}
+\end{example}
+
+\begin{definition}{Order of an Element}
+Let $G$ be a group and $a \in G$. The \textbf{order of $a$}, denoted $|a|$, is the least positive integer $n$ such that:
+\[
+a^n = e
+\]
+where $e$ is the identity element of $G$. If no such positive integer exists, we say $a$ has infinite order.
+\end{definition}
+
+\begin{example}[Computing Element Orders]
+\textbf{a)} In $G = \{1, -1, i, -i\}$ with $e = 1$:
+\begin{itemize}
+    \item $(1)^1 = 1 \implies |1| = 1$
+    \item $(-1)^1 = -1, \; (-1)^2 = 1 \implies |-1| = 2$
+    \item $(i)^1 = i, \; (i)^2 = -1, \; (i)^3 = -i, \; (i)^4 = 1 \implies |i| = 4$ and $|{-i}| = 4$
+\end{itemize}
+
+\textbf{b)} In $(\mathbb{Z}_6, \oplus)$ with identity element $e = \bar{0}$:
+\begin{itemize}
+    \item $(\bar{0})^1 = \bar{0} \implies |\bar{0}| = 1$
+    \item $(\bar{1})^1 = \bar{1}, \; (\bar{1})^2 = \bar{2}, \; (\bar{1})^3 = \bar{3}, \; (\bar{1})^4 = \bar{4}, \; (\bar{1})^5 = \bar{5}, \; (\bar{1})^6 = \bar{0} \implies |\bar{1}| = 6$
+    \item $(\bar{2})^1 = \bar{2}, \; (\bar{2})^2 = \bar{4}, \; (\bar{2})^3 = \bar{0} \implies |\bar{2}| = 3$
+\end{itemize}
+\end{example}
+
+% ------------------------------------------
+
+\subsection{Cyclic Groups}
+
+\begin{definition}{Cyclic Group}
+A group $G$ is called \textbf{cyclic} if there exists an element $a \in G$ such that:
+\[
+G = \{ a^n \mid n \in \mathbb{Z} \}
+\]
+We denote this by $G = \langle a \rangle$ and call $a$ a \textbf{generator} of $G$.
+\end{definition}
+
+\begin{proposition}[Properties of Cyclic Groups]
+Let $G = \langle a \rangle$ be a cyclic group.
+\begin{enumerate}
+    \item $G = \langle a \rangle \iff G = \langle a^{-1} \rangle$.
+    \item $|G| = |\langle a \rangle| = |a|$.
+    \item Every cyclic group is abelian.
+\end{enumerate}
+\end{proposition}
+
+\begin{example}[Examples of Cyclic Groups]
+\begin{itemize}
+    \item $(\mathbb{Z}_n, \oplus) = \langle \bar{1} \rangle$ is a finite cyclic group of order $n$.
+    \item $(\mathbb{Z}, +) = \langle 1 \rangle = \langle -1 \rangle$ is an infinite cyclic group.
+\end{itemize}
+\end{example}
+
+\begin{theorem}[Subgroups of $\mathbb{Z}$]
+Every subgroup of $(\mathbb{Z}, +)$ is cyclic and is of the form $n\mathbb{Z} = \langle n \rangle$ for some $n \in \mathbb{Z}$.
+\end{theorem}
+
+% ------------------------------------------
+
+\subsection{Permutation Groups and Symmetric Groups}
+
+\begin{definition}{Permutation}
+Let $X$ be a non-empty set. A \textbf{permutation} of $X$ is a function $f: X \to X$ that is both one-to-one (injective) and onto (surjective).
+\end{definition}
+
+\begin{example}
+    Let $X=\{1,2\}$ and construct every possible function on the set, we get 4 functions: 
+    \[
+        f_1 = \begin{pmatrix} 1 & 2  \\ 1 & 2  \end{pmatrix}, \quad 
+        f_2 = \begin{pmatrix} 1 & 2  \\ 2 & 1  \end{pmatrix}, \quad 
+        f_3 = \begin{pmatrix} 1 & 2  \\ 1 & 1  \end{pmatrix}, \quad
+        f_4 = \begin{pmatrix} 1 & 2  \\ 2 & 2  \end{pmatrix}.
+    \]
+    But $f_1, f_2$ is the only permutation on $X$, we denoted the permutation on X by $\sigma_1, \sigma_2$
+    \[
+        \sigma_1 = \begin{pmatrix} 1 & 2  \\ 1 & 2  \end{pmatrix} =(1), \quad 
+        \sigma_2 = \begin{pmatrix} 1 & 2  \\ 2 & 1  \end{pmatrix}= (12).
+    \]
+\end{example}
+
+\begin{definition}{Symmetric Group $S_n$}
+The set of all permutations on a set of $n$ elements $X_n = \{1, 2, \dots, n\}$ under function composition $\circ$ forms a group called the \textbf{Symmetric Group on $n$ letters}, denoted $S_n$.
+The order of $S_n$ is:
+\[
+|S_n| = n!
+\]
+\end{definition}
+
+\begin{example}
+For $X = \{1, 2, 3\}$. We get 27 functions but 6 only are bijective:
+\[
+S_3 = \{ \sigma_1, \sigma_2, \sigma_3, \sigma_4, \sigma_5, \sigma_6 \}
+\]
+where:
+\[
+\sigma_1 = \begin{pmatrix} 1 & 2 & 3 \\ 1 & 2 & 3 \end{pmatrix}, \quad 
+\sigma_2 = \begin{pmatrix} 1 & 2 & 3 \\ 2 & 1 & 3 \end{pmatrix}, \quad 
+\sigma_3 = \begin{pmatrix} 1 & 2 & 3 \\ 1 & 3 & 2 \end{pmatrix}
+\]
+\[
+\sigma_4 = \begin{pmatrix} 1 & 2 & 3 \\ 3 & 2 & 1 \end{pmatrix}, \quad 
+\sigma_5 = \begin{pmatrix} 1 & 2 & 3 \\ 2 & 3 & 1 \end{pmatrix}, \quad 
+\sigma_6 = \begin{pmatrix} 1 & 2 & 3 \\ 3 & 1 & 2 \end{pmatrix}
+\]
+\end{example}
+
+\begin{definition}{Transposition}
+A cycle of length $2$ is called a \textbf{transposition}.
+Every permutation $\sigma \in S_n$ can be written as a product of transpositions:
+\[
+(a_1 a_2 a_3 \dots a_k) = (a_1 a_k)(a_1 a_{k-1})\dots(a_1 a_2)
+\]
+\begin{itemize}
+    \item If $\sigma$ can be written as an \textbf{even} number of transpositions, $\sigma$ is an \textbf{even permutation}.
+    \item If $\sigma$ can be written as an \textbf{odd} number of transpositions, $\sigma$ is an \textbf{odd permutation}.
+\end{itemize}
+\end{definition}
+
+\begin{definition}{Alternating Group $A_n$}
+The group of all \textbf{even permutations} in $S_n$ is called the \textbf{Alternating Group} of degree $n$, denoted $A_n$. Its order is:
+\[
+|A_n| = \frac{n!}{2}
+\]
+\end{definition}
+
+\begin{caution}
+Permutation composition is generally non-commutative ($S_n$ is non-abelian for $n \ge 3$). Always pay attention to whether function composition is evaluated right-to-left or left-to-right.
+\end{caution}
+
+% ------------------------------------------
+
+\subsection{Cartesian Product of Sets and Groups}
+
+\begin{definition}{Cartesian Product}
+Let $A$ and $B$ be non-empty sets. The \textbf{Cartesian Product} $A \times B$ is defined by:
+\[
+A \times B = \{ (a, b) \mid a \in A, \, b \in B \}
+\]
+If $|A| = n$ and $|B| = m$, then $|A \times B| = n \cdot m$.
+\end{definition}
+
+\begin{example}
+    \begin{itemize}
+        \item Let $A = \{2, 3\}$ and $B = \{1, 2, 4\}$. Then:
+        \[
+        A \times B = \{ (2,1), (2,2), (2,4), (3,1), (3,2), (3,4) \}
+        \]
+        \item 
+        \[
+        \R \times \R =\{(x,y) \mid x,y \in \R\} = \R^2 
+        \] 
+        \item 
+        \[
+        \R^n = \underbrace{\mathbb{R} \times \mathbb{R} \times \cdots \times \mathbb{R}}_{n \text{ times}} =\{(a_1,a_2,\dots,a_n) \mid a_i \in \R\} 
+        \] 
+    \end{itemize}
+\end{example}
+
+
+\newpage
+\section{Lecture 2: External Direct Product}
+\rhead{Lecture 2: External Direct Product}
+\textit{Date: Sep 28, 2026}
+
+\subsection{External Direct Product}
+
+\begin{definition}{External Direct Product}
+Let $(H, \cdot)$ and $(K, \circ)$ be groups.
+The Cartesian product $H \times K$ can be made into a group by defining a binary operation $*$ on $H \times K$ as follows:
+\[
+(a_1, b_1) * (a_2, b_2) := (a_1 \cdot a_2, b_1 \circ b_2) \in H \times K
+\]
+This forms a group called the \textbf{external direct product}.
+\end{definition}
+
+\begin{theorem}
+The set $H \times K$ with the operation $*$ forms a group.
+\end{theorem}
+\begin{proof}
+We verify the group axioms for $H \times K$:
+\begin{enumerate}
+    \item \textbf{Closure:} The operation $*$ is a binary operation on $H \times K$.
+    \item \textbf{Associativity:} For any $(a_1, b_1), (a_2, b_2), (a_3, b_3) \in H \times K$:
+    \begin{align*}
+        ((a_1, b_1) * (a_2, b_2)) * (a_3, b_3) &= (a_1 \cdot a_2, b_1 \circ b_2) * (a_3, b_3) \\
+        &= ((a_1 \cdot a_2) \cdot a_3, (b_1 \circ b_2) \circ b_3) \\
+        &= (a_1 \cdot (a_2 \cdot a_3), b_1 \circ (b_2 \circ b_3)) \\
+        &= (a_1, b_1) * ((a_2 \cdot a_3, b_2 \circ b_3)) \\
+        &= (a_1, b_1) * ((a_2, b_2) * (a_3, b_3))
+    \end{align*}
+    Thus, $*$ is associative.
+    
+    \item \textbf{Identity:} The identity element of $H \times K$ is $(e_H, e_K)$.
+    
+    \item \textbf{Inverse:} For any $(a, b) \in H \times K$, the inverse is $(a, b)^{-1} = (a^{-1}, b^{-1})$. 
+    We can check this by observing:
+    \[
+    (a, b) * (a^{-1}, b^{-1}) = (a \cdot a^{-1}, b \circ b^{-1}) = (e_H, e_K)
+    \]
+\end{enumerate}
+\end{proof}
+
+\begin{remark}
+\begin{itemize}
+    \item Neither $H$ nor $K$ are subgroups of $H \times K$.
+    \item However, subsets of the form $H \times \{e_K\}$ and $\{e_H\} \times K$ are subgroups of $H \times K$, \textcolor{red}{(Ex: Prove it)}.
+    \item Moreover, $H \times \{e_K\} \cong H$ and $\{e_H\} \times K \cong K$, \textcolor{red}{(Ex: Prove it)}.
+\end{itemize}
+\end{remark}
+
+\begin{recall}
+    Let $H \leq G$, we say that $H \unlhd G$ if and only if one of the following equivalent conditions holds:
+    \begin{enumerate}
+        \item $Ha = aH, \quad \forall a \in G$
+        \item $a^{-1}Ha = H$,
+        \item $aHa^{-1} = H$,
+        \item $\forall a \in G,  h \in H, \quad aha^{-1} \in H$. 
+    \end{enumerate}
+    Moreover, if $G$ is abelian, $H\leq G \implies H \unlhd G$. \textcolor{red}{(Ex: Prove it)}
+\end{recall}
+
+\begin{remark}
+In general, if $G_1, G_2, \dots, G_n$ are groups, we define an operation on the Cartesian product $G_1 \times \dots \times G_n$ component-wise:
+\[
+(a_1, \dots, a_n) * (b_1, \dots, b_n) = (a_1 \cdot_1 b_1, \dots, a_n \cdot_n b_n)
+\]
+Thus, $(G_1 \times \dots \times G_n, *)$ is called the external direct product of $G_1, \dots, G_n$. we denote it by $\prod_{i=1}^{n} G_i$ or $G_1 \bigotimes \dots \bigotimes G_n$, if the operation on each $G_i$ is addition, we use the notation $\bigoplus_{i=1}^n G_i$instead of $\prod_{i=1}^{n} G_i$ we called it \textbf{external direct sum} of $G_1, G_2, \dots, G_n$.
+\end{remark}
+
+
+\subsection{Properties of the Direct Product}
+
+\begin{theorem}
+Let $G_1, G_2$ be groups. Then $G_1 \times G_2$ is abelian if and only if $G_1, G_2$ are abelian.
+\end{theorem}
+
+\begin{proof}
+($\Rightarrow$) Suppose $G_1 \times G_2$ is abelian.
+Let $(a_1, b_1), (a_2, b_2) \in G_1 \times G_2$, where $a_1, a_2 \in G_1$ and $b_1, b_2 \in G_2$. 
+Because the group is abelian:
+\[
+(a_1, b_1)(a_2, b_2) = (a_2, b_2)(a_1, b_1)
+\]
+This implies $(a_1 a_2, b_1 b_2) = (a_2 a_1, b_2 b_1)$.
+Therefore, $a_1 a_2 = a_2 a_1$ and $b_1 b_2 = b_2 b_1$. 
+Hence, both $G_1$ and $G_2$ are abelian.
+
+\vspace{0.5em}
+\noindent ($\Leftarrow$) Suppose $G_1$ and $G_2$ are abelian. 
+For any $(a_1, b_1), (a_2, b_2) \in G_1 \times G_2$:
+\[
+(a_1, b_1)(a_2, b_2) = (a_1 a_2, b_1 b_2)
+\]
+Since $G_1$ and $G_2$ are abelian, $a_1 a_2 = a_2 a_1$ and $b_1 b_2 = b_2 b_1$.
+Thus:
+\[
+(a_1 a_2, b_1 b_2) = (a_2 a_1, b_2 b_1) = (a_2, b_2)(a_1, b_1)
+\]
+Therefore, $G_1 \times G_2$ is abelian.
+\end{proof}
+
+\begin{caution}
+    If $G_1, G_2$ is cyclic, it is not necessary for $G_1 \times G_2$ is cyclic
+\end{caution}
+
+\subsection{Examples of Direct Products}
+
+\begin{example}
+Consider $G = \Z \times \Z = \{(x, y) \mid x, y \in \Z\}$. 
+While it is abelian, $\Z \times \Z$ is not cyclic. 
+For any generator candidate $(x,y) \in \Z \times \Z$, 
+\[
+(x,y) = x(1,0) + y(0,1)
+\]
+that is mean if 
+\[
+\Z \times \Z = \langle(x,y)\rangle = \langle(1,0), (0,1)\rangle
+\]
+Which concludes that $\Z \times \Z$ is not cyclic.
+\end{example}
+
+\begin{example}
+Let $G_1 = (\Z_4, \oplus)$ and $G_2 = (S_3, \circ)$. 
+We have:
+\[
+G_1 = \{\bar{0}, \bar{1}, \bar{2}, \bar{3}\}
+\]
+\[
+G_2 = \{(1), (12), (13), (23), (123), (132)\}
+\]
+It is known that $G_1$ is abelian, but $G_2$ is not abelian. 
+Let us check if $G_1 \times G_2$ is abelian by taking two elements $(\bar{3}, (123))$ and $(\bar{2}, (13))$:
+\begin{align*}
+(\bar{3}, (123)) * (\bar{2}, (13)) &= (\bar{3} \oplus \bar{2}, (123)(13)) = (\bar{1}, (12)) \\
+(\bar{2}, (13)) * (\bar{3}, (123)) &= (\bar{2} \oplus \bar{3}, (13)(123)) = (\bar{1}, (23))
+\end{align*}
+Since $(\bar{1}, (12)) \neq (\bar{1}, (23))$, the product $G_1 \times G_2$ is not abelian.
+\end{example}
+
+\begin{example}
+Consider $\Z_2 \times \Z_2 = \{(\bar{0},\bar{0}), (\bar{0},\bar{1}), (\bar{1},\bar{0}), (\bar{1},\bar{1})\}$. 
+The group $\Z_2 \times \Z_2$ is not cyclic, but it is abelian.
+\end{example}
+
+\begin{example}
+Consider $\Z_2 \times \Z_3$. 
+\[ \Z_2 = \{\bar{0}, \bar{1}\}, \quad \Z_3 = \{\bar{0}, \bar{1}, \bar{2}\} \] 
+Let us compute the powers (multiples) of the element $(\bar{1}, \bar{1})$:
+\begin{align*}
+1 \cdot (\bar{1}, \bar{1}) &= (\bar{1}, \bar{1}) \\
+2 \cdot (\bar{1}, \bar{1}) &= (\bar{0}, \bar{2}) \\
+3 \cdot (\bar{1}, \bar{1}) &= (\bar{1}, \bar{0}) \\
+4 \cdot (\bar{1}, \bar{1}) &= (\bar{0}, \bar{1}) \\
+5 \cdot (\bar{1}, \bar{1}) &= (\bar{1}, \bar{2}) \\
+6 \cdot (\bar{1}, \bar{1}) &= (\bar{0}, \bar{0})
+\end{align*}
+Since $|(\bar{1}, \bar{1})| = 6$, we see that $\Z_2 \times \Z_3 = \langle(\bar{1}, \bar{1})\rangle$. 
+Thus, it is cyclic.
+\end{example}
+
+\begin{example}
+Consider $\Z_2 \times \Z_4 = \{(\bar{0},\bar{0}), (\bar{0},\bar{1}), (\bar{0},\bar{2}), (\bar{0},\bar{3}), (\bar{1},\bar{0}), (\bar{1},\bar{1}), (\bar{1},\bar{2}), (\bar{1},\bar{3})\}$.
+This group is not cyclic because it does not contain an element of order $8$. 
+\end{example}
+
+\subsection{Cyclic Isomorphisms in Direct Products}
+
+\begin{theorem}
+The group $\Z_n \times \Z_m \cong \Z_{nm}$ is cyclic if and only if $\gcd(n,m) = 1$.
+\end{theorem}
+
+\begin{proof}
+We prove both directions of the equivalence explicitly:
+
+\vspace{0.5em}
+\noindent \textbf{($\Rightarrow$)} Suppose that $\Z_n \times \Z_m \cong \Z_{nm}$, which implies that $\Z_n \times \Z_m$ is a cyclic group. 
+
+Assume for the sake of contradiction that $\gcd(n,m) \neq 1$. Let $d = \gcd(n,m) > 1$, which means $d$ divides both $n$ and $m$ ($d|n$ and $d|m$). Let $(a, b)$ be any arbitrary element in $\Z_n \times \Z_m$. 
+
+Consider the multiple $\frac{nm}{d}$ of $(a, b)$:
+\[
+\frac{nm}{d} (a, b) = \left( a \frac{nm}{d}, b \frac{nm}{d} \right) = \left( \frac{m}{d}(na), \frac{n}{d}(mb) \right) = (\bar{0}, \bar{0})
+\]
+This demonstrates that the order $|(a, b)| \leq \frac{nm}{d} < nm$. Consequently, every single element in $\Z_n \times \Z_m$ has an order strictly less than the order of the group itself ($|\Z_n \times \Z_m| = nm$). Because no element can generate a group of size $nm$, $\Z_n \times \Z_m$ cannot be cyclic, which contradicts our initial assumption. Therefore, we must have $\gcd(n,m) = 1$.
+
+\vspace{0.8em}
+\noindent \textbf{($\Leftarrow$)} Suppose now that $\gcd(n,m) = 1$. 
+
+We know that $\Z_n = \langle\bar{1}\rangle$ and $\Z_m = \langle\bar{1}\rangle$. Consider the element $(\bar{1}, \bar{1}) \in \Z_n \times \Z_m$ and let $H = \langle(\bar{1}, \bar{1})\rangle$ be the cyclic subgroup it generates. 
+
+In $\Z_n$, the powers satisfy $\bar{1}^n = \bar{0}, \bar{1}^{2n} = \bar{0}, \dots, \bar{1}^{mn} = \bar{0}$. Similarly, in $\Z_m$, we have $\bar{1}^m = \bar{0}, \bar{1}^{2m} = \bar{0}, \dots, \bar{1}^{nm} = \bar{0}$. 
+Raising $(\bar{1}, \bar{1})$ to the power $nm$ yields:
+\[
+(\bar{1}, \bar{1})^{nm} = (\bar{1}^{nm}, \bar{1}^{nm}) = (\bar{0}, \bar{0})
+\]
+This establishes that the order satisfies $|(\bar{1}, \bar{1})| \leq nm$.
+
+Now, assume there exists some positive integer $s < nm$ such that $|(\bar{1}, \bar{1})| = s$. Then $(\bar{1}, \bar{1})^s = (\bar{0}, \bar{0})$, meaning $(\bar{1}^s, \bar{1}^s) = (\bar{0}, \bar{0})$. This implies that $n|s$ and $m|s$. Because $\gcd(n,m) = 1$, their least common multiple $nm$ must divide $s$ ($nm | s$). Thus, $s$ cannot be strictly less than $nm$, forcing $s = nm$. 
+
+Therefore, $|(\bar{1}, \bar{1})| = nm$, which means the subgroup size is $|H| = nm = |\Z_n \times \Z_m|$. This proves that $\Z_n \times \Z_m = \langle(\bar{1}, \bar{1})\rangle$, making the group cyclic.
+\end{proof}
+
+\begin{recall}
+This property is not specific to $\Z_n$. In fact, for any cyclic group $G = \langle a \rangle$:
+\begin{itemize}[leftmargin=2em]
+    \item If $|a| = n$ (finite order), then $G \cong \Z_n$.
+    \item If $|G| = \infty$ (infinite order), then $G \cong \Z$.
+\end{itemize}
+\end{recall}
+
+\begin{proposition}
+Let $G$ and $H$ be cyclic groups. 
+\[
+G \times H \text{ is cyclic } \iff \gcd(|G|, |H|) = 1.
+\] 
+\end{proposition}
+
+\newpage
+
+\section*{Exercises}
+
+\subsection*{Set 1}
+\begin{enumerate}
+    \item Let $H$ and $K$ be finite cyclic groups. Prove that $H \times K \text{ is cyclic } \iff \gcd(|H|, |K|) = 1$.
+    
+    \item Let $G$ be a cyclic group. Then:
+    \begin{enumerate}[label=(\roman*)]
+        \item If $G$ is finite of order $n$, prove that $G \cong \mathbb{Z}_n$.
+        \item If $G$ is infinite, prove that $G \cong \mathbb{Z}$.
+    \end{enumerate}
+    
+    \item Let $G$ be a group with identity $e$. If $x^2 = e$ for every $x \in G$, show that $G$ is abelian. \label{Exercise: exercise3}
+\end{enumerate}
+
+\subsection*{Set 2}
+\begin{enumerate}
+    \item If $(H, \cdot)$ and $(K, \circ)$ are groups, verify that $H \times \{e_K\}$ and $\{e_H\} \times K$ are normal subgroups of $H \times K$.
+    
+    \item Let $G = \langle a, b \mid a^4 = b^2 = 1, ab = ba^3 \rangle$, and set $H = \langle a \rangle$ and $K = \langle b \rangle$. Is $H \trianglelefteq G$? Is $K \trianglelefteq G$? Explain your answer.
+    
+    \item Suppose that $A = \langle(1234)\rangle$ and $B = A_4$, verify that $|A \cap B| = 2$. Does $S_4 = AB$? Explain your answer.
+    
+    \item Let $A \le G$ and $B \le G$, where $G$ is a finite group. Show that:
+    \[
+    |AB| = \frac{|A||B|}{|A \cap B|}
+    \]
+    
+    \item Let $A = S_3$ and $B = \{(1), (12), (34), (12)(34)\}$. Prove that $AB$ is not a subgroup of $S_4$.
+    
+    \item If $C = \langle(123)\rangle$ and $K = \{(1), (12)(34), (13)(24), (14)(23)\}$, verify that $A_4 = KC$.
+    
+    \item If $G_1$ and $G_2$ are cyclic groups of order $m$ and $n$, respectively, prove that $G_1 \times G_2$ is cyclic if and only if $m$ and $n$ are relatively prime.
+\end{enumerate}
+
+
+\newpage
+\section{Lecture 3: Internal Direct Product}
+\rhead{Lecture 3: Internal Direct Product}
+\textit{Date: Sep 30, 2026}
+
+
+\begin{corollary}
+    \[
+    \Z_{p_1^{e_1}} \times \Z_{p_2^{e_2}} \times \dots \times \Z_{p_n^{e_n}} \cong \Z_{p_1^{e_1} p_2^{e_2} \dots p_n^{e_n}} \iff \gcd(p_i, p_j) = 1, \quad \forall 1 \le i \neq j \le n.
+    \]
+\end{corollary}
+
+
+\begin{example}
+\begin{itemize}
+    \item $\Z_8 \times \Z_9  = \Z_{2^3} \times \Z_{3^2}\cong \Z_{72}$ as $\gcd(2, 3) = 1$.
+    \item Is $\Z_2 \times \Z_5 \times \Z_4 \cong \Z_{40}$, why?
+
+    
+\end{itemize}
+\vspace{0.5em}
+\noindent \textbf{Solution:} 
+\begin{align*}
+    \Z_2 \times \Z_5 \times \Z_4 &\cong \Z_{10} \times \Z_4, \quad \gcd(2,5)=1 \\
+    &\not \cong \Z_{10 \cdot 4}, \quad \gcd(10,4) \neq 1 
+\end{align*}
+\end{example}
+
+\begin{example}
+Show that every group of order 4 is isomorphic to $\Z_4$ or $\Z_2 \times \Z_2$.
+\end{example}
+
+\begin{proof}
+Let $G$ be a group of order 4.
+
+Let $a \in G$, $a \neq e$. Then:
+\[
+G=\{ e, a, b, ab\}
+\]
+
+\begin{itemize}
+    \item If $G$ is cyclic, then $G\cong\Z_4$
+    \item If G is not cyclic:
+\end{itemize}
+Then 
+\[
+|e|=1, |a|=|b|=|ab|=2, \quad \textcolor{red}{\text{why?!}}
+\]
+By Exercise \ref{Exercise: exercise3} : $G$ is abelian.
+
+\noindent Define a map $f: G \to \Z_2 \times \Z_2$:
+\[
+\begin{aligned}
+e &\mapsto (\bar{0}, \bar{0}) \\
+a &\mapsto (\bar{1}, \bar{0}) \\
+b &\mapsto (\bar{0}, \bar{1}) \\
+ab &\mapsto (\bar{1}, \bar{1})
+\end{aligned}
+\]
+$f(ab) = (\bar{1}, \bar{1}) = (\bar{1}, \bar{0}) + (\bar{0}, \bar{1}) = f(a) + f(b)$
+$\implies f$ is homo.
+$\implies f$ is isomorphism.
+$\implies G \cong \Z_2 \times \Z_2$.
+\end{proof}
+
+\begin{exercise}
+    \begin{enumerate}
+    \item Show that every abelian group of order 8 is isomorphic to one of the following:
+    \begin{enumerate}[label=\alph*)]
+        \item $\Z_8$
+        \item $\Z_2 \times \Z_4$
+        \item $\Z_2 \times \Z_2 \times \Z_2$
+    \end{enumerate}
+    
+    \item Show that every group of order 8 is isomorphic to:
+    \begin{enumerate}[label=\alph*)]
+        \item $D_8$ (Dihedral group of order 8, $D_8 = \langle a, b \mid a^4 = b^2 = e, aba = b \rangle$)
+        \item $\Z_8$
+        \item $\Z_2 \times \Z_4$
+        \item $\Z_2 \times \Z_2 \times \Z_2$
+    \end{enumerate}
+\end{enumerate}
+\end{exercise}
+
+\subsection{Internal Direct Products}
+
+\begin{definition}{Internal Direct Product}
+Let $G_1, G_2, \dots, G_n$ be subgroups of a group $G$. We say that $G$ is an internal direct product of $G_1, G_2, \dots, G_n$ if the following holds:
+\begin{enumerate}
+    \item $G_i \trianglelefteq G$ for each $i = 1, 2, \dots, n$.
+    \item $G = G_1 G_2 \dots G_n$.
+    \item $G_i \cap \prod_{j \neq i} G_j = \{e\}$.
+\end{enumerate}
+We denote it by:
+\[
+G = G_1 \times G_2 \times \dots \times G_n
+\]
+If the operation is addition, we say that $G$ is a direct sum and we denote it by:
+\[
+G = G_1 \oplus G_2 \oplus \dots \oplus G_n
+\]
+\end{definition}
+
+\begin{example}
+Consider $G = \mathbb{Z}_6$, $G_1 = \langle \bar{2} \rangle$ and $G_2 = \langle \bar{3} \rangle$.
+Does $G$ is a direct sum $G = G_1 \oplus G_2$? Explain your answer??
+\end{example}
+
+\noindent \textbf{Solution:}
+$G = \{\bar{0}, \bar{1}, \bar{2}, \bar{3}, \bar{4}, \bar{5}\}$
+$G_1 = \{\bar{0}, \bar{2}, \bar{4}\}$
+$G_2 = \{\bar{0}, \bar{3}\}$
+
+\begin{enumerate}
+    \item \textbf{Does $G_1, G_2$ normal in $G$?}
+
+    \noindent $\Z_6$ is cyclic $\implies \Z_6$ is abelian $\implies$ every subgroup is normal.
+    \item \textbf{Does $G_1 G_2 = G$?}
+    
+    \noindent $G_1 G_2 = \{\bar{0}, \bar{3}, \bar{2}, \bar{5}, \bar{4}, \bar{1}\} = G$.
+    \item $G_1 \cap G_2 = \{\bar{0}\}$.
+\end{enumerate}
+Thus, $G = G_1 \oplus G_2$.
+
+
+\begin{exercise}
+$G = \mathbb{Z}_{10}$, $H = \langle \bar{5} \rangle$, $K = \langle \bar{2} \rangle$.
+Does $G = H \times K$? Explain your answer.
+\end{exercise}
+
+\begin{example}
+$G = \langle a, b \mid a^4 = b^2 = e, aba = ba^3 \rangle$.
+$H = \langle a \rangle$, $K = \langle b \rangle$.
+Does $G = H \times K$? Why?
+\end{example}
+
+\noindent\textbf{Solution:}
+$G = \{e, a, a^2, a^3, b, ab, a^2b, a^3b\}$
+$H = \{e, a, a^2, a^3\}$, $K = \{e, b\}$.
+\begin{enumerate}
+    \item $H \trianglelefteq G$ as $H$ is normal (as $H$ has index 2 or $H$ is abelian).
+    \item $HK = \{e, b, a, ab, a^2, a^2b, a^3, a^3b\} = G$.
+    \item $H \cap K = \{e\}$.
+\end{enumerate}
+Thus, $G = H \times K$.
+
+\begin{exercise}
+    \begin{enumerate}
+        \item $G = \langle a, b \mid a^4 = b^2 = e, aba = b \rangle$. $H = \langle a \rangle$, $K = \langle b \rangle$. Does $G = H \times K$? Explain your answer.
+        
+
+        \item $G = (S_3, \circ)$
+        $H = \langle (12) \rangle$
+        $K = \langle (123) \rangle$
+        Does $G = H \times K$? Explain your answer.
+        
+        \item $G = \mathbb{Z}_{30}$
+        $H = \langle \bar{2} \rangle$, $K = \langle \bar{3} \rangle$, $L = \langle \bar{5} \rangle$.
+        Does $G = H \times K \times L$? Explain your answer.
+
+        \item Klein 4-group:
+        $V_4 = \langle a, b \mid a^2 = b^2 = (ab)^2 = e \rangle$
+        $H = \langle a \rangle$, $K = \langle b \rangle$.
+        Does $V_4 = H \oplus K$? Explain your answer.
+
+        \item $G = V_4 = \langle a, b \mid a^2 = b^2 = (ab)^2 = e \rangle$
+        $H = \langle a \rangle$, $K = \langle b \rangle$, $L = \langle ab \rangle$.
+        Does $V_4 = H \times K \times L$? Explain your answer.
+    \end{enumerate}
+\end{exercise}
+
+% \begin{exercise}
+
+% $G = \langle a, b \mid a^4 = b^2 = e, aba = b \rangle$.
+% $H = \langle a \rangle$, $K = \langle b \rangle$.
+% Does $G = H \times K$? Explain your answer.
+% \end{exercise}
+
+% \begin{exercise}
+% $G = (S_3, \circ)$
+% $H = \langle (12) \rangle$
+% $K = \langle (123) \rangle$
+% Does $G = H \times K$? Explain your answer.
+% \end{exercise}
+
+% \begin{exercise}
+% $G = \mathbb{Z}_{30}$
+% $H = \langle \bar{2} \rangle$, $K = \langle \bar{3} \rangle$, $L = \langle \bar{5} \rangle$.
+% Does $G = H \times K \times L$? Explain your answer.
+% \end{exercise}
+
+% \begin{exercise}
+% Klein 4-group:
+% $V_4 = \langle a, b \mid a^2 = b^2 = (ab)^2 = e \rangle$
+% $H = \langle a \rangle$, $K = \langle b \rangle$.
+% Does $V_4 = H \oplus K$? Explain your answer.
+% \end{exercise}
+
+% \begin{exercise}
+% $G = V_4 = \langle a, b \mid a^2 = b^2 = (ab)^2 = e \rangle$
+% $H = \langle a \rangle$, $K = \langle b \rangle$, $L = \langle ab \rangle$.
+% Does $V_4 = H \times K \times L$? Explain your answer.
+% \end{exercise}
+
+\begin{proposition}
+    Let $H, K$ be normal subgroups of a finite group $G$ such that $|G| = |H||K|$, prove that if $G=HK$ or $H \cap K = \{e\}$. Then $G = H \times K$.
+\end{proposition}
+
+\begin{proof}
+We have $G=HK$ $H, K \trianglelefteq G$, $HK = G$.
+
+Since $H, K \trianglelefteq G \implies HK \leq G$ 
+\[
+|G| = |HK| = \frac{|H||K|}{|H \cap K|}  = \frac{|G|}{|H \cap K|} 
+\]
+$\implies |H \cap K| = 1 \implies H \cap K = \{e\} $.
+\end{proof}
+
+\begin{proof}[Continuation]
+Suppose $H \cap K = \{e\} \implies |H \cap K| = 1$.
+$H, K \trianglelefteq G \implies HK \le G$.
+\[
+|HK| = \frac{|H||K|}{|H \cap K|} = |H||K| = |G|
+\]
+$\implies HK = G$.
+$\implies G = H \times K$.
+\end{proof}
+
+\begin{exercise}
+    Let $G$ be an abelian group of order $p_1^{e_1} p_2^{e_2} \dots p_n^{e_n}$ where $p_1, p_2, \dots, p_n$ are distinct primes.
+    If for each $i > 0$, $G$ has a subgroup $P_i$ of order $p_i^{e_i}$.
+    Show that $G = P_1 \times P_2 \times \dots \times P_n$.
+\end{exercise}
+
+\begin{theorem}
+    Let $H$ and $K$ be subgroups of a group $G$. Then $G = H \times K$ if and only if the following condition holds:
+    \begin{enumerate}
+        \item Every element $x \in G$ can be uniquely expressed as $x = hk$, $h \in H, k \in K$.
+        \item Every element of $H$ commutes with every element of $K$, i.e., $hk = kh$ for all $h \in H, k \in K$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+($\Rightarrow$) Suppose that $G = H \times K$.
+Since $G = HK$, $G = \{hk \mid h \in H, k \in K\}$.
+So, every element $x \in G$ can be written $x = hk$, $h \in H, k \in K$.
+
+\noindent \textbf{Uniqueness:}
+$x = h_1 k_1 = h_2 k_2$, where $h_1, h_2 \in H, k_1, k_2 \in K$.
+We consider from $x = h_1 k_1 = h_2 k_2$:
+\[
+h_2^{-1} h_1 = k_2 k_1^{-1} \implies h_1 h_2^{-1} = k_2 k_1^{-1}
+\]
+Since $h_1 h_2^{-1} \in H$ and $k_2 k_1^{-1} \in K$, we have $h_1 h_2^{-1} \in H \cap K$ and $k_2 k_1^{-1} \in H \cap K \implies k_2 k_1^{-1} = e \implies k_1 = k_2$ and $h_1 h_2^{-1} = e \implies h_1 = h_2$.
+
+\noindent $\implies k_1 = k_2, h_1 = h_2$.
+$\implies x$ is uniquely expressed.
+Thus, (1) holds.
+
+\noindent \textbf{Consider an element $hkh^{-1}k^{-1}$:}
+\[
+hkh^{-1}k^{-1} = h(kh^{-1}k^{-1}) = h h_2 \quad (\text{as } h_2 = kh^{-1}k^{-1} \in H \text{ since } H \trianglelefteq G)
+\]
+$\implies hkh^{-1}k^{-1} \in H$.
+
+\noindent \textbf{Similarly:}
+\[
+hkh^{-1}k^{-1} = (hkh^{-1})k^{-1} = k_2 k^{-1} \quad (\text{as } k_2 = hkh^{-1} \in K \text{ since } K \trianglelefteq G)
+\]
+$\implies hkh^{-1}k^{-1} \in H \cap K$.
+$\implies hkh^{-1}k^{-1} = e \implies hk = kh$.
+Thus, (2) holds.
+\end{proof}
+
+\begin{proof}[$(\Leftarrow)$]
+Suppose that the (1) and (2) condition holds.
+
+From (1), $G = HK$.
+To show $H \trianglelefteq G$; let $x \in G, h \in H$, $xhx^{-1} \in H$??
+$x \in G \implies x = h_1 k_1, h_1 \in H, k_1 \in K$.
+\[
+xhx^{-1} = (h_1 k_1) h (h_1 k_1)^{-1} = h_1 k_1 h k_1^{-1} h_1^{-1}
+\]
+From (2): $k_1 h = h k_1$:
+\[
+= h_1 h k_1 k_1^{-1} h_1^{-1} = h_1 h e h_1^{-1} = h_1 h h_1^{-1} \in H
+\]
+Then $H \trianglelefteq G$.
+Similar $K \trianglelefteq G$.
+
+\noindent Now we prove that $H \cap K =\{e\}$:
+
+\noindent Let $x \in H \cap K \implies x \in H$ and $x \in K$.
+$\implies x = x e$ and $x = e x$.
+$\implies e x = x e$ (by uniqueness).
+$\implies x = e$.
+Then $H \cap K = \{e\}$.
+Thus, $G = H \times K$.
+\end{proof}
+
+\begin{example}
+$G = A \oplus B$, $A \neq \{e\}$.
+$A$ is any abelian group.
+If $H_1 = A \oplus \{e\}$, $H_2 = \{e\} \oplus A$,
+$H_3 = \{(a, a) \mid a \in A\}$.
+Does $G = H_1 \oplus H_2 \oplus H_3$? Explain your answer.
+\end{example}
+
+\noindent \textbf{Solution:}
+It is clear that $G$ is abelian.
+$$H_1 = \{(a, 0) \mid a \in A\} \trianglelefteq G$$
+$$H_2 = \{(0, a) \mid a \in A\} \trianglelefteq G$$
+$$H_3 = \{(a, a) \mid a \in A\} \trianglelefteq G$$
+Let $(a, a) \in G$.
+$(a, a) = (a, 0) + (0, a) + (0, 0) = (0, 0) + (0, 0) + (a, a)$.
+Then $G$ is not an internal direct sum of $H_1, H_2, H_3$.
+
+
+\begin{remark}
+    $G = G_1 \dots G_n \implies G_i \cap G_j = \{e\} \quad \forall i \neq j$.
+    If not, let $x \in G_i \cap G_j \implies x \in G_i, x \in G_j$.
+    \[ x = (0, 0, \dots, x_i, \dots) = (0, 0, \dots, x_j, \dots).
+    \]
+    Then, $x=e$
+\end{remark}
+
+
+\begin{remark}
+    If $H, K \trianglelefteq G$, $H \cap K = \{e\}$, $hk = kh$ $\forall h \in H, k \in K \implies G = H \times K$.
+\end{remark}
+
+\end{document}
+
+    
