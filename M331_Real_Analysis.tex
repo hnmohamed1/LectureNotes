@@ -266,6 +266,7 @@ To show it is a metric, we verify the three main properties:
 \begin{enumerate}
     \item \textbf{Non-negativity:} 
     \[d(x, y) = |x - y| \geq 0\]
+    and if $d(x, y) = 0$, then $|x - y| = 0 \implies x = y$.
     \item \textbf{Symmetry:}
     \[d(x, y) = |x - y| = |-(y - x)| = |y - x| = d(y, x)\]
     \item \textbf{Triangle Inequality:} 
@@ -280,7 +281,7 @@ For any two complex numbers $z_1 = x_1 + iy_1$ and $z_2 = x_2 + iy_2$, the dista
 
 This satisfies:
 \begin{enumerate}
-    \item \textbf{Non-negativity:} it is clear that $d(x,y) \ge 0$.
+    \item \textbf{Non-negativity:} it is clear that $d(x,y) \ge 0$. And, if $d(x,y) = 0$, then $x = y$ by the definition of the metric1.
     \item \textbf{Symmetry:} it is clear that $d(x,y) = d(y,x)$.
     \item \textbf{Triangle Inequality:} We want to show that $d(x, z) \leq d(x, y) + d(y, z)$ for any $x, y, z \in M$. We consider two cases:
     \begin{itemize}
@@ -301,7 +302,7 @@ This satisfies:
     \[ d_\infty(x, y) = \max(|x_1 - x_2|, |y_1 - y_2|) \]
     
     \item 
-    \[ d_p(x, y) = \left( |x_1 - x_2|^p + |y_1 - y_2|^p \right)^{1/p} \]
+    \[ d_p(x, y) = \left( |x_1 - x_2|^p + |y_1 - y_2|^p \right)^{1/p} \qquad \text{for } p \geq 1 \]
 \end{enumerate}}
 
 \subsection{Cauchy--Schwarz Inequality}
@@ -318,18 +319,20 @@ Consider the non-negative quadratic expression for any real parameter $t$:
 \[ \sum_{i=1}^{n} \left(a_i^2 - 2t a_i b_i + t^2 b_i^2\right) = \left(\sum_{i=1}^{n} a_i^2\right) - 2t \left(\sum_{i=1}^{n} a_i b_i\right) + t^2 \left(\sum_{i=1}^{n} b_i^2\right) \geq 0 \]
 
 \noindent Letting $A = \sum_{i=1}^{n} a_i^2$, $B = \sum_{i=1}^{n} a_i b_i$, and $C = \sum_{i=1}^{n} b_i^2$, the inequality becomes a quadratic in $t$:
-\[ At^2 - 2Bt + C \geq 0 \]
+\[ A - 2Bt + Ct^2 \geq 0 \]
 
 \noindent For this quadratic to remain non-negative for all real $t$, its discriminant ($\Delta = b^2 - 4ac$) must be less than or equal to zero:
 \[ (-2B)^2 - 4(A)(C) \leq 0 \implies 4B^2 - 4AC \leq 0 \implies B^2 \leq AC \]
 
 \noindent Substituting back $A$, $B$, and $C$ yields the Cauchy--Schwarz inequality:
 \[ \left( \sum_{i=1}^{n} a_i b_i \right)^2 \leq \left( \sum_{i=1}^{n} a_i^2 \right) \left( \sum_{i=1}^{n} b_i^2 \right) \]
+
+\noindent Note, however, that this proof is valid only if $C = \sum_{i=1}^{n} b_i^2 > 0$. If $C = 0$, then all $b_i = 0$, and the inequality holds trivially since both sides equal zero.
 \end{proof}
 
 \newpage
 \section{Lecture 2: Open Balls and Metric Space Topology}
-\rhead{Lecture: Open Balls and Metric Space Topology}
+\rhead{Lecture 2: Open Balls and Metric Space Topology}
 \textit{Date: Sep 29, 2026}
 
 \subsection{Open Balls and Bounded Sets}
@@ -379,7 +382,7 @@ Then $B_1(x_1; r_1) \cup B_2(x_2; r_2) \subseteq B(x_1; R)$. \medskip
 
 \subsection{Interior Points and Open Sets}
 
-\definition{Interior Point}{Let $E \subseteq M$ where $(M,d)$ is a metric space. A point $x_0 \in E$ is called an interior point of $E$ if there is exists $\varepsilon > 0$ such that $B(x_0; \varepsilon) \subseteq E$. The set of all interior points of $E$ is denoted by $E^\circ$.}
+\definition{Interior Point}{Let $E \subseteq M$ where $(M,d)$ is a metric space. A point $x_0 \in E$ is called an interior point of $E$ if there is $\varepsilon > 0$ such that $B(x_0; \varepsilon) \subseteq E$. The set of all interior points of $E$ is denoted by $E^\circ$.}
 
 \definition{Open Set}{A subset $G$ of a metric space $(M,d)$ is called an open set if all its points are interior points, that is, $G = G^\circ$.}
 
@@ -424,21 +427,22 @@ Then $B_1(x_1; r_1) \cup B_2(x_2; r_2) \subseteq B(x_1; R)$. \medskip
 \vspace{0.5em}
 }
 
-\remark{
+\example{In $\mathbb{R}^2$, consider the following sets:
     \begin{enumerate}[label=(\alph*)]
         \item $G = \{ (x,y) \in \R^2 : x>0, y>0, x+y<1 \}$
         \item $G = \{ (x,y) \in \R^2 : x>0, y>0, xy<1 \}$
     \end{enumerate}
-
+    Those sets satisfy the interior point condition, and hence they are open sets. The following figures illustrate these sets in the Cartesian plane.
     \vspace{0.5em}
     \begin{center}
         \begin{minipage}[t]{0.48\textwidth}
             \centering
             \begin{tikzpicture}[scale=1.5, font=\sffamily]
                 % Axes
-                \draw[->, thick] (-0.5, 0) -- (1.5, 0) node[right] {$x$};
-                \draw[->, thick] (0, -0.5) -- (0, 1.5) node[above] {$y$};
-                
+                \draw[->, thick] (1, 0) -- (1.5, 0) node[right] {$x$};
+                \draw[->, thick] (0, 1) -- (0, 1.5) node[above] {$y$};
+                \draw[thick] (-0.5,0) -- (0,0);
+                \draw[thick] (0,-0.5) -- (0,0);
                 % Coordinates of the vertices
                 \coordinate (A) at (0, 0); 
                 \coordinate (B) at (1, 0); 
@@ -448,9 +452,9 @@ Then $B_1(x_1; r_1) \cup B_2(x_2; r_2) \subseteq B(x_1; R)$. \medskip
                 \fill[primaryColor, opacity=0.12] (A) -- (B) -- (C) -- cycle;
                 
                 % Triangle edges
-                \draw[thick, primaryColor] (A) -- (B) node[midway, below] {$1$};
-                \draw[thick, primaryColor] (A) -- (C) node[midway, left] {$1$};
-                \draw[thick, theoremColor] (B) -- (C) node[midway, above right] {$\sqrt{2}$};
+                \draw[thick, primaryColor, dashed] (A) -- (B) node[midway, below] {$1$};
+                \draw[thick, primaryColor, dashed] (A) -- (C) node[midway, left] {$1$};
+                \draw[thick, theoremColor, dashed] (B) -- (C) node[midway, above right] {$\sqrt{2}$};
                 
                 % Right angle symbol at origin
                 \draw[thin, gray] (0.1, 0) -- (0.1, 0.1) -- (0, 0.1);
@@ -476,14 +480,14 @@ Then $B_1(x_1; r_1) \cup B_2(x_2; r_2) \subseteq B(x_1; R)$. \medskip
                 \draw[->, thick] (0, -0.5) -- (0, 3.2) node[above] {$y$};
                 
                 % Shaded region G (x > 0, y > 0, xy < 1 => y < 1/x)
-                \fill[primaryColor, opacity=0.12] plot[domain=0.33:3.0, samples=100] (\x, {1/\x}) -- (3.0, 0) -- (0.33, 0) -- cycle;
+                \fill[primaryColor, opacity=0.12] plot[domain=0.28:3.2, samples=100] (\x, {1/\x}) -- (3.2, 0) -- (0.28, 0) -- cycle;
                 
                 % The curve xy = 1 bounding the set
-                \draw[thick, primaryColor, domain=0.28:3.2, samples=100] plot (\x, {1/\x});
+                \draw[thick, primaryColor, domain=0.28:3.2, samples=100,dashed] plot (\x, {1/\x});
                 \node[text=primaryColor, font=\bfseries] at (2.2, 0.7) {$xy = 1$};
                 
                 % Label for set G inside the region
-                \node[primaryColor, font=\bfseries\Large] at (1.0, 0.8) {$G$};
+                \node[primaryColor, font=\bfseries\large] at (0.8, 0.7) {$G$};
             \end{tikzpicture}
             \vspace{0.3em}
             
