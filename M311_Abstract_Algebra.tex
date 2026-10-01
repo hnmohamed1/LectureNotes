@@ -114,7 +114,7 @@
 \newenvironment{example}[1][]{
   \stepcounter{examplecnt}
   \begin{examplebox}
-    \textbf{\color{exampleColor}Example \arabic{examplecnt}\ifx&#1&\else\ (\mathbf{#1})\fi:} 
+    \textbf{\color{exampleColor}Example \arabic{examplecnt}\ifx&#1&\else\ (#1)\fi:} 
 }{
   \end{examplebox}
 }
@@ -151,7 +151,7 @@
 \newenvironment{exercise}[1][]{
   \stepcounter{exercisecnt}
   \begin{exercisebox}
-    \textbf{\color{exerciseColor}Exercise \arabic{exercisecnt}\ifx&#1&\else\ (\mathbf{#1})\fi:} 
+    \textbf{\color{exerciseColor}Exercise \arabic{exercisecnt}\ifx&#1&\else\ (#1)\fi:} 
 }{
   \end{exercisebox}
 }
