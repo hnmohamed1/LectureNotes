@@ -368,11 +368,11 @@ E_k \subseteq B(x_k;r_k), \quad k=1,2
 
 \noindent Let:
 \[
-R = d(x_1, x_2) + r_2
+R = \max \{ d(x_1, x_2) + r_2 , r_1 \}
 \]
 Then $B_1(x_1; r_1) \cup B_2(x_2; r_2) \subseteq B(x_1; R)$. \medskip
 
-\noindent If $x \in B(x_1; r_1)$, then $d(x_1, x) < r_1 \le R$, if $x \in B(x_2; r_2)$, then $d(x_2, x) < r_2 \le R$.
+\noindent If $x \in B(x_1; r_1)$, then $d(x_1, x) < r_1 \le R$, if $x \in B(x_2; r_2)$, then $d(x_2, x) < r_2$ and by triangle inequality, $d(x_1, x) < d(x_1, x_2) + d(x_2, x) < d(x_1, x_2) + r_2 \le R$.
 
 \noindent So in both cases, $x \in B(x_1; R)$. Thus, the union is bounded.
 \end{proof}
