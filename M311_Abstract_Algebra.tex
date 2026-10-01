@@ -594,7 +594,7 @@ In general, if $G_1, G_2, \dots, G_n$ are groups, we define an operation on the 
 \[
 (a_1, \dots, a_n) * (b_1, \dots, b_n) = (a_1 \cdot_1 b_1, \dots, a_n \cdot_n b_n)
 \]
-Thus, $(G_1 \times \dots \times G_n, *)$ is called the external direct product of $G_1, \dots, G_n$. we denote it by $\prod_{i=1}^{n} G_i$ or $G_1 \bigotimes \dots \bigotimes G_n$, if the operation on each $G_i$ is addition, we use the notation $\bigoplus_{i=1}^n G_i$instead of $\prod_{i=1}^{n} G_i$ we called it \textbf{external direct sum} of $G_1, G_2, \dots, G_n$.
+Thus, $(G_1 \times \dots \times G_n, *)$ is called the external direct product of $G_1, \dots, G_n$. we denote it by $\prod_{i=1}^{n} G_i$ or $G_1 \bigotimes \dots \bigotimes G_n$, if the operation on each $G_i$ is addition, we use the notation $\bigoplus_{i=1}^n G_i$ instead of $\prod_{i=1}^{n} G_i$ we called it \textbf{external direct sum} of $G_1, G_2, \dots, G_n$.
 \end{remark}
 
 
@@ -642,7 +642,7 @@ For any generator candidate $(x,y) \in \Z \times \Z$,
 \[
 (x,y) = x(1,0) + y(0,1)
 \]
-that is mean if 
+that is, if 
 \[
 \Z \times \Z = \langle(x,y)\rangle = \langle(1,0), (0,1)\rangle
 \]
@@ -696,14 +696,14 @@ This group is not cyclic because it does not contain an element of order $8$.
 \subsection{Cyclic Isomorphisms in Direct Products}
 
 \begin{theorem}
-The group $\Z_n \times \Z_m \cong \Z_{nm}$ is cyclic if and only if $\gcd(n,m) = 1$.
+The group $\Z_n \times \Z_m$ is cyclic if and only if $\gcd(n,m) = 1$. In that case, $\Z_n \times \Z_m \cong \Z_{nm}$.
 \end{theorem}
 
 \begin{proof}
 We prove both directions of the equivalence explicitly:
 
 \vspace{0.5em}
-\noindent \textbf{($\Rightarrow$)} Suppose that $\Z_n \times \Z_m \cong \Z_{nm}$, which implies that $\Z_n \times \Z_m$ is a cyclic group. 
+\noindent \textbf{($\Rightarrow$)} Suppose that $\Z_n \times \Z_m$ is cyclic.
 
 Assume for the sake of contradiction that $\gcd(n,m) \neq 1$. Let $d = \gcd(n,m) > 1$, which means $d$ divides both $n$ and $m$ ($d|n$ and $d|m$). Let $(a, b)$ be any arbitrary element in $\Z_n \times \Z_m$. 
 
@@ -727,7 +727,7 @@ This establishes that the order satisfies $|(\bar{1}, \bar{1})| \leq nm$.
 
 Now, assume there exists some positive integer $s < nm$ such that $|(\bar{1}, \bar{1})| = s$. Then $(\bar{1}, \bar{1})^s = (\bar{0}, \bar{0})$, meaning $(\bar{1}^s, \bar{1}^s) = (\bar{0}, \bar{0})$. This implies that $n|s$ and $m|s$. Because $\gcd(n,m) = 1$, their least common multiple $nm$ must divide $s$ ($nm | s$). Thus, $s$ cannot be strictly less than $nm$, forcing $s = nm$. 
 
-Therefore, $|(\bar{1}, \bar{1})| = nm$, which means the subgroup size is $|H| = nm = |\Z_n \times \Z_m|$. This proves that $\Z_n \times \Z_m = \langle(\bar{1}, \bar{1})\rangle$, making the group cyclic.
+Therefore, $|(\bar{1}, \bar{1})| = nm$, which means the subgroup size is $|H| = nm = |\Z_n \times \Z_m|$. This proves that $\Z_n \times \Z_m = \langle(\bar{1}, \bar{1})\rangle$, making the group cyclic. Since it is cyclic of order $nm$, it is isomorphic to $\Z_{nm}$.
 \end{proof}
 
 \begin{recall}
@@ -739,7 +739,7 @@ This property is not specific to $\Z_n$. In fact, for any cyclic group $G = \lan
 \end{recall}
 
 \begin{proposition}
-Let $G$ and $H$ be cyclic groups. 
+Let $G$ and $H$ be finite cyclic groups. 
 \[
 G \times H \text{ is cyclic } \iff \gcd(|G|, |H|) = 1.
 \] 
@@ -790,9 +790,10 @@ G \times H \text{ is cyclic } \iff \gcd(|G|, |H|) = 1.
 
 
 \begin{corollary}
-    \[
-    \Z_{p_1^{e_1}} \times \Z_{p_2^{e_2}} \times \dots \times \Z_{p_n^{e_n}} \cong \Z_{p_1^{e_1} p_2^{e_2} \dots p_n^{e_n}} \iff \gcd(p_i, p_j) = 1, \quad \forall 1 \le i \neq j \le n.
-    \]
+Let $p_1, \dots, p_n$ be primes and $e_i \ge 1$. Then
+\[
+\Z_{p_1^{e_1}} \times \dots \times \Z_{p_n^{e_n}} \cong \Z_{p_1^{e_1} \cdots p_n^{e_n}} \iff p_i \neq p_j, \quad \forall\, i \neq j.
+\]
 \end{corollary}
 
 
@@ -888,7 +889,7 @@ G = G_1 \oplus G_2 \oplus \dots \oplus G_n
 
 \begin{example}
 Consider $G = \mathbb{Z}_6$, $G_1 = \langle \bar{2} \rangle$ and $G_2 = \langle \bar{3} \rangle$.
-Does $G$ is a direct sum $G = G_1 \oplus G_2$? Explain your answer??
+Is $G$ the direct sum $G = G_1 \oplus G_2$? Explain your answer.
 \end{example}
 
 \noindent \textbf{Solution:}
@@ -914,20 +915,21 @@ Does $G = H \times K$? Explain your answer.
 \end{exercise}
 
 \begin{example}
-$G = \langle a, b \mid a^4 = b^2 = e, aba = ba^3 \rangle$.
+$G = \langle a, b \mid a^4 = b^2 = e, ab = ba^3 \rangle$.
 $H = \langle a \rangle$, $K = \langle b \rangle$.
 Does $G = H \times K$? Why?
 \end{example}
 
 \noindent\textbf{Solution:}
-$G = \{e, a, a^2, a^3, b, ab, a^2b, a^3b\}$
+$G = \{e, a, a^2, a^3, b, ab, a^2b, a^3b\}$,
 $H = \{e, a, a^2, a^3\}$, $K = \{e, b\}$.
 \begin{enumerate}
-    \item $H \trianglelefteq G$ as $H$ is normal (as $H$ has index 2 or $H$ is abelian).
-    \item $HK = \{e, b, a, ab, a^2, a^2b, a^3, a^3b\} = G$.
+    \item $H \trianglelefteq G$ because $H$ has index $2$.
+    \item $K \not\trianglelefteq G$: $aba^{-1} = (ab)a^{-1} = ba^3a^{-1} = ba^2 \notin K = \{e, b\}$.
+    \item $HK = G$.
     \item $H \cap K = \{e\}$.
 \end{enumerate}
-Thus, $G = H \times K$.
+Condition 1 of the definition fails because $K$ is not normal, so $G \neq H \times K$. (Indeed $G$ is non-abelian, since $ab = ba^3 \neq ba$, while $H \times K \cong \Z_4 \times \Z_2$ is abelian.)
 
 \begin{exercise}
     \begin{enumerate}
@@ -1032,11 +1034,11 @@ So, every element $x \in G$ can be written $x = hk$, $h \in H, k \in K$.
 
 \noindent \textbf{Uniqueness:}
 $x = h_1 k_1 = h_2 k_2$, where $h_1, h_2 \in H, k_1, k_2 \in K$.
-We consider from $x = h_1 k_1 = h_2 k_2$:
+We consider from $x = h_1 k_1 = h_2 k_2$ so we can have
 \[
-h_2^{-1} h_1 = k_2 k_1^{-1} \implies h_1 h_2^{-1} = k_2 k_1^{-1}
+h_2^{-1} h_1 = k_2 k_1^{-1}
 \]
-Since $h_1 h_2^{-1} \in H$ and $k_2 k_1^{-1} \in K$, we have $h_1 h_2^{-1} \in H \cap K$ and $k_2 k_1^{-1} \in H \cap K \implies k_2 k_1^{-1} = e \implies k_1 = k_2$ and $h_1 h_2^{-1} = e \implies h_1 = h_2$.
+Since $h_2^{-1} h_1 \in H$ and $k_2 k_1^{-1} \in K$, we have $h_2^{-1} h_1 \in H \cap K$ and $k_2 k_1^{-1} \in H \cap K \implies k_2 k_1^{-1} = e \implies k_1 = k_2$ and $h_2^{-1} h_1 = e \implies h_1 = h_2$.
 
 \noindent $\implies k_1 = k_2, h_1 = h_2$.
 $\implies x$ is uniquely expressed.
@@ -1084,8 +1086,7 @@ Thus, $G = H \times K$.
 \end{proof}
 
 \begin{example}
-$G = A \oplus B$, $A \neq \{e\}$.
-$A$ is any abelian group.
+$G = A \oplus A$, where $A \neq \{0\}$ is an abelian group.
 If $H_1 = A \oplus \{e\}$, $H_2 = \{e\} \oplus A$,
 $H_3 = \{(a, a) \mid a \in A\}$.
 Does $G = H_1 \oplus H_2 \oplus H_3$? Explain your answer.
