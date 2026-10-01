@@ -255,12 +255,7 @@ such that:
 \end{enumerate}
 }
 
-\example{On $M = \R$ define: 
-\[
-d(x,y) = |x-y|, \quad \forall x,y \in \R
-\]
-
-Let $M = \mathbb{R}$ and define the distance function as:
+\example{Let $M = \mathbb{R}$ and define the distance function as:
 \[ d(x, y) = |x - y| \]
 To show it is a metric, we verify the three main properties:
 \begin{enumerate}
@@ -290,19 +285,12 @@ This satisfies:
     \end{itemize}
 \end{enumerate}}
 
-\example{On $\R^2$ for any points $x = (x_1, y_1)$ and $y = (x_2, y_2)$ in $\R^2$, we may define different metrics:
+\example{On $\R^2$, for points $x = (x_1, x_2)$ and $y = (y_1, y_2)$, we may define different metrics:
 \begin{enumerate}
-    \item 
-    \[ d_1(x, y) = |x_1 - x_2| + |y_1 - y_2| \]
-    
-    \item
-    \[ d_2(x, y) = \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2} \]
-    
-    \item 
-    \[ d_\infty(x, y) = \max(|x_1 - x_2|, |y_1 - y_2|) \]
-    
-    \item 
-    \[ d_p(x, y) = \left( |x_1 - x_2|^p + |y_1 - y_2|^p \right)^{1/p} \qquad \text{for } p \geq 1 \]
+    \item \[ d_1(x, y) = |x_1 - y_1| + |x_2 - y_2| \]
+    \item \[ d_2(x, y) = \sqrt{(x_1 - y_1)^2 + (x_2 - y_2)^2} \]
+    \item \[ d_\infty(x, y) = \max(|x_1 - y_1|, |x_2 - y_2|) \]
+    \item \[ d_p(x, y) = \left( |x_1 - y_1|^p + |x_2 - y_2|^p \right)^{1/p}, \quad p \ge 1 \]
 \end{enumerate}}
 
 \subsection{Cauchy--Schwarz Inequality}
@@ -321,8 +309,8 @@ Consider the non-negative quadratic expression for any real parameter $t$:
 \noindent Letting $A = \sum_{i=1}^{n} a_i^2$, $B = \sum_{i=1}^{n} a_i b_i$, and $C = \sum_{i=1}^{n} b_i^2$, the inequality becomes a quadratic in $t$:
 \[ A - 2Bt + Ct^2 \geq 0 \]
 
-\noindent For this quadratic to remain non-negative for all real $t$, its discriminant ($\Delta = b^2 - 4ac$) must be less than or equal to zero:
-\[ (-2B)^2 - 4(A)(C) \leq 0 \implies 4B^2 - 4AC \leq 0 \implies B^2 \leq AC \]
+\noindent Assume first that $C > 0$. For the quadratic $Ct^2 - 2Bt + A$ to remain non-negative for all real $t$, its discriminant $\Delta = (-2B)^2 - 4AC$ must be less than or equal to zero:
+\[ 4B^2 - 4AC \leq 0 \implies B^2 \leq AC \]
 
 \noindent Substituting back $A$, $B$, and $C$ yields the Cauchy--Schwarz inequality:
 \[ \left( \sum_{i=1}^{n} a_i b_i \right)^2 \leq \left( \sum_{i=1}^{n} a_i^2 \right) \left( \sum_{i=1}^{n} b_i^2 \right) \]
@@ -361,23 +349,23 @@ A subset $E \subseteq \mathbb{R}$ is bounded if and only if any of the following
 
 \theorem{The union of any two (finite numbers of) Bounded Sets}
 \begin{proof}
-Let $E_1$ and $E_2$ be bounded sets, that is, $\exists x_1, x_2 \in M;~ r_1,r_2\in\R^+ 
-$,
+Let $E_1$ and $E_2$ be bounded sets, that is, $\exists x_1, x_2 \in M;~ r_1,r_2\in\R^+$ with
 \[
 E_k \subseteq B(x_k;r_k), \quad k=1,2
 \]
 
-\noindent It suffices to show that there is an open ball containing these two open balls. 
-
-\noindent Let:
+\noindent It suffices to find one open ball containing both of these balls. Let:
 \[
 R = \max \{ d(x_1, x_2) + r_2 , r_1 \}
 \]
-Then $B_1(x_1; r_1) \cup B_2(x_2; r_2) \subseteq B(x_1; R)$. \medskip
+Then $B(x_1; r_1) \cup B(x_2; r_2) \subseteq B(x_1; R)$. \medskip
 
-\noindent If $x \in B(x_1; r_1)$, then $d(x_1, x) < r_1 \le R$, if $x \in B(x_2; r_2)$, then $d(x_2, x) < r_2$ and by triangle inequality, $d(x_1, x) < d(x_1, x_2) + d(x_2, x) < d(x_1, x_2) + r_2 \le R$.
+\noindent If $x \in B(x_1; r_1)$, then $d(x_1, x) < r_1 \le R$. If $x \in B(x_2; r_2)$, then $d(x_2, x) < r_2$, and by the triangle inequality
+\[
+d(x_1, x) \le d(x_1, x_2) + d(x_2, x) < d(x_1, x_2) + r_2 \le R.
+\]
 
-\noindent So in both cases, $x \in B(x_1; R)$. Thus, the union is bounded.
+\noindent So in both cases $x \in B(x_1; R)$. Hence $E_1 \cup E_2 \subseteq B(x_1; R)$, and the union is bounded.
 \end{proof}
 
 \subsection{Interior Points and Open Sets}
