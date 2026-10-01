@@ -1,0 +1,21 @@
+name: Build PDFs
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: xu-cheng/latex-action@v3
+        with:
+          root_file: |
+            M311_Abstract_Algebra.tex
+            M331_Real_Analysis.tex
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest PDFs
+          files: "*.pdf"
