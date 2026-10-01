@@ -31,6 +31,7 @@
 
 % --- PAGE SETUP (HEADERS & FOOTERS) ---
 \pagestyle{fancy}
+\setlength{\headheight}{14pt}
 \fancyhf{}
 \lhead{\textbf{M311: Abstract Algebra}}
 \rhead{\leftmark}
@@ -144,7 +145,8 @@
 \hypersetup{
     colorlinks=true,
     linkcolor=primaryColor,
-    urlcolor=accentColor
+    urlcolor=accentColor,
+    pageanchor=false
 }
 
 \newcounter{exercisecnt}[section]
@@ -757,7 +759,7 @@ G \times H \text{ is cyclic } \iff \gcd(|G|, |H|) = 1.
         \item If $G$ is infinite, prove that $G \cong \mathbb{Z}$.
     \end{enumerate}
     
-    \item Let $G$ be a group with identity $e$. If $x^2 = e$ for every $x \in G$, show that $G$ is abelian. \label{Exercise: exercise3}
+    \item Let $G$ be a group with identity $e$. If $x^2 = e$ for every $x \in G$, show that $G$ is abelian. \label{ex:square-abelian}
 \end{enumerate}
 
 \subsection*{Set 2}
@@ -829,7 +831,7 @@ Then
 \[
 |e|=1, |a|=|b|=|ab|=2, \quad \textcolor{red}{\text{why?!}}
 \]
-By Exercise \ref{Exercise: exercise3} : $G$ is abelian.
+By Exercise \ref{ex:square-abelian} : $G$ is abelian.
 
 \noindent Define a map $f: G \to \Z_2 \times \Z_2$:
 \[
@@ -1091,9 +1093,9 @@ Does $G = H_1 \oplus H_2 \oplus H_3$? Explain your answer.
 
 \noindent \textbf{Solution:}
 It is clear that $G$ is abelian.
-$$H_1 = \{(a, 0) \mid a \in A\} \trianglelefteq G$$
-$$H_2 = \{(0, a) \mid a \in A\} \trianglelefteq G$$
-$$H_3 = \{(a, a) \mid a \in A\} \trianglelefteq G$$
+\[H_1 = \{(a, 0) \mid a \in A\} \trianglelefteq G\]
+\[H_2 = \{(0, a) \mid a \in A\} \trianglelefteq G\]
+\[H_3 = \{(a, a) \mid a \in A\} \trianglelefteq G\]
 Let $(a, a) \in G$.
 $(a, a) = (a, 0) + (0, a) + (0, 0) = (0, 0) + (0, 0) + (a, a)$.
 Then $G$ is not an internal direct sum of $H_1, H_2, H_3$.
@@ -1113,5 +1115,3 @@ Then $G$ is not an internal direct sum of $H_1, H_2, H_3$.
 \end{remark}
 
 \end{document}
-
-    
