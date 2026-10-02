@@ -30,15 +30,9 @@
 \definecolor{exerciseColor}{RGB}{211, 84, 0}      % Rust/Orange (Exercises)
 
 % --- PAGE SETUP (HEADERS & FOOTERS) ---
-\pagestyle{fancy}
 \setlength{\headheight}{14pt}
-\fancyhf{}
-\lhead{\textbf{M311: Abstract Algebra}}
-\rhead{\leftmark}
-\lfoot{\textit{Dept. of Math, Cairo University}}
-\rfoot{Page \thepage}
 \renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\footrulewidth}{0.4pt}
+% \renewcommand{\footrulewidth}{0.4pt}
 
 % --- CUSTOM STYLED BOX TEMPLATE ---
 \mdfdefinestyle{custombox}{
@@ -158,6 +152,29 @@
   \end{exercisebox}
 }
 
+% --- CUSTOM LECTURE TITLE COMMAND ---
+\newcommand{\lecturetitle}[2]{%
+    \newpage
+    \thispagestyle{plain} 
+    \refstepcounter{section} 
+    \phantomsection
+    \addcontentsline{toc}{section}{Lecture #1: #2} 
+    \vspace*{1em}
+    \noindent\rule{\textwidth}{1.2pt} \\[-0.85\baselineskip]
+    \noindent\rule{\textwidth}{0.4pt}
+    \begin{center}
+        \large \textsc{Lecture #1}
+    \end{center}
+    \begin{center}
+        \Huge \textsc{#2}
+    \end{center}
+    \vspace{0.8em}
+    \noindent\rule{\textwidth}{0.4pt} \\[-0.85\baselineskip]
+    \noindent\rule{\textwidth}{1.2pt}
+    \vspace{1.5em}
+    \rhead{Lecture #1: #2}
+}
+
 \begin{document}
 
 % ==========================================
@@ -213,14 +230,14 @@
     \vspace{1cm}
     \begin{minipage}{0.45\textwidth}
         \begin{flushleft}
-            \textit{Lecturer:}\\
-            \textbf{Prof. Mohamed Ramadan}
+            \textit{Written by:}\\
+            \textbf{Mohamed Asubhi}
         \end{flushleft}
     \end{minipage}
     \begin{minipage}{0.45\textwidth}
         \begin{flushright}
-            \textcolor{white}{\textit{Author:}}\\
-            \textcolor{white}{\textbf{Mohamed Asubhi}}
+            \textit{Lecturer:}\\
+            \textbf{Prof. Mohamed Ramadan}
         \end{flushright}
     \end{minipage}\\[2.5em]
     
@@ -231,15 +248,62 @@
 \newpage
 
 % ==========================================
+% FRONT MATTER (ROMAN NUMERALS)
+% ==========================================
+\pagenumbering{roman} 
+\pagestyle{plain} 
+
+% ==========================================
 % TABLE OF CONTENTS
 % ==========================================
+\vspace*{1em}
+\noindent\rule{\textwidth}{1.2pt} \\[-0.85\baselineskip]
+\noindent\rule{\textwidth}{0.4pt}
+\begin{center}
+    \huge \textsc{Contents}
+\end{center}
+\vspace{1.5em}
+
 \tableofcontents
+
+\newpage
+% ==========================================
+% ACKNOWLEDGMENTS (LARGER TEXT)
+% ==========================================
+\vspace*{1em}
+\noindent\rule{\textwidth}{1.2pt} \\[-0.85\baselineskip]
+\noindent\rule{\textwidth}{0.4pt}
+\begin{center}
+    \huge \textsc{Acknowledgments}
+\end{center}
+\vspace{2em}
+
+{
+
+Fist and foremost, I would like to express my sincere gratitude to \textbf{Prof. Mohamed Ramadan}. These notes are based on his lectures, and I am deeply thankful for the foundational material he provided and his dedicated work with us.
+
+\vspace{1.5em}
+Special thanks to my friend \textbf{Mina Basilious} who helped very much in refining the text, and checked most of the proofs and material.
+}
+
+
 
 
 \newpage
-\section{Lecture 1: Introduction to Groups \& Fundamental Algebraic Structures}
+% ==========================================
+% MAIN CONTENT (ARABIC NUMERALS & FANCY HEADERS)
+% ==========================================
+\pagenumbering{arabic}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textbf{M311: Abstract Algebra}}
+% \rhead{\leftmark}
+% \lfoot{\textit{Dept. of Math, Cairo University}}
+\cfoot{\thepage}
+
+\lecturetitle{1}{Introduction to Groups \& Fundamental Algebraic Structures}
 \rhead{Lecture 1: Fundamental Structures}
-\textit{Date: Sep 23, 2026}
+% \textit{Date: Sep 23, 2026}
 
 \subsection{Congruence Modulo n}
 
@@ -528,9 +592,9 @@ If $|A| = n$ and $|B| = m$, then $|A \times B| = n \cdot m$.
 
 
 \newpage
-\section{Lecture 2: External Direct Product}
+\lecturetitle{2}{External Direct Product}
 \rhead{Lecture 2: External Direct Product}
-\textit{Date: Sep 28, 2026}
+% \textit{Date: Sep 28, 2026}
 
 \subsection{External Direct Product}
 
@@ -784,9 +848,9 @@ G \times H \text{ is cyclic } \iff \gcd(|G|, |H|) = 1.
 
 
 \newpage
-\section{Lecture 3: Internal Direct Product}
-\rhead{Lecture 3: Internal Direct Product}
-\textit{Date: Sep 30, 2026}
+\lecturetitle{3}{Internal Direct Product}
+\rhead{Lecture 3: External Direct Product}
+% \textit{Date: Sep 30, 2026}
 
 
 \begin{corollary}
@@ -926,7 +990,7 @@ $H = \{e, a, a^2, a^3\}$, $K = \{e, b\}$.
 \begin{enumerate}
     \item $H \trianglelefteq G$ as $G$ is abelian (From the definition of the group).
     \item $K \trianglelefteq G$
-    \item $HK = \{e, a, a^2, a^3, b, ab, a^2b, a^3b\} = G$.
+    \item $HK = G$.
     \item $H \cap K = \{e\}$.
 \end{enumerate}
 Thus, $G= H \times K$ 
@@ -1111,8 +1175,10 @@ Then $G$ is not an internal direct sum of $H_1, H_2, H_3$.
 \end{remark}
 
 
-\begin{remark}
-    If $H, K \trianglelefteq G$, $H \cap K = \{e\}$, $hk = kh$ $\forall h \in H, k \in K \implies G = H \times K$.
-\end{remark}
+% \begin{remark}
+%     If $H, K \trianglelefteq G$, $H \cap K = \{e\}$, $hk = kh$ $\forall h \in H, k \in K \implies G = H \times K$.
+% \end{remark}
+
+
 
 \end{document}
