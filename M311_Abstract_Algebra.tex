@@ -915,7 +915,7 @@ Does $G = H \times K$? Explain your answer.
 \end{exercise}
 
 \begin{example}
-$G = \langle a, b \mid a^4 = b^2 = e, ab = ba^3 \rangle$.
+$G = \langle a, b \mid a^4 = b^2 = e, ab = ba \rangle$.
 $H = \langle a \rangle$, $K = \langle b \rangle$.
 Does $G = H \times K$? Why?
 \end{example}
@@ -924,12 +924,12 @@ Does $G = H \times K$? Why?
 $G = \{e, a, a^2, a^3, b, ab, a^2b, a^3b\}$,
 $H = \{e, a, a^2, a^3\}$, $K = \{e, b\}$.
 \begin{enumerate}
-    \item $H \trianglelefteq G$ because $H$ has index $2$.
-    \item $K \not\trianglelefteq G$: $aba^{-1} = (ab)a^{-1} = ba^3a^{-1} = ba^2 \notin K = \{e, b\}$.
-    \item $HK = G$.
+    \item $H \trianglelefteq G$ as $G$ is abelian (From the definition of the group).
+    \item $K \trianglelefteq G$
+    \item $HK = \{e, a, a^2, a^3, b, ab, a^2b, a^3b\} = G$.
     \item $H \cap K = \{e\}$.
 \end{enumerate}
-Condition 1 of the definition fails because $K$ is not normal, so $G \neq H \times K$. (Indeed $G$ is non-abelian, since $ab = ba^3 \neq ba$, while $H \times K \cong \Z_4 \times \Z_2$ is abelian.)
+Thus, $G= H \times K$ 
 
 \begin{exercise}
     \begin{enumerate}
@@ -1087,7 +1087,7 @@ Thus, $G = H \times K$.
 
 \begin{example}
 $G = A \oplus A$, where $A \neq \{0\}$ is an abelian group.
-If $H_1 = A \oplus \{e\}$, $H_2 = \{e\} \oplus A$,
+If $H_1 = A \oplus \{0\}$, $H_2 = \{0\} \oplus A$,
 $H_3 = \{(a, a) \mid a \in A\}$.
 Does $G = H_1 \oplus H_2 \oplus H_3$? Explain your answer.
 \end{example}
