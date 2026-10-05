@@ -891,56 +891,79 @@
 	
 	\begin{example}
 		\begin{itemize}
-			\item $\Z_8 \times \Z_9  = \Z_{2^3} \times \Z_{3^2}\cong \Z_{72}$ as $\gcd(2, 3) = 1$.
-			\item Is $\Z_2 \times \Z_5 \times \Z_4 \cong \Z_{40}$, why?
-			
-			
+			\item $\Z_8 \times \Z_9 = \Z_{2^3} \times \Z_{3^2} \cong \Z_{72}$, since $\gcd(8, 9) = 1$.
+			\item Is $\Z_2 \times \Z_5 \times \Z_4 \cong \Z_{40}$? Why?
 		\end{itemize}
 		\vspace{0.5em}
-		\noindent \textbf{Solution:} 
+		\noindent \textbf{Solution:}
 		\begin{align*}
-			\Z_2 \times \Z_5 \times \Z_4 &\cong \Z_{10} \times \Z_4, \quad \gcd(2,5)=1 \\
-			&\not \cong \Z_{10 \cdot 4}, \quad \gcd(10,4) \neq 1 
+			\Z_2 \times \Z_5 \times \Z_4 &\cong \Z_{10} \times \Z_4, \quad \gcd(2,5)=1.
 		\end{align*}
-		Hence the answer is \textbf{no}.
+		Since $\gcd(10,4) = 2 \neq 1$, the group $\Z_{10} \times \Z_4$ is not cyclic, whereas $\Z_{40}$ is cyclic. Hence $\Z_2 \times \Z_5 \times \Z_4 \ncong \Z_{40}$, and the answer is \textbf{no}.
 	\end{example}
-	
-	\begin{example}
-		Show that every group of order 4 is isomorphic to $\Z_4$ or $\Z_2 \times \Z_2$.
-	\end{example}
-	
-	\begin{proof}
-		Let $G$ be a group of order 4.
 		
-		Let $a \in G$, $a \neq e$. Then:
-		\[
-		G=\{ e, a, b, ab\}
-		\]
-		
-		\begin{itemize}
-			\item If $G$ is cyclic, then $G\cong\Z_4$
-			\item If G is not cyclic:
-		\end{itemize}
-		Then 
-		\[
-		|e|=1, |a|=|b|=|ab|=2, \quad \textcolor{red}{\text{why?!}}
-		\]
-		By Exercise \ref{ex:square-abelian} : $G$ is abelian.
-		
-		\noindent Define a map $f: G \to \Z_2 \times \Z_2$:
-		\[
-		\begin{aligned}
-			e &\mapsto (\bar{0}, \bar{0}) \\
-			a &\mapsto (\bar{1}, \bar{0}) \\
-			b &\mapsto (\bar{0}, \bar{1}) \\
-			ab &\mapsto (\bar{1}, \bar{1})
-		\end{aligned}
-		\]
-		$f(ab) = (\bar{1}, \bar{1}) = (\bar{1}, \bar{0}) + (\bar{0}, \bar{1}) = f(a) + f(b)$
-		$\implies f$ is a homomorphism.
-		$\implies f$ is isomorphism.
-		$\implies G \cong \Z_2 \times \Z_2$.
-	\end{proof}
+\begin{example}
+    Show that every group of order $4$ is isomorphic to $\Z_4$ or to $\Z_2 \times \Z_2$.
+\end{example}
+
+\begin{proof}
+    Let $G$ be a group of order $4$ with identity $e$. By Lagrange's theorem applied to the cyclic subgroup $\langle g \rangle$, the order $|g| = \big| \langle g \rangle \big|$ of every $g \in G$ divides $|G| = 4$; hence
+    \[
+        |g| \in \{1, 2, 4\} \qquad \text{for all } g \in G.
+    \]
+    
+    \textbf{Case 1: some $a \in G$ has $|a| = 4$.}
+    Then $\langle a \rangle$ has $4$ elements, so $\langle a \rangle = G$; thus $G$ is cyclic of order $4$, and cyclic groups of equal order are isomorphic, so
+    \[
+        G \cong \Z_4.
+    \]
+    
+    \medskip
+    \textbf{Case 2: no element of $G$ has order $4$.}
+    Then $|g| \in \{1, 2\}$ for all $g \in G$, i.e.
+    \[
+        g^2 = e \qquad \text{for all } g \in G. \tag{$*$}
+    \]
+    
+    \emph{Step 1: $G$ is abelian.}
+    By $(*)$, every $g \in G$ is its own inverse, so for $x, y \in G$,
+    \[
+        xy = (xy)^{-1} = y^{-1} x^{-1} = yx,
+    \]
+    which is Exercise~\ref{ex:square-abelian}.
+    
+    \emph{Step 2: $G = \{e, a, b, ab\}$ for suitable $a, b$.}
+    Choose $a \in G \setminus \{e\}$ and $b \in G \setminus \{e, a\}$. The elements $e, a, b, ab$ are pairwise distinct: $a, b \neq e$ and $a \neq b$ by choice, while $ab = e$ would give $b = a^{-1} = a$, $ab = a$ would give $b = e$, and $ab = b$ would give $a = e$ (using $(*)$) --- all contradictions. Since $|G| = 4$,
+    \[
+        G = \{ e, a, b, ab \}, \qquad a^2 = b^2 = e,
+    \]
+    and every $g \in G$ has a \emph{unique} representation $g = a^i b^j$ with $i, j \in \{0, 1\}$.
+    
+    \emph{Step 3: $G \cong \Z_2 \times \Z_2$.}
+    Define
+    \[
+        f \colon G \to \Z_2 \times \Z_2, \qquad f(a^i b^j) := (\bar{i}, \bar{j}), \quad i, j \in \{0, 1\},
+    \]
+    well defined by uniqueness of the representation; explicitly,
+    \[
+        f(e) = (\bar{0}, \bar{0}), \quad f(a) = (\bar{1}, \bar{0}), \quad f(b) = (\bar{0}, \bar{1}), \quad f(ab) = (\bar{1}, \bar{1}).
+    \]
+    The four values are distinct, so $f$ is a bijection. To see that $f$ is a homomorphism, let $g = a^i b^j$ and $g' = a^{i'} b^{j'}$ with $i, j, i', j' \in \{0, 1\}$. By commutativity, $gg' = a^{i+i'} b^{j+j'}$; since $a^2 = b^2 = e$, exponents may be reduced modulo $2$, which does not change the barred values in $\Z_2$, so
+    \[
+        f(gg') = \big( \overline{i + i'},\, \overline{j + j'} \big) = (\bar{i}, \bar{j}) + (\bar{i'}, \bar{j'}) = f(g) + f(g').
+    \]
+    Thus $f$ is a bijective homomorphism, hence $G \cong \Z_2 \times \Z_2$.
+    
+    In both cases $G$ is isomorphic to $\Z_4$ or to $\Z_2 \times \Z_2$.
+\end{proof}
+
+\medskip
+\noindent\emph{Remark.}
+The two alternatives are genuinely different: $\Z_4$ has an element of order $4$, while every non-identity element of $\Z_2 \times \Z_2$ has order $2$; hence $\Z_4 \not\cong \Z_2 \times \Z_2$.
+
+\medskip
+\noindent\emph{Remark.}
+The two alternatives are genuinely different: $\Z_4$ has an element of order $4$, whereas every non-identity element of $\Z_2 \times \Z_2$ has order $2$; hence $\Z_4 \not\cong \Z_2 \times \Z_2$, so the classification is irredundant.
 	
 	\begin{exercise}
 		\begin{enumerate}
