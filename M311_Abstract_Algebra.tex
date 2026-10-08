@@ -57,11 +57,17 @@
 \newmdenv[style=custombox, linecolor=accentColor]{tipbox}
 \newmdenv[style=custombox, linecolor=theoremColor]{theorembox}
 \newmdenv[style=custombox, linecolor=corollaryColor]{corollarybox}
+\newmdenv[style=custombox, linecolor=theoremColor]{lemmabox}
 \newmdenv[style=custombox, linecolor=exampleColor]{examplebox}
 \newmdenv[style=custombox, linecolor=cautionColor]{cautionbox}
 \newmdenv[style=custombox, linecolor=remarkColor]{remarkbox}
 \newmdenv[style=custombox, linecolor=recallColor]{recallbox}
 \newmdenv[style=custombox, linecolor=exerciseColor]{exercisebox}
+
+
+% --- SHARED COUNTER FOR THEOREM-LIKE ENVIRONMENTS ---
+\newcounter{thmcnt}[section]
+\renewcommand{\thethmcnt}{\thesection.\arabic{thmcnt}}
 
 % --- CUSTOM ENVIRONMENTS FOR BOXED SECTIONS ---
 \newenvironment{definition}[1]{
@@ -89,8 +95,9 @@
 
 \newenvironment{theorem}[1][]{
 	\def\temp{#1}%
+    \refstepcounter{thmcnt}
 	\begin{theorembox}
-		\textbf{\color{theoremColor}Theorem%
+		\textbf{\color{theoremColor}Theorem \thethmcnt%
 			\ifx\temp\empty\relax\else\ (#1)\fi:} 
 	}{
 	\end{theorembox}
@@ -98,8 +105,9 @@
 
 \newenvironment{proposition}[1][]{
 	\def\temp{#1}%
+    \refstepcounter{thmcnt}
 	\begin{theorembox}
-		\textbf{\color{theoremColor}Proposition%
+		\textbf{\color{theoremColor}Proposition \thethmcnt%
 			\ifx\temp\empty\relax\else\ (#1)\fi:} 
 	}{
 	\end{theorembox}
@@ -107,11 +115,22 @@
 
 \newenvironment{corollary}[1][]{
 	\def\temp{#1}%
+    \refstepcounter{thmcnt}
 	\begin{corollarybox}
-		\textbf{\color{corollaryColor}Corollary%
+		\textbf{\color{corollaryColor}Corollary \thethmcnt%
 			\ifx\temp\empty\relax\else\ (#1)\fi:} 
 	}{
 	\end{corollarybox}
+}
+
+\newenvironment{lemma}[1][]{
+	\def\temp{#1}%
+	\refstepcounter{thmcnt}%
+	\begin{lemmabox}
+		\textbf{\color{theoremColor}Lemma \thethmcnt%
+			\ifx\temp\empty\relax\else\ (#1)\fi:} 
+	}{
+	\end{lemmabox}
 }
 
 \newcounter{examplecnt}[section]
@@ -877,6 +896,7 @@
 		\item If $G_1$ and $G_2$ are cyclic groups of order $m$ and $n$, respectively, prove that $G_1 \times G_2$ is cyclic if and only if $m$ and $n$ are relatively prime.
 	\end{enumerate}
 \end{exercise}
+
 	\lecturetitle{3}{Internal Direct Product}
 	% \textit{Date: Sep 30, 2026}
 	
@@ -1186,6 +1206,552 @@ The two alternatives are genuinely different: $\Z_4$ has an element of order $4$
 	% \begin{remark}
 		%     If $H, K \trianglelefteq G$, $H \cap K = \{e\}$, $hk = kh$ $\forall h \in H, k \in K \implies G = H \times K$.
 		% \end{remark}
+
+    \lecturetitle{4}{Orders in Direct Products, Semi-Direct Products \& Finitely Generated Abelian Groups}
+	\rhead{Lecture 4}
+	
+	\begin{definition}{Order of an Element in a Direct Product}
+		The order of an element in the direct product is the least common multiple of the order of its components.
+		\[
+		|(x_1, x_2, \dots, x_n)| = \operatorname{lcm}\big(|x_1|, |x_2|, \dots, |x_n|\big).
+		\]
+	\end{definition}
+	
+	\begin{example}
+		In $\Z_7 \times \Z_7$, find $|(\bar{2}, \bar{5})|$.
+		
+		\vspace{0.5em}
+		\noindent \textbf{Solution:} Since $7$ is prime, every non-identity element of $\Z_7$ has order $7$, so $|\bar{2}| = |\bar{5}| = 7$. Hence
+		\[
+		|(\bar{2}, \bar{5})| = \operatorname{lcm}(|\bar{2}|, |\bar{5}|) = \operatorname{lcm}(7, 7) = 7.
+		\]
+	\end{example}
+	
+	\begin{example}
+		Find the number of elements of order $5$ in the group $\Z_{25} \times \Z_5$.
+		
+		\vspace{0.5em}
+		\noindent \textbf{Solution:} Let $(a, b) \in \Z_{25} \times \Z_5$ with $|(a,b)| = 5$. Then
+		\[
+		5 = |(a, b)| = \operatorname{lcm}(|a|, |b|).
+		\]
+		Since $|a|$ divides $25$ and $|b|$ divides $5$, the only possibilities are:
+		\[
+		|a| = 5,\ |b| = 1 \qquad \text{or} \qquad |a| = 5,\ |b| = 5 \qquad \text{or} \qquad |a| = 1,\ |b| = 5.
+		\]
+		The elements of order $5$ in $\Z_{25}$ are $\bar{5}, \bar{10}, \bar{15}, \bar{20}$ (that is $4$ elements), and the elements of order $5$ in $\Z_5$ are $\bar{1}, \bar{2}, \bar{3}, \bar{4}$ (also $4$ elements).
+		\begin{itemize}
+			\item \textbf{Case 1:} $|a| = 5$ and $|b| = 1$. Then $b = \bar{0}$ and $a \in \{\bar{5}, \bar{10}, \bar{15}, \bar{20}\}$, giving $4 \cdot 1 = 4$ elements.
+			\item \textbf{Case 2:} $|a| = 5$ and $|b| = 5$. This gives $4 \cdot 4 = 16$ elements.
+			\item \textbf{Case 3:} $|a| = 1$ and $|b| = 5$. Then $a = \bar{0}$ and $b \in \{\bar{1}, \bar{2}, \bar{3}, \bar{4}\}$, giving $1 \cdot 4 = 4$ elements.
+		\end{itemize}
+		Cases 1 and 2 give $4 + 16 = 20$ elements, and Case 3 gives $4$ more. Hence the total number of elements of order $5$ in $\Z_{25} \times \Z_5$ is $\mathbf{24}$.
+	\end{example}
+	
+	\begin{exercise}
+		\begin{itemize}
+			\item Find the number of elements of order $5$ in $\Z_5 \times \Z_{10}$.
+			\item Find the number of elements of order $9$ in $\Z_3 \times \Z_9$.
+			\item Find the number of elements of order $4$ in $\Z_4 \times \Z_4$.
+		\end{itemize}
+	\end{exercise}
+	
+	% ------------------------------------------
+	
+	\subsection{Semi-Direct Product}
+	
+	\begin{definition}{Semi-Direct Product}
+		Let $G$ be a group with a subgroup $H$ and normal subgroup $K$ which satisfy
+		\begin{enumerate}
+			\item $G = HK$,
+			\item $H \cap K = \{e\}$
+		\end{enumerate}
+		Then, we say that $G$ is \textbf{semi-direct product} of $K$ by $H$. We denoted it by
+		\[
+		G = K \rtimes H.
+		\]
+	\end{definition}
+	
+	\begin{remark}
+		\begin{itemize}
+			\item Compare with the internal direct product: there \emph{both} factors had to be normal. In a semi-direct product only $K$ is required to be normal. In particular, every internal direct product is a semi-direct product, but not conversely.
+			\item As in the direct product, every $g \in G = H \rtimes K$ can be written \textbf{uniquely} as $g = hk$ with $h \in H$, $k \in K$. Indeed, if $h_1 k_1 = h_2 k_2$, then $h_2^{-1} h_1 = k_2 k_1^{-1} \in H \cap K = \{e\}$, so $h_1 = h_2$ and $k_1 = k_2$.
+		\end{itemize}
+	\end{remark}
+	
+	\begin{example}
+		Let $G = S_3$, $H = \langle (12) \rangle$ and $K = \langle (123) \rangle$. Is $G = H \rtimes K$?
+		
+		\vspace{0.5em}
+		\noindent \textbf{Solution:}
+		\[
+		H = \{(1), (12)\}, \qquad K = \{(1), (123), (132)\}.
+		\]
+		\begin{enumerate}
+			\item $K \trianglelefteq G$, since $[G : K] = 6/3 = 2$ (in fact $K = A_3$). 
+			\item $H \ntrianglelefteq G$: for example $(123)(12)(123)^{-1} = (23) \notin H$. (So $G$ is \emph{not} the internal direct product of $H$ and $K$.)
+			\item $H \cap K = \{(1)\}$.
+			\item $|HK| = \dfrac{|H||K|}{|H \cap K|} = 2 \cdot 3 = 6 = |G|$, hence $G = HK$.
+		\end{enumerate}
+		Thus $G = H \rtimes K$.
+	\end{example}
+	
+	\begin{example}
+		Let $G = D_8 = \langle a, b \mid a^4 = b^2 = e,\ bab = a^3 \rangle$, with $K = \langle a \rangle$ and $H = \langle b \rangle$. Then $D_8 = H \rtimes K$. Write every element of $D_8$ uniquely as $hk$.
+		
+		\vspace{0.5em}
+		\noindent \textbf{Solution:}
+		\[
+		K = \{e, a, a^2, a^3\}, \qquad H = \{e, b\}.
+		\]
+		\begin{enumerate}
+			\item $K \trianglelefteq G$, since $[G : K] = 8/4 = 2$.
+			\item $H \ntrianglelefteq G$: $a b a^{-1} = a^2 b \notin H$.
+			\item $H \cap K = \{e\}$.
+			\item $|HK| = 2 \cdot 4 = 8 = |G|$, hence $G = HK$.
+		\end{enumerate}
+		Thus $D_8 = H \rtimes K$, and every element is written uniquely as $b^i a^j$ with $i \in \{0, 1\}$ and $j \in \{0, 1, 2, 3\}$:
+		\[
+		D_8 = \{e,\ a,\ a^2,\ a^3,\ b,\ ba,\ ba^2,\ ba^3\}.
+		\]
+	\end{example}
+	
+	% ------------------------------------------
+	
+	\subsection{Finitely Generated Abelian Groups}
+	
+	\begin{definition}{Finitely Generated Groups}
+		A group $G$ is called a \textbf{finitely generated} if there exists a finite subset $S = \{a_1, a_2, \dots, a_n\} \subseteq G$ such that every element $g \in G$ can be represented in the form
+		\[
+		g = a_1^{e_1} a_2^{e_2} \cdots a_n^{e_n}, \qquad e_i \in \Z.
+		\]
+		In this case
+		\[
+		G = \langle a_1, a_2, \dots, a_n \rangle.
+		\]
+	\end{definition}
+	
+	\begin{example}
+		\textbf{(Klein 4-group)} $V_4 = \langle a, b \mid a^2 = b^2 = (ab)^2 = e \rangle$. Since $a^2 = b^2 = e$ and $ab = ba$, every element has the form $a^i b^j$ and
+		\[
+		V_4 = \{e, a, b, ab\} = \langle a, b \rangle, \qquad S = \{a, b\}.
+		\]
+		So $V_4$ is finitely generated.
+	\end{example}
+	
+	\begin{example}
+		The following groups are finitely generated:
+		\begin{itemize}
+			\item $Q_8 = \langle a, b \mid a^4 = e,\ b^2 = a^2,\ bab^{-1} = a^{-1} \rangle$,
+			\item $D_8 = \langle a, b \mid a^4 = b^2 = e,\ bab = a^3 \rangle$,
+			\item $\Z \times \Z_4 = \langle (1, \bar{0}), (0, \bar{1}) \rangle$,
+			\item $\Z \times \Z_2 = \langle (1, \bar{0}), (0, \bar{1}) \rangle$.
+		\end{itemize}
+	\end{example}
+	
+	\begin{theorem}[Fundamental Theorem of Finitely Generated Abelian Groups]
+		Every finite generated abelian group $G$ is isomorphic to direct product of cyclic groups of the form:
+		\[
+		G \cong \Z_{p_1^{e_1}} \times \Z_{p_2^{e_2}} \times \cdots \times \Z_{p_n^{e_n}} \times \underbrace{\Z \times \Z \times \cdots \times \Z}_{k \text{ times}}
+		\]
+		where $p_i$ are primes not necessary distinct, and $e_i$ are positive integers, this direct product is unique except for possible rearrangement of factors.
+	\end{theorem}
+	
+	\begin{takeaway}
+		For a \textbf{finite} abelian group, $k = 0$ (no copies of $\Z$) and the group is a direct product of cyclic groups of prime-power order. The rest of this lecture proves this existence statement step by step: first splitting off the $p$-part (Lemma and Corollary below), then splitting a $p$-group into cyclic pieces.
+	\end{takeaway}
+	
+	\begin{lemma}
+		\label{lem:coprime}
+		Let $G$ be a finite abelian group of order $mn$, where $\gcd(m, n) = 1$. If
+		\[
+		M = \{x \in G \mid x^m = e\} \qquad \text{and} \qquad N = \{x \in G \mid x^n = e\},
+		\]
+		then $G = MN$. In fact $G = M \times N$.
+	\end{lemma}
+	
+	\begin{proof}
+		\textbf{(1) $M, N \leq G$.} We have $e \in M$, so $M \neq \emptyset$. If $x, y \in M$, then since $G$ is abelian $(xy^{-1})^m = x^m (y^m)^{-1} = e$, so $xy^{-1} \in M$. Hence $M \leq G$; similarly $N \leq G$.
+		
+		\vspace{0.5em}
+		\noindent \textbf{(2) Normality.} Since $G$ is abelian, $M, N \trianglelefteq G$.
+		
+		\vspace{0.5em}
+		\noindent \textbf{(3) $M \cap N = \{e\}$.} Let $x \in M \cap N$. Then $x^m = e$ and $x^n = e$, so $|x|$ divides both $m$ and $n$, hence divides $\gcd(m,n) = 1$. Thus $|x| = 1$, i.e. $x = e$.
+		
+		\vspace{0.5em}
+		\noindent \textbf{(4) $G = MN$.} Since $\gcd(m, n) = 1$, there exist $u, v \in \Z$ with $um + vn = 1$. Let $x \in G$. Then
+		\[
+		x = x^{um + vn} = x^{um} \, x^{vn}.
+		\]
+		By Lagrange, $x^{mn} = e$. So $(x^{um})^n = (x^{mn})^u = e$, hence $x^{um} \in N$; and $(x^{vn})^m = (x^{mn})^v = e$, hence $x^{vn} \in M$. Therefore $x \in NM = MN$.
+		
+		\vspace{0.5em}
+		\noindent By (2), (3), (4) and the definition of the internal direct product, $G = M \times N$.
+	\end{proof}
+	
+	\begin{corollary}
+		\label{cor:groupsplitting}
+		Let $G$ be a finite abelian group and $p$ be a prime dividing $|G|$. Then $G = P \times T$ for some subgroup $P$ and $T$, where $|P| = p^n$, $n > 0$ and $|T|$ is not divisible by $p$.
+	\end{corollary}
+	
+	\begin{proof}
+		Write $|G| = p^s t$ with $s \geq 1$ and $\gcd(t, p) = 1$. Let
+		\[
+		P = \{x \in G \mid x^{p^s} = e\}, \qquad T = \{x \in G \mid x^{t} = e\}.
+		\]
+		By Lemma~\ref{lem:coprime} (with $m = p^s$ and $n = t$), $G = P \times T$.
+	\end{proof}
+	
+	\begin{theorem}
+		\label{thm:maximalorder}
+		Let $G$ be a finite abelian group of order $p^n$, where $p$ is a prime, and let $a \in G$ have maximal order among all elements of $G$. Then
+		\[
+		G = A \times Q,
+		\]
+		where $A = \langle a \rangle$ is the cyclic subgroup of $G$ generated by $a$ and $Q$ is some subgroup of $G$.
+	\end{theorem}
+	
+	\begin{proof}
+		We prove the theorem by induction on $n$. If $n = 1$, then $|G| = p$ and $G$ is already a cyclic group generated by an element, say $a$, that is, $G = \langle a \rangle = \langle a \rangle \times \{e\}$.
+		
+		\vspace{0.5em}
+		\noindent Now, suppose that the theorem is true for all $m < n$. If there exists an element $b \in G$ such that $b \notin A = \langle a \rangle$ and $b^p = e$, we show that the theorem is correct. Let $B = \langle b \rangle$ be the subgroup of $G$ generated by $b$. Thus $A \cap B = \{e\}$. Let $\Bar{G} = G/B$. By assumption $B \neq \{e\}$. Hence
+		\[
+		|\bar{G}| < |G|.
+		\]
+		
+		\vspace{0.5em}
+		\noindent In $\bar{G}$, what is the order of $\bar{a} = Ba$? We claim that $|\bar{a}| = |a|$. To begin with, we know that $|\bar{a}|$ divides $|a|$, for $a^{|a|} = e$, hence
+		\[
+		\bar{a}^{|a|} = (Ba)^{|a|} = B a^{|a|} = B.
+		\]
+		On the other hand, $\bar{a}^{|\bar{a}|} = \bar{e}$, so $a^{|\bar{a}|} \in B$, and since $a^{|\bar{a}|} \in A$, we see that $a^{|\bar{a}|} \in A \cap B = \{e\}$, whence $a^{|\bar{a}|} = e$. This tells us that $|a|$ divides $|\bar{a}|$. Hence $|a| = |\bar{a}|$.
+		
+		\vspace{0.5em}
+		\noindent Since $\bar{a}$ is an element of maximal order in $\bar{G}$, by the induction we know that
+		\[
+		\bar{G} = \langle \bar{a} \rangle \times T \quad \text{for some subgroup } T \text{ of } \bar{G}.
+		\]
+		By the Second Homomorphism Theorem, we also know that $T = Q/B$ for some subgroup $Q$ of $G$. We claim that $G = A \times Q$. If not, then $A \cap Q \neq \{e\}$; let $u \in A \cap Q$. Then $u = a^i \in Q$, so $\bar{a}^i \in Q/B = T$, and since $\langle \bar{a} \rangle \cap T = \{\bar{e}\}$, we have that $\bar{a}^i = \bar{e}$, hence $a^i \in B$. But $a^i \in A$ and $A \cap B = \{e\}$; therefore, $a^i = e$, which is to say, $u = a^i = e$. Therefore, $A \cap Q = \{e\}$ and we obtain that
+		\[
+		G = A \times Q.
+		\]
+		
+		\vspace{0.5em}
+		\noindent Suppose, then, that there is no element $b$ in $G$, $b$ not in $A$, such that $b^p = e$. We claim that this forces $G = A = \langle a \rangle$, in which case $G$ is a cyclic group. Suppose that $G \neq A$; let $x \in G$, $x \notin A$ have smallest possible order. Because $|x^p| < |x|$, we have, by our choice of $x$, that $x^p \in A$, hence $x^p = a^i$. We claim that $p \mid i$. Suppose not. Let $m = |a| = p^s$; because $a$ is of maximal order in $G$, then, for any $c \in G$, $|c| = p^r \leq |a| = p^s$, hence $r \leq s$, and so $|c|$ divides $|a| = m$. Therefore, $c^m = e$.
+		
+		\vspace{0.5em}
+		\noindent Now $x^p = a^i$ and supposed that $p \nmid i$; hence $m \nmid \dfrac{im}{p}$, and so $a^{im/p} \neq e$. But
+		\[
+		x^m = (x^p)^{m/p} = (a^i)^{m/p} = a^{im/p} \neq e,
+		\]
+		contradicting the fact observed above that $x^m = e$. Thus $p \mid i$, so $i = jp$ and
+		\[
+		x^p = a^i = a^{jp}.
+		\]
+		Let $y = a^{-j}x$; then $y \notin A$, since $x \notin A$ and $a^{-j} \in A$; moreover,
+		\[
+		y^p = (a^{-j}x)^p = a^{-jp}x^p = e.
+		\]
+		But this puts us back in the situation discussed above, where there exists an $x \in G$, $x \notin A$ such that $x^p = e$; in that case we saw that the theorem was correct. So we must have $G = \langle a \rangle$, and $G$ is a cyclic group. This finishes the induction and proves the theorem.
+	\end{proof}
+	
+	\begin{corollary}
+		A finite abelian group of order $p^n$, $n \geq 0$, is a direct product of cyclic subgroups.
+	\end{corollary}
+	
+	\begin{proof}
+		We use induction on $n$; the case $n = 0$ is trivial. Let $a_1 \in G$ have maximal order and put $A_1 = \langle a_1 \rangle$. By theorem~\ref{thm:maximalorder},
+		\[
+		G = A_1 \times Q_1.
+		\]
+		Now $Q_1$ is a finite abelian $p$-group with $|Q_1| < |G|$. Applying the theorem to $Q_1$ (with $a_2 \in Q_1$ of maximal order, $A_2 = \langle a_2 \rangle$):
+		\[
+		Q_1 = A_2 \times Q_2, \quad Q_2 = A_3 \times Q_3, \quad \dots
+		\]
+		The orders $|Q_1| > |Q_2| > \cdots$ strictly decrease, so the process stops after finitely many steps with $Q_k = \{e\}$. Hence
+		\[
+		G = A_1 \times A_2 \times \cdots \times A_k,
+		\]
+		a direct product of cyclic subgroups.
+	\end{proof}
+	
+	
+	\lecturetitle{5}{Fundamental Theorem of Finite Abelian Groups \& Group Actions}
+	\rhead{Lecture 5}
+	
+	% ==========================================================
+	\subsection{The Fundamental Theorem of Finite Abelian Groups}
+	
+	\begin{theorem}[Fundamental Theorem of Finite Abelian Groups]
+		\label{thm:fundamental}
+		A finite abelian group is a direct product of cyclic groups.
+	\end{theorem}
+	
+	\begin{proof}
+		Let $G$ be a finite abelian group.
+		
+		\vspace{0.5em}
+		\noindent \textbf{Step 1: split off a $p$-part.} Let $p$ be a prime dividing $|G|$. By the corollary~\ref{cor:groupsplitting},
+		\[
+		G = P \times T, \qquad |P| = p^n, \quad p \nmid |T|.
+		\]
+		Since $P$ is an abelian group of order $p^n$, the theorem~\ref{thm:maximalorder} gives
+		\[
+		P = A_1 \times A_2 \times \cdots \times A_r, \qquad \text{each } A_i \text{ cyclic.}
+		\]
+		
+		\vspace{0.5em}
+		\noindent \textbf{Step 2: repeat on $T$.} Let $q$ be a prime dividing $|T|$. Again by the same corollary~\ref{cor:groupsplitting},
+		\[
+		T = Q \times R, \qquad |Q| = q^m, \quad q \nmid |R|,
+		\]
+		and, as before, $Q = B_1 \times B_2 \times \cdots \times B_j$ with each $B_i$ cyclic.
+		
+		\vspace{0.5em}
+		\noindent \textbf{Step 3: conclude.} Repeating this method on $R$, and so on, the orders strictly decrease, so the process terminates and we get
+		\[
+		G = A_1 \times \cdots \times A_r \times B_1 \times \cdots \times B_j \times S_1 \times \cdots \times S_l,
+		\]
+		where all $A_i, B_i, S_k$ are cyclic of prime-power order:
+		\[
+		A_i \cong \Z_{p_i^{e_i}}, \qquad B_j \cong \Z_{p_j^{e_j}}, \qquad S_k \cong \Z_{p_k^{e_k}}.
+		\]
+		Thus
+		\[
+		G \cong \Z_{p_1^{e_1}} \times \Z_{p_2^{e_2}} \times \cdots \times \Z_{p_m^{e_m}}. \qedhere
+		\]
+	\end{proof}
+	
+	% ------------------------------------------
+	
+	\newpage
+	\subsection{Counting Abelian Groups of a Given Order}
+	
+	\begin{definition}{Partitions}
+		Let $G$ be a finite abelian group of order $p^n$. By the Fundamental Theorem of Finite Abelian Groups,
+		\[
+		G \cong \Z_{p^{n_1}} \times \Z_{p^{n_2}} \times \cdots \times \Z_{p^{n_k}}, \qquad n = n_1 + n_2 + \cdots + n_k, \quad n_1 \geq n_2 \geq \cdots \geq n_k \geq 1.
+		\]
+		That is, $(n_1, n_2, \dots, n_k)$ is a \textbf{partition} of $n$. We denote the set of all partitions of $n$ by $\mathcal{G}(p)$.
+	\end{definition}
+	
+	\begin{takeaway}
+		The number of non-isomorphic abelian groups of order $p^n$ is $|\mathcal{G}(p)|$, the number of partitions of $n$.
+	\end{takeaway}
+	
+	\begin{example}
+		Let $G$ be an abelian group of order $32 = 2^5$. Find all non-isomorphic abelian groups of order $32$.
+		
+		\vspace{0.5em}
+		\noindent \textbf{Solution:} By the Fundamental Theorem of Finite Abelian Groups, each such group is a product $\Z_{2^{n_1}} \times \cdots \times \Z_{2^{n_k}}$ with $n_1 + \cdots + n_k = 5$. So we list the partitions of $5$:
+		\[
+		\mathcal{G}(2) = \{(5),\ (4,1),\ (3,2),\ (3,1,1),\ (2,2,1),\ (2,1,1,1),\ (1,1,1,1,1)\}.
+		\]
+		Hence $|\mathcal{G}(2)| = 7$, and there are exactly $7$ non-isomorphic abelian groups of order $32$:
+		\begin{align*}
+			G_1 &= \Z_{2^5}, & G_2 &= \Z_{2^4} \times \Z_2, & G_3 &= \Z_{2^3} \times \Z_{2^2},\\
+			G_4 &= \Z_{2^3} \times \Z_2 \times \Z_2, & G_5 &= \Z_{2^2} \times \Z_{2^2} \times \Z_2, & G_6 &= \Z_{2^2} \times \Z_2 \times \Z_2 \times \Z_2,\\
+			G_7 &= \Z_2 \times \Z_2 \times \Z_2 \times \Z_2 \times \Z_2. & &&&
+		\end{align*}
+	\end{example}
+	
+	
+	
+	
+	
+	\begin{exercise}
+		Find the number of non-isomorphic abelian groups of order $3^4$ and of order $3^7$.
+	\end{exercise}
+	
+	\begin{example}
+		Find all non-isomorphic abelian groups of order $p^2 q^3$, where $p, q$ are primes.
+		
+		\vspace{0.5em}
+		\noindent \textbf{Solution:}
+		
+		\vspace{0.5em}
+		\noindent \textbf{Case $p = q$.} Then $|G| = p^5$, the types are $(5), (4,1), \dots$, and the number of non-isomorphic abelian groups is $|\mathcal{G}(p)| = 7$, e.g. $G_1 \cong \Z_{p^5}$, $G_2 \cong \Z_{p^4} \times \Z_p, \dots$
+		
+		\vspace{0.5em}
+		\noindent \textbf{Case $p \neq q$.} The $p$-part has types
+		\[
+		\mathcal{G}(p) = \{(2),\ (1,1)\},
+		\]
+		and the $q$-part has types
+		\[
+		\mathcal{G}(q) = \{(3),\ (2,1),\ (1,1,1)\}.
+		\]
+		Choosing one type for each prime, the number of non-isomorphic abelian groups of order $p^2 q^3$ is $2 \times 3 = 6$:
+		\begin{center}
+			\renewcommand{\arraystretch}{1.4}
+			\begin{tabular}{|l|l|}
+				\hline
+				\textbf{Type $(2)$ for $p$} & \textbf{Type $(1,1)$ for $p$} \\ \hline
+				$G_1 = \Z_{p^2} \times \Z_{q^3}$ & $G_4 = \Z_p \times \Z_p \times \Z_{q^3}$ \\
+				$G_2 = \Z_{p^2} \times \Z_{q^2} \times \Z_q$ & $G_5 = \Z_p \times \Z_p \times \Z_{q^2} \times \Z_q$ \\
+				$G_3 = \Z_{p^2} \times \Z_q \times \Z_q \times \Z_q$ & $G_6 = \Z_p \times \Z_p \times \Z_q \times \Z_q \times \Z_q$ \\ \hline
+			\end{tabular}
+		\end{center}
+	\end{example}
+	
+	\begin{exercise}
+		Find the non-isomorphic abelian groups of order $|G| = 360 = 2^3 \cdot 3^2 \cdot 5$.
+	\end{exercise}
+	
+	\begin{example}
+		Find the number of all non-isomorphic abelian groups of order $1333584$.
+		
+		\vspace{0.5em}
+		\noindent \textbf{Solution:} Factor $|G| = 1333584 = 2^4 \cdot 3^5 \cdot 7^3$. The types for each prime are:
+		\begin{align*}
+			\mathcal{G}(2) &= \{(4),\ (3,1),\ (2,2),\ (2,1,1),\ (1,1,1,1)\}, & |\mathcal{G}(2)| &= 5,\\
+			\mathcal{G}(3) &= \{(5),\ (4,1),\ \dots\}, & |\mathcal{G}(3)| &= 7,\\
+			\mathcal{G}(7) &= \{(3),\ (2,1),\ (1,1,1)\}, & |\mathcal{G}(7)| &= 3.
+		\end{align*}
+		Hence the number of non-isomorphic abelian groups of order $|G|$ is
+		\[
+		|\mathcal{G}(2)| \cdot |\mathcal{G}(3)| \cdot |\mathcal{G}(7)| = 5 \times 7 \times 3 = \mathbf{105}.
+		\]
+	\end{example}
+    
+
+    \begin{exercise}
+        Find all non-isomorphic abelian groups of order:
+        \begin{enumerate}
+            \item $16$
+            \item $200$
+            \item $125$
+            \item $36$
+            \item $32$
+            \item $p^2 q$ for distinct primes $p$ and $q$.
+            \item $p^2 q^2 r$ for distinct primes $p, q$ and $r$.
+        \end{enumerate}
+    \end{exercise}
+	
+	% ------------------------------------------
+	
+	\subsection{When Is an Abelian Group Cyclic?}
+	
+	\begin{definition}{Square-Free Integer}
+		An integer $n$ is called \textbf{square-free} if $n$ is not divisible by the square of any prime, i.e.\ there is no prime $p$ with $p^2 \mid n$.
+	\end{definition}
+	
+	\begin{example}
+		$15, 21, 35, \dots$ are square-free, while $18, 28, 25, 36, \dots$ are not square-free.
+	\end{example}
+	
+	\begin{theorem}
+		\label{thm:squarefree}
+		Every finite abelian group of square-free order is cyclic.
+	\end{theorem}
+	
+	\begin{proof}
+		Let $G$ be a finite abelian group of order $p_1^{e_1} p_2^{e_2} \cdots p_n^{e_n}$, where the $p_i$ are distinct primes. By the Fundamental Theorem of Finite Abelian Groups,
+		\[
+		G \cong \Z_{p_1^{e_1}} \times \Z_{p_2^{e_2}} \times \cdots \times \Z_{p_n^{e_n}}.
+		\]
+		But $|G|$ is square-free, so $e_1 = e_2 = \cdots = e_n = 1$. Then
+		\[
+		G \cong \Z_{p_1} \times \Z_{p_2} \times \cdots \times \Z_{p_n} \cong \Z_{p_1 p_2 \cdots p_n},
+		\]
+		Since $\gcd(p_i, p_j) = 1$ for all $1 \leq i \neq j \leq n$. So $G$ is cyclic.
+	\end{proof}
+	
+	\begin{example}
+		Every abelian group of order $35$, $21$, $26$ or $15$ is cyclic.
+	\end{example}
+	
+	\begin{caution}
+		The word ``abelian'' is essential in Theorem~\ref{thm:squarefree}: $S_3$ has square-free order $2 \times 3 = 6$, but it is not abelian (and not cyclic).
+	\end{caution}
+	
+	% ==========================================================
+	\subsection{Group Actions}
+	
+	\begin{definition}{Group Action}
+		Let $G$ be a group and $S$ a non-empty set. We say that $G$ \textbf{acts on} $S$ if there is a map
+		\[
+		* : G \times S \longrightarrow S, \qquad (g, a) \longmapsto g \cdot a,
+		\]
+		which satisfies
+		\begin{enumerate}
+			\item $e \cdot a = a$ for all $a \in S$, where $e \in G$ is the identity,
+			\item $(g_1 g_2) \cdot a = g_1 \cdot (g_2 \cdot a)$ for all $g_1, g_2 \in G$, $a \in S$.
+		\end{enumerate}
+	\end{definition}
+	
+	\begin{example}
+		Let $G = S_3$ and $S = \{1, 2, 3\}$. Does $G$ act on $S$? Explain your answer.
+		
+		\vspace{0.5em}
+		\noindent \textbf{Solution:} Write
+		\[
+		G = S_3 = \{(1),\ (12),\ (13),\ (23),\ (123),\ (132)\}.
+		\]
+		Define the map
+		\[
+		S_3 \times S \longrightarrow S, \qquad (\sigma_i, x) \longmapsto \sigma_i(x).
+		\]
+		We check the two conditions:
+		\begin{enumerate}
+			\item $\sigma_1(x) = (1)(x) = x \in S$ for all $x \in S$, where $\sigma_1 = (1)$ is the identity.
+			\item $(\sigma_i \sigma_j)(x) = \sigma_i(\sigma_j(x))$ for all $\sigma_i, \sigma_j \in S_3$, $x \in S$, by the definition of composition of permutations.
+		\end{enumerate}
+		Thus $S_3$ acts on $S$.
+	\end{example}
+	
+	\begin{remark}
+		In the same way $S_4$ acts on $S = \{1,2,3,4\}$, and more generally $S_n$ acts on $S = \{1, 2, \dots, n\}$.
+	\end{remark}
+	
+	\begin{example}
+		Consider $H = \langle (123) \rangle \leq S_3$ and $S = \{1, 2, 3\}$. Does $H$ act on $S$? Explain your answer.
+		
+		\vspace{0.5em}
+		\noindent \textbf{Solution:} Here $H = \langle (123) \rangle = \{(1), (123), (132)\}$ and $S = \{1,2,3\}$. Define
+		\[
+		H \times S \longrightarrow S, \qquad (\sigma, x) \longmapsto \sigma(x).
+		\]
+		Exactly as in the previous example, $(1)(x) = x$ and $(\sigma\tau)(x) = \sigma(\tau(x))$ for all $\sigma, \tau \in H$, $x \in S$. Hence $H$ acts on $S$.
+	\end{example}
+	
+	\begin{example}
+		Every group $G$ acts on itself by left multiplication:
+		\[
+		G \times G \longrightarrow G, \qquad (g, x) \longmapsto gx.
+		\]
+		Indeed, $ex = x$ and $(g_1 g_2)x = g_1(g_2 x)$ by associativity.
+	\end{example}
+	
+	\begin{definition}{Conjugate Elements}
+		Let $G$ be a group. Elements $x, y \in G$ are \textbf{conjugate} in $G$ if there exists $g \in G$ such that
+		\[
+		g^{-1} x g = y \qquad \Longleftrightarrow \qquad x = g y g^{-1}.
+		\]
+	\end{definition}
+	
+	\begin{example}
+		Let $H \leq G$. Then $H$ acts on $G$ by \textbf{conjugation}:
+		\[
+		H \times G \longrightarrow G, \qquad (h, g) \longmapsto h \cdot g = h g h^{-1}.
+		\]
+		
+		\vspace{0.5em}
+		\noindent \textbf{Solution:} we check the two conditions:
+		\begin{enumerate}
+			\item $e \cdot g = e g e^{-1} = g$ for all $g \in G$.
+			\item For all $h_1, h_2 \in H$ and $g \in G$:
+			\begin{align*}
+				(h_1 h_2) \cdot g &= (h_1 h_2)\, g\, (h_1 h_2)^{-1} \\
+				&= h_1 \big( h_2 \, g \, h_2^{-1} \big) h_1^{-1} \\
+				&= h_1 \cdot (h_2 \cdot g).
+			\end{align*}
+		\end{enumerate}
+		Hence conjugation is an action of $H$ on $G$.
+	\end{example}
+    
 	
 	
 	
