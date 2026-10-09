@@ -86,15 +86,6 @@
 	\end{tipbox}
 }
 
-\newenvironment{notation}[1]{
-	\begin{definitionbox}
-		\textbf{\color{primaryColor}Notation\ifx&#1&\else\ (#1)\fi:} 
-	}{
-	\end{definitionbox}
-}
-
-% --- CORRECTED CUSTOM ENVIRONMENTS ---
-
 \newenvironment{theorem}[1][]{
 	\def\temp{#1}%
 	\refstepcounter{thmcnt}
@@ -139,7 +130,7 @@
 \newenvironment{example}[1][]{
 	\stepcounter{examplecnt}
 	\begin{examplebox}
-		\textbf{\color{exampleColor}Example \arabic{examplecnt}\ifx&#1&\else\ (#1)\fi:} 
+		\textbf{\color{exampleColor}Example \thesection.\arabic{examplecnt}\ifx&#1&\else\ (#1)\fi:} 
 	}{
 	\end{examplebox}
 }
@@ -165,21 +156,23 @@
 	\end{recallbox}
 }
 
+
+
+\newcounter{exercisecnt}[section]
+\newenvironment{exercise}[1][]{
+	\stepcounter{exercisecnt}
+	\begin{exercisebox}
+		\textbf{\color{exerciseColor}Exercise \thesection.\arabic{exercisecnt}\ifx&#1&\else\ (#1)\fi:} 
+	}{
+	\end{exercisebox}
+}
+
 % --- HYPERLINK SETUP ---
 \hypersetup{
 	colorlinks=true,
 	linkcolor=primaryColor,
 	urlcolor=accentColor,
 	pageanchor=false
-}
-
-\newcounter{exercisecnt}[section]
-\newenvironment{exercise}[1][]{
-	\stepcounter{exercisecnt}
-	\begin{exercisebox}
-		\textbf{\color{exerciseColor}Exercise \arabic{exercisecnt}\ifx&#1&\else\ (#1)\fi:} 
-	}{
-	\end{exercisebox}
 }
 
 % --- CUSTOM LECTURE TITLE COMMAND ---
@@ -215,8 +208,9 @@
 		\thispagestyle{empty}
 		
 		% Cairo University Logo
-		\includegraphics[width=0.25\textwidth]{cairo_university_new_logo.png}\\[1em]
-		
+		\IfFileExists{cairo_university_new_logo.png}{%
+			\includegraphics[width=0.25\textwidth]{cairo_university_new_logo.png}\\[1em]}{}
+
 		% University / Department Header
 		{\Large \textbf{Cairo University}}\\[0.3em]
 		{\large \textsc{Department of Mathematics}}\\[2em]
@@ -271,7 +265,7 @@
 		\begin{minipage}{0.45\textwidth}
 			\begin{flushright}
 				\textit{Lecturer:}\\
-				\textbf{Prof. Mohamed Ramadan}
+				\textbf{Prof. Moemen Abu-risha}
 			\end{flushright}
 		\end{minipage}\\[2.5em]
 		
@@ -314,7 +308,7 @@
 	
 	{
 		
-		First and foremost, I would like to express my sincere gratitude to \textbf{Prof. Mohamed Ramadan}. These notes are based on his lectures, and I am deeply thankful for the foundational material he provided and his dedicated work with us.
+		First and foremost, I would like to express my sincere gratitude to \textbf{Prof. Moemen Abu-risha}. These notes are based on his lectures, and I am deeply thankful for the foundational material he provided and his dedicated work with us.
 		
 		\vspace{1.5em}
 		Special thanks to my friend \textbf{Mina Basilious} who helped very much in refining the text, and checked most of the proofs and material.
@@ -373,7 +367,7 @@
 		\begin{enumerate}
 			\item \textbf{Non-negativity:} 
 			\[d(x, y) = |x - y| \geq 0\]
-			and if $d(x, y) = 0$, then $|x - y| = 0 \implies x = y$.
+			and if \[d(x, y) = 0 \iff |x - y| = 0 \iff x = y.\]
 			\item \textbf{Symmetry:}
 			\[d(x, y) = |x - y| = |-(y - x)| = |y - x| = d(y, x)\]
 			\item \textbf{Triangle Inequality:} 
@@ -453,9 +447,9 @@
 			\[
 			l < x < L \quad \forall x \in E
 			\]
-			\item There exists a positive real number $M > 0$ such that:
+			\item There exists a positive real number $K > 0$ such that:
 			\[
-			-M < x < M \quad (\text{or } |x| < M) \quad \forall x \in E
+			-K < x < K \quad (\text{or } |x| < K) \quad \forall x \in E
 			\]
 		\end{enumerate}
 	\end{remark}
@@ -501,7 +495,9 @@
 		\]
 	\end{definition} 
 	
-	\begin{example}\begin{itemize}
+	\begin{example}
+		
+		\begin{itemize}
 			\item Let $G = \left]0,1\right[ \implies G^\circ = G$.
 			\item Let $E = [a, b]$. Then $E^\circ = (a, b)$.
 		\end{itemize}
@@ -635,11 +631,11 @@
 			
 			\noindent Since $G_1$ and $G_2$ are open, there exist $r_1, r_2 > 0$ such that:
 			\[
-			B(x_0, r_1) \subseteq G_1 \quad \text{and} \quad B(x_0, r_2) \subseteq G_2
+			B(x_0; r_1) \subseteq G_1 \quad \text{and} \quad B(x_0; r_2) \subseteq G_2
 			\]
 			Taking $r = \min(r_1, r_2)$, we obtain:
 			\[
-			B(x_0, r) = B(x_0, r_1) \cap B(x_0, r_2) \subseteq G_1 \cap G_2
+			B(x_0; r) = B(x_0; r_1) \cap B(x_0; r_2) \subseteq G_1 \cap G_2
 			\]
 			Therefore, $x_0$ is an interior point of $G_1 \cap G_2$, which proves that $G_1 \cap G_2$ is open.
 			
@@ -684,7 +680,7 @@
 	\lecturetitle{3}{Open Sets, Closed Sets and Accumulation Points}
 	
 	% =====================================================
-	\subsection{Properties of Open Sets}
+	\subsection{Continue: Properties of Open Sets}
 	
 	\begin{takeaway}
 		Let $(M,d)$ be a metric space. Then:
@@ -696,6 +692,7 @@
 	\end{takeaway}
 	
 	\begin{theorem}
+		\label{thm:openballopenset}
 		Any open ball is an open set.
 	\end{theorem}
 	
@@ -709,9 +706,7 @@
 		d(y,x_0) \le d(y,x) + d(x,x_0) < r + d(x,x_0) < R,
 		\]
 		so $y \in B(x_0;R)$. Hence $B(x;r) \subseteq G$, so $x$ is an interior point of $G$.
-		Since $x \in G$ was arbitrary, $G$ is open.
-		
-		
+		Since $x \in G$ was arbitrary, $G$ is open.		
 	\end{proof}
 	
 	\noindent Thus, the union of any family of open balls is an open set.
@@ -829,7 +824,7 @@
 	\end{theorem}
 	
 	\begin{proof}
-		\textbf{(i)} Let $x_0\in A^\circ$. Then there is an open ball $B(x_0;r)$ such that $B(x_0;r)\subseteq A$. Hence $x_0$ belongs to the right-hand side, so
+		\textbf{(i)} Let $x_0\in A^\circ$. Then there is an open ball $B(x_0;r)$ such that $B(x_0;r)\subseteq A$. Since open balls are open sets (Theorem~\ref{thm:openballopenset}), $B(x_0;r)$ is an open set contained in $A$, so $x_0$ belongs to the right-hand side. Hence
 		\[
 		A^\circ \subseteq \bigcup_{\substack{G\subseteq A\\ G\ \text{is open}}} G .
 		\]
@@ -879,8 +874,7 @@
 	
 	
 	
-	% Lecture 4: start the section counter at 3 so numbering reads 4.1, 4.2, ...
-	\setcounter{section}{3}
+	
 	\lecturetitle{4}{Sequences in Metric Spaces}
 	
 	% =====================================================
@@ -929,7 +923,7 @@
 	\begin{definition}{Divergent Sequence}
 		A sequence which is not convergent is called \textbf{divergent}. That is,
 		\[
-		\forall\, x_0\in M \ \ \exists\, \varepsilon>0 \ \ \forall\, N_\varepsilon\in\Z^+ \ \ \exists\, n\ge N_\varepsilon \ \text{ s.t. } \ d(x_0,x_n)\ge\varepsilon .
+		\forall\, x_0\in M \ \ \exists\, \varepsilon>0 \ \ \forall\, N\in\Z^+ \ \ \exists\, n\ge N \ \text{ s.t. } \ d(x_0,x_n)\ge\varepsilon .
 		\]
 	\end{definition}
 	
