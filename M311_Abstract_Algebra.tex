@@ -590,12 +590,14 @@
 	A cycle of length $2$ is called a \textbf{transposition}.
 \end{definition}
 
+% Muhammed Alaa El-Din: I made the proposition complete: the displayed formula only treats a single cycle, so I added the fact that every permutation is a product of disjoint cycles (which is what reduces the general case to cycles), and I marked the parity statement as stated without proof.
 \begin{proposition}
-	Every permutation $\sigma \in S_n$ is a product of transpositions, e.g.
+	Every permutation $\sigma \in S_n$ is a product of disjoint cycles (proof omitted). Since every cycle is a product of transpositions,
 	\[
-	(a_1 a_2 a_3 \dots a_k) = (a_1 a_k)(a_1 a_{k-1})\dots(a_1 a_2).
+	(a_1 a_2 a_3 \dots a_k) = (a_1 a_k)(a_1 a_{k-1})\dots(a_1 a_2),
 	\]
-	The parity (even or odd) of the number of transpositions is the same for every such expression of $\sigma$.
+	every permutation $\sigma \in S_n$ is a product of transpositions.
+	Moreover, the parity (even or odd) of the number of transpositions is the same for every such expression of $\sigma$ (proof omitted).
 \end{proposition}
 
 \begin{definition}{Even and Odd Permutations}
@@ -695,7 +697,8 @@
 	
 	\begin{remark}
 		\begin{itemize}
-			\item Neither $H$ nor $K$ are subgroups of $H \times K$.
+			% Muhammed Alaa El-Din: I made the reason explicit: H and K are not even subsets of H x K (its elements are ordered pairs), which is why they cannot be subgroups of it.
+			\item Neither $H$ nor $K$ is a subgroup of $H \times K$; in fact they are not even subsets of $H \times K$, whose elements are ordered pairs.
 			\item However, subsets of the form $H \times \{e_K\}$ and $\{e_H\} \times K$ are subgroups of $H \times K$, \textcolor{red}{(Ex: Prove it)}.
 			\item Moreover, $H \times \{e_K\} \cong H$ and $\{e_H\} \times K \cong K$, \textcolor{red}{(Ex: Prove it)}.
 		\end{itemize}
@@ -717,7 +720,8 @@
 		\[
 		(a_1, \dots, a_n) * (b_1, \dots, b_n) = (a_1 \cdot_1 b_1, \dots, a_n \cdot_n b_n)
 		\]
-		Thus, $(G_1 \times \dots \times G_n, *)$ is called the external direct product of $G_1, \dots, G_n$. We denote it by $\prod_{i=1}^{n} G_i$ or $G_1 \otimes \cdots \otimes G_n$. If the operation on each $G_i$ is addition, we write $\bigoplus_{i=1}^n G_i$ instead of $\prod_{i=1}^{n} G_i$ and call it the \textbf{external direct sum} of $G_1, G_2, \dots, G_n$.\footnote{In full generality, the external direct sum is defined for arbitrary families of groups; this is beyond the scope of this course. For finitely many groups, however, it is equivalent to the direct product.}
+		% Muhammed Alaa El-Din: I made the notation G_1 \otimes ... \otimes G_n disappear: \otimes is the standard symbol for the tensor product and is already used in these notes for multiplication in Z_n, so I kept only \prod and \times.
+		Thus, $(G_1 \times \dots \times G_n, *)$ is called the external direct product of $G_1, \dots, G_n$. We denote it by $\prod_{i=1}^{n} G_i$ or $G_1 \times \cdots \times G_n$. If the operation on each $G_i$ is addition, we write $\bigoplus_{i=1}^n G_i$ instead of $\prod_{i=1}^{n} G_i$ and call it the \textbf{external direct sum} of $G_1, G_2, \dots, G_n$.\footnote{In full generality, the external direct sum is defined for arbitrary families of groups; this is beyond the scope of this course. For finitely many groups, however, it is equivalent to the direct product.}
 	\end{remark}
 	
 	
@@ -807,7 +811,8 @@
 	
 	\begin{example}
 		Consider $\Z_2 \times \Z_4 = \{(\bar{0},\bar{0}), (\bar{0},\bar{1}), (\bar{0},\bar{2}), (\bar{0},\bar{3}), (\bar{1},\bar{0}), (\bar{1},\bar{1}), (\bar{1},\bar{2}), (\bar{1},\bar{3})\}$.
-		This group is not cyclic because it does not contain an element of order $8$. 
+		% Muhammed Alaa El-Din: I made the claim justified: the original only asserted that there is no element of order 8.
+		This group is not cyclic because it does not contain an element of order $8$: for every $(x, y) \in \Z_2 \times \Z_4$ we have $4\cdot(x, y) = (4x, 4y) = (\bar{0}, \bar{0})$, so every element has order at most $4$.
 	\end{example}
 	
 	\subsection{Cyclic Isomorphisms in Direct Products}
@@ -821,6 +826,7 @@
 	\end{recall}
     
 	\begin{theorem}
+		\label{thm:ZnZm}
 		The group $\Z_n \times \Z_m$ is cyclic if and only if $\gcd(n,m) = 1$. In that case, $\Z_n \times \Z_m \cong \Z_{nm}$.
 	\end{theorem}
 	
@@ -864,6 +870,29 @@
 		\] 
 	\end{proposition}
 	
+	% Muhammed Alaa El-Din: I made this new theorem: the notes later use the n-factor version (Corollary at the start of Lecture 3, the example Z_2 x Z_5 x Z_4, and the square-free theorem in Lecture 5), but only the two-factor version was proved.
+	\begin{theorem}[Several Factors]
+		\label{thm:severalfactors}
+		Let $n_1, \dots, n_k$ be positive integers. Then $\Z_{n_1} \times \cdots \times \Z_{n_k}$ is cyclic if and only if $\gcd(n_i, n_j) = 1$ for all $i \neq j$. In that case
+		\[
+		\Z_{n_1} \times \cdots \times \Z_{n_k} \cong \Z_{n_1 n_2 \cdots n_k}.
+		\]
+	\end{theorem}
+	
+	\begin{proof}
+		We use two standard facts: if $A \cong A'$ and $B \cong B'$ then $A \times B \cong A' \times B'$, and $A_1 \times \cdots \times A_k \cong (A_1 \times \cdots \times A_{k-1}) \times A_k$ via $(a_1, \dots, a_k) \mapsto ((a_1, \dots, a_{k-1}), a_k)$.
+		
+		\vspace{0.5em}
+		\noindent ($\Leftarrow$) Induction on $k$; the case $k = 1$ is trivial. Suppose the $n_i$ are pairwise coprime. By induction, $\Z_{n_1} \times \cdots \times \Z_{n_{k-1}} \cong \Z_{N}$ with $N = n_1 \cdots n_{k-1}$, so
+		\[
+		\Z_{n_1} \times \cdots \times \Z_{n_k} \cong \Z_N \times \Z_{n_k}.
+		\]
+		Since $n_k$ is coprime to each of $n_1, \dots, n_{k-1}$, it is coprime to their product $N$. By Theorem~\ref{thm:ZnZm}, $\Z_N \times \Z_{n_k} \cong \Z_{N n_k} = \Z_{n_1 \cdots n_k}$, which is cyclic.
+		
+		\vspace{0.5em}
+		\noindent ($\Rightarrow$) Suppose $G = \Z_{n_1} \times \cdots \times \Z_{n_k}$ is cyclic and let $i \neq j$. The set of elements of $G$ whose coordinates are $\bar{0}$ outside positions $i$ and $j$ is a subgroup of $G$ isomorphic to $\Z_{n_i} \times \Z_{n_j}$. Every subgroup of a cyclic group is cyclic, so $\Z_{n_i} \times \Z_{n_j}$ is cyclic, and Theorem~\ref{thm:ZnZm} gives $\gcd(n_i, n_j) = 1$.
+	\end{proof}
+	
 \begin{exercise}
 
 	\begin{enumerate}
@@ -906,6 +935,11 @@
 		\]
 	\end{corollary}
 	
+	% Muhammed Alaa El-Din: I made a proof for this corollary, deducing it from the new n-factor theorem (Theorem "Several Factors" in Lecture 2), since the two-factor theorem alone does not cover it.
+	\begin{proof}
+		Two prime powers $p_i^{e_i}$ and $p_j^{e_j}$ (with $e_i, e_j \ge 1$) are coprime if and only if $p_i \neq p_j$. Since $\Z_{p_1^{e_1} \cdots p_n^{e_n}}$ is cyclic, the product is isomorphic to it if and only if the product is cyclic, i.e.\ (by Theorem~\ref{thm:severalfactors}) if and only if the $p_i^{e_i}$ are pairwise coprime, i.e.\ if and only if the $p_i$ are distinct.
+	\end{proof}
+	
 	
 	\begin{example}
 		\begin{itemize}
@@ -918,6 +952,8 @@
 			\Z_2 \times \Z_5 \times \Z_4 &\cong \Z_{10} \times \Z_4, \quad \gcd(2,5)=1.
 		\end{align*}
 		Since $\gcd(10,4) = 2 \neq 1$, the group $\Z_{10} \times \Z_4$ is not cyclic, whereas $\Z_{40}$ is cyclic. Hence $\Z_2 \times \Z_5 \times \Z_4 \ncong \Z_{40}$, and the answer is \textbf{no}.
+		% Muhammed Alaa El-Din: I made a note that this also follows at once from Theorem "Several Factors", since gcd(2,4) = 2.
+		(Alternatively, by Theorem~\ref{thm:severalfactors}: $\gcd(2,4) = 2 \neq 1$, so the product is not cyclic.)
 	\end{example}
 		
 \begin{example}
@@ -1079,6 +1115,7 @@ The two alternatives are genuinely different: $\Z_4$ has an element of order $4$
 	
 	
 	\begin{proposition}
+		\label{prop:counting}
 		Let $H, K$ be normal subgroups of a finite group $G$ such that $|G| = |H||K|$.
 		If $G = HK$ or $H \cap K = \{e\}$, then $G = H \times K$.
 	\end{proposition}
@@ -1179,21 +1216,34 @@ The two alternatives are genuinely different: $\Z_4$ has an element of order $4$
 		Does $G = H_1 \oplus H_2 \oplus H_3$? Explain your answer.
 	\end{example}
 	
+	% Muhammed Alaa El-Din: I made the solution check condition 3 of the definition directly; the original argued via non-uniqueness of representation, but the uniqueness criterion was only proved for two factors.
 	\noindent \textbf{Solution:}
 	Since $G$ is abelian, every subgroup of $G$ is normal.
 	\[H_1 = \{(a, 0) \mid a \in A\} \trianglelefteq G\]
 	\[H_2 = \{(0, a) \mid a \in A\} \trianglelefteq G\]
 	\[H_3 = \{(a, a) \mid a \in A\} \trianglelefteq G\]
-	Pick $a \neq 0$ (possible since $A \neq \{0\}$). Then $(a, a) = (a, 0) + (0, a) + (0, 0) = (0, 0) + (0, 0) + (a, a)$.
-	Then $G$ is not an internal direct sum of $H_1, H_2, H_3$.
+	Every $(x, y) \in G$ can be written as
+	\[
+	(x, y) = (0, y - x) + (x, x) \in H_2 + H_3,
+	\]
+	so $H_2 + H_3 = G$. Hence
+	\[
+	H_1 \cap (H_2 + H_3) = H_1 \cap G = H_1 \neq \{(0,0)\},
+	\]
+	since $A \neq \{0\}$. So condition 3 of the definition fails, and $G$ is \textbf{not} the internal direct sum $H_1 \oplus H_2 \oplus H_3$.
+	
+	\vspace{0.5em}
+	\noindent Observe that the \emph{pairwise} intersections are all trivial here: $H_1 \cap H_2 = H_1 \cap H_3 = H_2 \cap H_3 = \{(0,0)\}$. So condition 3 cannot be weakened to $G_i \cap G_j = \{e\}$ for $i \neq j$.
 	
 	
+	% Muhammed Alaa El-Din: I made a proof that works for internal products; the original used tuple notation (0, ..., x_i, ...) from the external product, which has no meaning for subgroups of G, and wrote 0 instead of e. I also added that the converse fails.
 	\begin{remark}
-$G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \neq j$.
-		If not, let $x \in G_i \cap G_j \implies x \in G_i, x \in G_j$.
-		\[ x = (0, 0, \dots, x_i, \dots) = (0, 0, \dots, x_j, \dots).
+		If $G = G_1 \times \dots \times G_n$ (internal), then $G_i \cap G_j = \{e\}$ for all $i \neq j$.
+		Indeed, for $j \neq i$ we have $G_j \subseteq \prod_{k \neq i} G_k$, hence
+		\[
+		G_i \cap G_j \subseteq G_i \cap \prod_{k \neq i} G_k = \{e\}.
 		\]
-		Then, $x=e$
+		The converse is false: in the previous example the pairwise intersections are trivial, but $G \neq H_1 \oplus H_2 \oplus H_3$.
 	\end{remark}
 	
 	
@@ -1204,12 +1254,18 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
     \lecturetitle{4}{Orders in Direct Products, Semi-Direct Products \& Finitely Generated Abelian Groups}
 	\rhead{Lecture 4}
 	
-	\begin{definition}{Order of an Element in a Direct Product}
-		The order of an element in the direct product is the least common multiple of the order of its components.
+	% Muhammed Alaa El-Din: I made this a proposition with a proof instead of a definition: the order of an element is already defined, so the lcm formula is a fact that must be proved. I also added the infinite-order case.
+	\begin{proposition}[Order of an Element in a Direct Product]
+		Let $x_i \in G_i$ have finite order for $i = 1, \dots, n$. Then the order of $(x_1, \dots, x_n)$ in $G_1 \times \cdots \times G_n$ is the least common multiple of the orders of its components:
 		\[
 		|(x_1, x_2, \dots, x_n)| = \operatorname{lcm}\big(|x_1|, |x_2|, \dots, |x_n|\big).
 		\]
-	\end{definition}
+		If some $x_i$ has infinite order, then $(x_1, \dots, x_n)$ has infinite order.
+	\end{proposition}
+	
+	\begin{proof}
+		For $k \in \Z$, $(x_1, \dots, x_n)^k = (x_1^k, \dots, x_n^k)$, which equals the identity if and only if $x_i^k = e$ for all $i$, i.e.\ if and only if $|x_i|$ divides $k$ for all $i$, i.e.\ if and only if $\operatorname{lcm}(|x_1|, \dots, |x_n|)$ divides $k$. The least positive such $k$ is the lcm itself. If $|x_i| = \infty$, then $x_i^k \neq e$ for every $k \ge 1$, so no positive power of $(x_1, \dots, x_n)$ is the identity.
+	\end{proof}
 	
 	\begin{example}
 		In $\Z_7 \times \Z_7$, find $|(\bar{2}, \bar{5})|$.
@@ -1325,6 +1381,11 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 		\]
 	\end{definition}
 	
+	% Muhammed Alaa El-Din: I made the general (not necessarily abelian) definition explicit, because the original example list included Q_8 and D_8, which are non-abelian and so are not covered by the definition above.
+	\begin{remark}
+		More generally, an arbitrary (not necessarily abelian) group $G$ is \textbf{finitely generated} if there is a finite subset $S \subseteq G$ such that every element of $G$ is a finite product of elements of $S$ and their inverses (a ``word'' in $S$). For abelian groups the factors of such a word can be collected, which gives the form in the definition above.
+	\end{remark}
+	
 	\begin{example}
 		\textbf{(Klein 4-group)} $V_4 = \langle a, b \mid a^2 = b^2 = (ab)^2 = e \rangle$. Since $a^2 = b^2 = e$ and $ab = ba$, every element has the form $a^i b^j$ and
 		\[
@@ -1333,13 +1394,17 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 		So $V_4$ is finitely generated.
 	\end{example}
 	
+	% Muhammed Alaa El-Din: I made this list split into abelian and non-abelian examples.
 	\begin{example}
-		The following groups are finitely generated:
+		The following abelian groups are finitely generated:
 		\begin{itemize}
-			\item $Q_8 = \langle a, b \mid a^4 = e,\ b^2 = a^2,\ bab^{-1} = a^{-1} \rangle$,
-			\item $D_8 = \langle a, b \mid a^4 = b^2 = e,\ bab = a^3 \rangle$,
 			\item $\Z \times \Z_4 = \langle (1, \bar{0}), (0, \bar{1}) \rangle$,
 			\item $\Z \times \Z_2 = \langle (1, \bar{0}), (0, \bar{1}) \rangle$.
+		\end{itemize}
+		The following \emph{non-abelian} groups are finitely generated in the general sense of the Remark:
+		\begin{itemize}
+			\item $Q_8 = \langle a, b \mid a^4 = e,\ b^2 = a^2,\ bab^{-1} = a^{-1} \rangle$,
+			\item $D_8 = \langle a, b \mid a^4 = b^2 = e,\ bab = a^3 \rangle$.
 		\end{itemize}
 	\end{example}
 	
@@ -1351,8 +1416,9 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 		where $p_i$ are primes not necessarily distinct, and $e_i$ are positive integers, this direct product is unique except for possible rearrangement of factors.
 	\end{theorem}
 	
+	% Muhammed Alaa El-Din: I made it explicit that the uniqueness part is not proved in these notes.
 	\begin{takeaway}
-		For a \textbf{finite} abelian group, $k = 0$ (no copies of $\Z$) and the group is a direct product of cyclic groups of prime-power order. The rest of this lecture proves this existence statement step by step: first splitting off the $p$-part (Lemma and Corollary below), then splitting a $p$-group into cyclic pieces.
+		For a \textbf{finite} abelian group, $k = 0$ (no copies of $\Z$) and the group is a direct product of cyclic groups of prime-power order. The rest of this lecture proves this existence statement step by step: first splitting off the $p$-part (Lemma and Corollary below), then splitting a $p$-group into cyclic pieces. The \emph{uniqueness} part of the theorem is not proved in these notes; we quote it.
 	\end{takeaway}
 	
 	\begin{lemma}
@@ -1384,17 +1450,43 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 		\noindent By (2), (3), (4) and the definition of the internal direct product, $G = M \times N$.
 	\end{proof}
 	
+	% Muhammed Alaa El-Din: I made this new lemma (Cauchy's theorem for abelian groups), because the corollary below needs it to show that |P| is a power of p and that p does not divide |T|.
+	\begin{lemma}[Cauchy's Theorem, Abelian Case]
+		\label{lem:cauchy}
+		Let $G$ be a finite abelian group and $p$ a prime dividing $|G|$. Then $G$ has an element of order $p$.
+	\end{lemma}
+	
+	\begin{proof}
+		Strong induction on $|G|$. Since $p \mid |G|$, we have $|G| > 1$; pick $a \in G$ with $a \neq e$ and let $m = |a|$.
+		
+		\vspace{0.5em}
+		\noindent \emph{If $p \mid m$}, then $a^{m/p}$ has order $p$, and we are done.
+		
+		\vspace{0.5em}
+		\noindent \emph{If $p \nmid m$}, let $N = \langle a \rangle$. Then $N \trianglelefteq G$ (as $G$ is abelian), $|G/N| = |G|/m$ is divisible by $p$ (since $p \mid |G|$ and $p \nmid m$), and $|G/N| < |G|$ (since $m > 1$). By induction, $G/N$ has an element $bN$ of order $p$. Since $b^{|b|} = e$, we get $(bN)^{|b|} = N$, so $p \mid |b|$. Then $b^{|b|/p}$ has order $p$.
+	\end{proof}
+	
 	\begin{corollary}
 		\label{cor:groupsplitting}
 		Let $G$ be a finite abelian group and $p$ be a prime dividing $|G|$. Then $G = P \times T$ for some subgroup $P$ and $T$, where $|P| = p^n$, $n > 0$ and $|T|$ is not divisible by $p$.
 	\end{corollary}
 	
+	% Muhammed Alaa El-Din: I made the proof complete: the original only showed G = P x T, but never that |P| = p^s (in particular |P| > 1) or that p does not divide |T|. This uses the new Lemma (Cauchy).
 	\begin{proof}
 		Write $|G| = p^s t$ with $s \geq 1$ and $\gcd(t, p) = 1$. Let
 		\[
 		P = \{x \in G \mid x^{p^s} = e\}, \qquad T = \{x \in G \mid x^{t} = e\}.
 		\]
-		By Lemma~\ref{lem:coprime} (with $m = p^s$ and $n = t$), $G = P \times T$.
+		By Lemma~\ref{lem:coprime} (with $m = p^s$ and $n = t$), $G = P \times T$. In particular $|G| = |P||T|$ (because $P \cap T = \{e\}$).
+		
+		\vspace{0.5em}
+		\noindent \emph{$|P|$ is a power of $p$.} If a prime $q \neq p$ divided $|P|$, then by Lemma~\ref{lem:cauchy} the group $P$ would contain an element $x$ of order $q$; but $x^{p^s} = e$ forces $q \mid p^s$, which is impossible.
+		
+		\vspace{0.5em}
+		\noindent \emph{$p \nmid |T|$.} If $p \mid |T|$, then $T$ would contain an element $y$ of order $p$; but $y^t = e$ forces $p \mid t$, which is impossible.
+		
+		\vspace{0.5em}
+		\noindent Hence $|P| = p^a$ for some $a \ge 0$ and $p \nmid |T|$. From $p^a |T| = |G| = p^s t$ we get $a = s$ and $|T| = t$. So $|P| = p^s$ with $s \geq 1$.
 	\end{proof}
 	
 	\begin{theorem}
@@ -1410,9 +1502,10 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 		We prove the theorem by induction on $n$. If $n = 1$, then $|G| = p$ and $G$ is already a cyclic group generated by an element, say $a$, that is, $G = \langle a \rangle = \langle a \rangle \times \{e\}$.
 		
 		\vspace{0.5em}
-		\noindent Now, suppose that the theorem is true for all $m < n$. If there exists an element $b \in G$ such that $b \notin A = \langle a \rangle$ and $b^p = e$, we show that the theorem is correct. Let $B = \langle b \rangle$ be the subgroup of $G$ generated by $b$. Thus $A \cap B = \{e\}$. Let $\Bar{G} = G/B$. By assumption $B \neq \{e\}$. Hence
+		% Muhammed Alaa El-Din: I made the reason for A \cap B = {e} explicit (|B| = p is prime and b is not in A).
+		\noindent Now, suppose that the theorem is true for all $m < n$. If there exists an element $b \in G$ such that $b \notin A = \langle a \rangle$ and $b^p = e$, we show that the theorem is correct. Let $B = \langle b \rangle$ be the subgroup of $G$ generated by $b$. Since $b \notin A$ we have $b \neq e$, so $|B| = |b| = p$. The subgroup $A \cap B$ of $B$ has order dividing the prime $p$, so $A \cap B = \{e\}$ or $A \cap B = B$; the latter would give $b \in A$. Thus $A \cap B = \{e\}$. Let $\Bar{G} = G/B$. Since $B \neq \{e\}$,
 		\[
-		|\bar{G}| < |G|.
+		|\bar{G}| = p^{n-1} < |G|.
 		\]
 		
 		\vspace{0.5em}
@@ -1423,11 +1516,30 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 		On the other hand, $\bar{a}^{|\bar{a}|} = \bar{e}$, so $a^{|\bar{a}|} \in B$, and since $a^{|\bar{a}|} \in A$, we see that $a^{|\bar{a}|} \in A \cap B = \{e\}$, whence $a^{|\bar{a}|} = e$. This tells us that $|a|$ divides $|\bar{a}|$. Hence $|a| = |\bar{a}|$.
 		
 		\vspace{0.5em}
-		\noindent Since $\bar{a}$ is an element of maximal order in $\bar{G}$, by the induction we know that
+		% Muhammed Alaa El-Din: I made the maximality of the order of \bar{a} in \bar{G} justified; the original only asserted it.
+		\noindent Moreover, $\bar{a}$ has maximal order in $\bar{G}$: for any $\bar{x} = Bx \in \bar{G}$ we have $\bar{x}^{|x|} = Bx^{|x|} = B$, so $|\bar{x}|$ divides $|x|$, and therefore
+		\[
+		|\bar{x}| \le |x| \le |a| = |\bar{a}|.
+		\]
+		Hence, by the induction hypothesis applied to $\bar{G}$ (of order $p^{n-1}$),
 		\[
 		\bar{G} = \langle \bar{a} \rangle \times T \quad \text{for some subgroup } T \text{ of } \bar{G}.
 		\]
-		By the Second Homomorphism Theorem, we also know that $T = Q/B$ for some subgroup $Q$ of $G$. We claim that $G = A \times Q$. If not, then $A \cap Q \neq \{e\}$; let $u \in A \cap Q$. Then $u = a^i \in Q$, so $\bar{a}^i \in Q/B = T$, and since $\langle \bar{a} \rangle \cap T = \{\bar{e}\}$, we have that $\bar{a}^i = \bar{e}$, hence $a^i \in B$. But $a^i \in A$ and $A \cap B = \{e\}$; therefore, $a^i = e$, which is to say, $u = a^i = e$. Therefore, $A \cap Q = \{e\}$ and we obtain that
+		% Muhammed Alaa El-Din: I made the citation correct: the result that gives T = Q/B is the Correspondence (Lattice / Fourth Isomorphism) Theorem, not the Second Homomorphism Theorem.
+		By the Correspondence Theorem (also called the Lattice or Fourth Isomorphism Theorem), $T = Q/B$ for some subgroup $Q$ of $G$ with $B \le Q$.
+		
+		\vspace{0.5em}
+		% Muhammed Alaa El-Din: I made the argument for G = A x Q complete. The original said "If not, then A \cap Q \neq {e}", but A \cap Q = {e} alone does not give G = AQ; I added the order count |A||Q| = |G| and used the Proposition of Lecture 3.
+		\noindent \emph{Claim 1: $A \cap Q = \{e\}$.} Let $u \in A \cap Q$. Then $u = a^i \in Q$, so $\bar{a}^i \in Q/B = T$, and since $\langle \bar{a} \rangle \cap T = \{\bar{e}\}$, we have that $\bar{a}^i = \bar{e}$, hence $a^i \in B$. But $a^i \in A$ and $A \cap B = \{e\}$; therefore, $a^i = e$, which is to say, $u = a^i = e$.
+		
+		\vspace{0.5em}
+		\noindent \emph{Claim 2: $|A||Q| = |G|$.} Since $\bar{G} = \langle \bar{a} \rangle \times T$, we have $|\bar{G}| = |\bar{a}|\,|T|$, so
+		\[
+		|Q| = |Q/B|\,|B| = |T| \cdot p = \frac{|\bar{G}|}{|\bar{a}|}\cdot p = \frac{p^{n-1}}{|a|}\cdot p = \frac{|G|}{|A|}.
+		\]
+		
+		\vspace{0.5em}
+		\noindent Since $G$ is abelian, $A, Q \trianglelefteq G$. By Claims 1 and 2 and Proposition~\ref{prop:counting},
 		\[
 		G = A \times Q.
 		\]
@@ -1483,6 +1595,7 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 		A finite abelian group is a direct product of cyclic groups.
 	\end{theorem}
 	
+	% Muhammed Alaa El-Din: I made the indices consistent: all A_i come from the same prime p (so A_i ~ Z_{p^{a_i}}, not Z_{p_i^{e_i}}), and the letters j and l were used both as counts and as indices; I renamed them.
 	\begin{proof}
 		Let $G$ be a finite abelian group.
 		
@@ -1495,27 +1608,29 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 		\[
 		P = A_1 \times A_2 \times \cdots \times A_r, \qquad \text{each } A_i \text{ cyclic.}
 		\]
+		Each $A_i$ is a subgroup of $P$, so its order divides $p^n$; hence $A_i \cong \Z_{p^{a_i}}$ for some $a_i \ge 1$.
 		
 		\vspace{0.5em}
-		\noindent \textbf{Step 2: repeat on $T$.} Let $q$ be a prime dividing $|T|$. Again by the same corollary~\ref{cor:groupsplitting},
+		\noindent \textbf{Step 2: repeat on $T$.} Let $q$ be a prime dividing $|T|$ (necessarily $q \neq p$). Again by the same corollary~\ref{cor:groupsplitting},
 		\[
 		T = Q \times R, \qquad |Q| = q^m, \quad q \nmid |R|,
 		\]
-		and, as before, $Q = B_1 \times B_2 \times \cdots \times B_j$ with each $B_i$ cyclic.
+		and, as before, $Q = B_1 \times B_2 \times \cdots \times B_u$ with each $B_i \cong \Z_{q^{b_i}}$ cyclic.
 		
 		\vspace{0.5em}
 		\noindent \textbf{Step 3: conclude.} Repeating this method on $R$, and so on, the orders strictly decrease, so the process terminates and we get
 		\[
-		G = A_1 \times \cdots \times A_r \times B_1 \times \cdots \times B_j \times S_1 \times \cdots \times S_l,
+		G = A_1 \times \cdots \times A_r \times B_1 \times \cdots \times B_u \times \cdots \times S_1 \times \cdots \times S_v,
 		\]
-		where all $A_i, B_i, S_k$ are cyclic of prime-power order:
+		where every factor is cyclic of prime-power order:
 		\[
-		A_i \cong \Z_{p_i^{e_i}}, \qquad B_j \cong \Z_{p_j^{e_j}}, \qquad S_k \cong \Z_{p_k^{e_k}}.
+		A_i \cong \Z_{p^{a_i}}, \qquad B_i \cong \Z_{q^{b_i}}, \qquad \dots, \qquad S_i \cong \Z_{r^{c_i}}.
 		\]
-		Thus
+		Relabeling all factors, we obtain
 		\[
-		G \cong \Z_{p_1^{e_1}} \times \Z_{p_2^{e_2}} \times \cdots \times \Z_{p_m^{e_m}}. \qedhere
+		G \cong \Z_{p_1^{e_1}} \times \Z_{p_2^{e_2}} \times \cdots \times \Z_{p_m^{e_m}},
 		\]
+		where the primes $p_1, \dots, p_m$ are not necessarily distinct. \qedhere
 	\end{proof}
 	
 	% ------------------------------------------
@@ -1523,16 +1638,18 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 	\newpage
 	\subsection{Counting Abelian Groups of a Given Order}
 	
+	% Muhammed Alaa El-Din: I made the notation \mathcal{P}(n) replace \mathcal{G}(p) throughout this subsection: the set of partitions depends on n, not on p, and \mathcal{G}(p) was used for partitions of different integers in the same example.
 	\begin{definition}{Partitions}
 		Let $G$ be a finite abelian group of order $p^n$. By the Fundamental Theorem of Finite Abelian Groups,
 		\[
 		G \cong \Z_{p^{n_1}} \times \Z_{p^{n_2}} \times \cdots \times \Z_{p^{n_k}}, \qquad n = n_1 + n_2 + \cdots + n_k, \quad n_1 \geq n_2 \geq \cdots \geq n_k \geq 1.
 		\]
-		That is, $(n_1, n_2, \dots, n_k)$ is a \textbf{partition} of $n$. We denote the set of all partitions of $n$ by $\mathcal{G}(p)$.
+		That is, $(n_1, n_2, \dots, n_k)$ is a \textbf{partition} of $n$. We denote the set of all partitions of $n$ by $\mathcal{P}(n)$.
 	\end{definition}
 	
+	% Muhammed Alaa El-Din: I made it explicit that this count relies on the (quoted, unproved) uniqueness part of the Fundamental Theorem.
 	\begin{takeaway}
-		The number of non-isomorphic abelian groups of order $p^n$ is $|\mathcal{G}(p)|$, the number of partitions of $n$.
+		The number of non-isomorphic abelian groups of order $p^n$ is $|\mathcal{P}(n)|$, the number of partitions of $n$. (Existence of the decomposition was proved above; that different partitions give non-isomorphic groups is the uniqueness part of the Fundamental Theorem, which we quote.)
 	\end{takeaway}
 	
 	\begin{example}
@@ -1541,9 +1658,9 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 		\vspace{0.5em}
 		\noindent \textbf{Solution:} By the Fundamental Theorem of Finite Abelian Groups, each such group is a product $\Z_{2^{n_1}} \times \cdots \times \Z_{2^{n_k}}$ with $n_1 + \cdots + n_k = 5$. So we list the partitions of $5$:
 		\[
-		\mathcal{G}(2) = \{(5),\ (4,1),\ (3,2),\ (3,1,1),\ (2,2,1),\ (2,1,1,1),\ (1,1,1,1,1)\}.
+		\mathcal{P}(5) = \{(5),\ (4,1),\ (3,2),\ (3,1,1),\ (2,2,1),\ (2,1,1,1),\ (1,1,1,1,1)\}.
 		\]
-		Hence $|\mathcal{G}(2)| = 7$, and there are exactly $7$ non-isomorphic abelian groups of order $32$:
+		Hence $|\mathcal{P}(5)| = 7$, and there are exactly $7$ non-isomorphic abelian groups of order $32$:
 		\begin{align*}
 			G_1 &= \Z_{2^5}, & G_2 &= \Z_{2^4} \times \Z_2, & G_3 &= \Z_{2^3} \times \Z_{2^2},\\
 			G_4 &= \Z_{2^3} \times \Z_2 \times \Z_2, & G_5 &= \Z_{2^2} \times \Z_{2^2} \times \Z_2, & G_6 &= \Z_{2^2} \times \Z_2 \times \Z_2 \times \Z_2,\\
@@ -1566,16 +1683,16 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 		\noindent \textbf{Solution:}
 		
 		\vspace{0.5em}
-		\noindent \textbf{Case $p = q$.} Then $|G| = p^5$, the types are $(5), (4,1), \dots$, and the number of non-isomorphic abelian groups is $|\mathcal{G}(p)| = 7$, e.g. $G_1 \cong \Z_{p^5}$, $G_2 \cong \Z_{p^4} \times \Z_p, \dots$
+		\noindent \textbf{Case $p = q$.} Then $|G| = p^5$, the types are $(5), (4,1), \dots$, and the number of non-isomorphic abelian groups is $|\mathcal{P}(5)| = 7$, e.g. $G_1 \cong \Z_{p^5}$, $G_2 \cong \Z_{p^4} \times \Z_p, \dots$
 		
 		\vspace{0.5em}
-		\noindent \textbf{Case $p \neq q$.} The $p$-part has types
+		\noindent \textbf{Case $p \neq q$.} The $p$-part has order $p^2$, so its types are
 		\[
-		\mathcal{G}(p) = \{(2),\ (1,1)\},
+		\mathcal{P}(2) = \{(2),\ (1,1)\},
 		\]
-		and the $q$-part has types
+		and the $q$-part has order $q^3$, so its types are
 		\[
-		\mathcal{G}(q) = \{(3),\ (2,1),\ (1,1,1)\}.
+		\mathcal{P}(3) = \{(3),\ (2,1),\ (1,1,1)\}.
 		\]
 		Choosing one type for each prime, the number of non-isomorphic abelian groups of order $p^2 q^3$ is $2 \times 3 = 6$:
 		\begin{center}
@@ -1600,13 +1717,13 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 		\vspace{0.5em}
 		\noindent \textbf{Solution:} Factor $|G| = 1333584 = 2^4 \cdot 3^5 \cdot 7^3$. The types for each prime are:
 		\begin{align*}
-			\mathcal{G}(2) &= \{(4),\ (3,1),\ (2,2),\ (2,1,1),\ (1,1,1,1)\}, & |\mathcal{G}(2)| &= 5,\\
-			\mathcal{G}(3) &= \{(5),\ (4,1),\ \dots\}, & |\mathcal{G}(3)| &= 7,\\
-			\mathcal{G}(7) &= \{(3),\ (2,1),\ (1,1,1)\}, & |\mathcal{G}(7)| &= 3.
+			\text{$2$-part: } \mathcal{P}(4) &= \{(4),\ (3,1),\ (2,2),\ (2,1,1),\ (1,1,1,1)\}, & |\mathcal{P}(4)| &= 5,\\
+			\text{$3$-part: } \mathcal{P}(5) &= \{(5),\ (4,1),\ \dots\}, & |\mathcal{P}(5)| &= 7,\\
+			\text{$7$-part: } \mathcal{P}(3) &= \{(3),\ (2,1),\ (1,1,1)\}, & |\mathcal{P}(3)| &= 3.
 		\end{align*}
 		Hence the number of non-isomorphic abelian groups of order $|G|$ is
 		\[
-		|\mathcal{G}(2)| \cdot |\mathcal{G}(3)| \cdot |\mathcal{G}(7)| = 5 \times 7 \times 3 = \mathbf{105}.
+		|\mathcal{P}(4)| \cdot |\mathcal{P}(5)| \cdot |\mathcal{P}(3)| = 5 \times 7 \times 3 = \mathbf{105}.
 		\]
 	\end{example}
     
@@ -1641,16 +1758,17 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 		Every finite abelian group of square-free order is cyclic.
 	\end{theorem}
 	
+	% Muhammed Alaa El-Din: I made the proof correct: the original wrote G ~ Z_{p_1^{e_1}} x ... x Z_{p_n^{e_n}} with one factor per distinct prime, which the Fundamental Theorem does not say (e.g. Z_2 x Z_2). Now the factors are arbitrary prime-power cyclic groups and square-freeness forces them to be Z_{p_i} with distinct p_i.
 	\begin{proof}
-		Let $G$ be a finite abelian group of order $p_1^{e_1} p_2^{e_2} \cdots p_n^{e_n}$, where the $p_i$ are distinct primes. By the Fundamental Theorem of Finite Abelian Groups,
+		Let $G$ be a finite abelian group of square-free order $n = p_1 p_2 \cdots p_k$, where the $p_i$ are distinct primes. By the Fundamental Theorem of Finite Abelian Groups,
 		\[
-		G \cong \Z_{p_1^{e_1}} \times \Z_{p_2^{e_2}} \times \cdots \times \Z_{p_n^{e_n}}.
+		G \cong \Z_{q_1^{f_1}} \times \Z_{q_2^{f_2}} \times \cdots \times \Z_{q_m^{f_m}}, \qquad q_j \text{ primes (not necessarily distinct)},\ f_j \ge 1,
 		\]
-		But $|G|$ is square-free, so $e_1 = e_2 = \cdots = e_n = 1$. Then
+		so $n = q_1^{f_1} q_2^{f_2} \cdots q_m^{f_m}$. If some $f_j \ge 2$, or if $q_j = q_l$ for some $j \neq l$, then $n$ would be divisible by the square of a prime, a contradiction. Hence all $f_j = 1$ and the $q_j$ are distinct, so (after reordering) $m = k$ and
 		\[
-		G \cong \Z_{p_1} \times \Z_{p_2} \times \cdots \times \Z_{p_n} \cong \Z_{p_1 p_2 \cdots p_n},
+		G \cong \Z_{p_1} \times \Z_{p_2} \times \cdots \times \Z_{p_k} \cong \Z_{p_1 p_2 \cdots p_k},
 		\]
-		Since $\gcd(p_i, p_j) = 1$ for all $1 \leq i \neq j \leq n$. So $G$ is cyclic.
+		by Theorem~\ref{thm:severalfactors}, since $\gcd(p_i, p_j) = 1$ for all $i \neq j$. So $G$ is cyclic.
 	\end{proof}
 	
 	\begin{example}
@@ -1664,10 +1782,11 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 	% ==========================================================
 	\subsection{Group Actions}
 	
+	% Muhammed Alaa El-Din: I made the notation consistent: the map was named * but then written as g . a; I dropped the unused name *.
 	\begin{definition}{Group Action}
 		Let $G$ be a group and $S$ a non-empty set. We say that $G$ \textbf{acts on} $S$ if there is a map
 		\[
-		* : G \times S \longrightarrow S, \qquad (g, a) \longmapsto g \cdot a,
+		G \times S \longrightarrow S, \qquad (g, a) \longmapsto g \cdot a,
 		\]
 		which satisfies
 		\begin{enumerate}
@@ -1719,11 +1838,13 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 		Indeed, $ex = x$ and $(g_1 g_2)x = g_1(g_2 x)$ by associativity.
 	\end{example}
 	
+	% Muhammed Alaa El-Din: I made this definition use the same convention as the one in Lecture 6 (a = x^{-1} b x); the two definitions previously had the roles of the letters swapped.
 	\begin{definition}{Conjugate Elements}
-		Let $G$ be a group. Elements $x, y \in G$ are \textbf{conjugate} in $G$ if there exists $g \in G$ such that
+		Let $G$ be a group. Elements $a, b \in G$ are \textbf{conjugate} in $G$ if there exists $x \in G$ such that
 		\[
-		g^{-1} x g = y \qquad \Longleftrightarrow \qquad x = g y g^{-1}.
+		a = x^{-1} b x \qquad \Longleftrightarrow \qquad b = x a x^{-1}.
 		\]
+		(This notion is studied in detail in Lecture~6.)
 	\end{definition}
 	
 	\begin{example}
@@ -1877,17 +1998,19 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 % ------------------------------------------
 \subsection{Conjugacy}
 
+% Muhammed Alaa El-Din: I made the "equivalently" precise: a = x^{-1} b x and a = x b x^{-1} are equivalent only after replacing x by x^{-1}, i.e. for possibly different elements x.
 \begin{definition}{Conjugate Elements and Subgroups}
 	Let $G$ be a group and $a, b \in G$. We say that $a$ and $b$ are \textbf{conjugate} in $G$ if there exists $x \in G$ such that
 	\[
-	a = x^{-1} b x =: b^{x} \qquad \text{or equivalently} \qquad a = x b x^{-1}.
+	a = x^{-1} b x =: b^{x}.
 	\]
+	Equivalently, there exists $y \in G$ (namely $y = x^{-1}$) such that $a = y b y^{-1}$.
 \end{definition}
 
 \begin{remark}
     	Likewise, if $H, K \leq G$, we say that $H$ and $K$ are \textbf{conjugate} in $G$ if there exists $x \in G$ such that
 	\[
-	H = x^{-1} K x = K^{x} \qquad \text{or} \qquad K = H^{x}.
+	H = x^{-1} K x = K^{x}, \qquad \text{equivalently} \qquad K = x H x^{-1} = H^{x^{-1}}.
 	\]
 \end{remark}
 
@@ -1995,8 +2118,9 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 	\end{align*}
 	These three cosets exhaust $G$, so the left cosets are $\{\bar{0}+H,\ \bar{1}+H,\ \bar{2}+H\}$ and $[G : H] = 3$.
 \end{example}
+% Muhammed Alaa El-Din: I made the restriction n >= 1 explicit, since [Z : 0Z] = [Z : {0}] is infinite.
 \begin{example}
-	Let $G = \Z$ and $H = 3\Z = \{0, \pm 3, \pm 6, \dots\}$. Then $[\Z : 3\Z] = 3$. In general $[\Z : n\Z] = n$, even though $\Z$ is infinite.
+	Let $G = \Z$ and $H = 3\Z = \{0, \pm 3, \pm 6, \dots\}$. Then $[\Z : 3\Z] = 3$. In general $[\Z : n\Z] = n$ for $n \ge 1$, even though $\Z$ is infinite.
 \end{example}
 
 \begin{remark}
@@ -2124,10 +2248,11 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 	By the Orbit--Stabilizer Theorem, $|\orb(a)| = [G : G_a]$, that is, $|C_a| = [G : C_G(a)]$.
 \end{proof}
 
+% Muhammed Alaa El-Din: I made the sum run over one representative of each non-central conjugacy class. The original sum over all a \notin Z(G) counts each class |C_a| times; e.g. for S_3 it would give 1 + 3*3 + 2*2 = 14 instead of 6.
 \begin{theorem}[Class Equation of Groups]
-	Let $G$ be a finite group and $Z(G)$ its center. Then
+	Let $G$ be a finite group and $Z(G)$ its center. Let $a_{m+1}, \dots, a_n$ be representatives of the distinct conjugacy classes of $G$ that are not contained in $Z(G)$ (one representative from each such class). Then
 	\[
-	|G| = |Z(G)| + \sum_{a \notin Z(G)} |C_a|.
+	|G| = |Z(G)| + \sum_{i=m+1}^{n} |C_{a_i}| = |Z(G)| + \sum_{i=m+1}^{n} [G : C_G(a_i)].
 	\]
 \end{theorem}
 
@@ -2149,8 +2274,9 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 	\]
 	Therefore
 	\[
-	|G| = |C_{a_1}| + \dots + |C_{a_m}| + |C_{a_{m+1}}| + \dots + |C_{a_n}| = |Z(G)| + \sum_{a \notin Z(G)} |C_a|. \qedhere
+	|G| = |C_{a_1}| + \dots + |C_{a_m}| + |C_{a_{m+1}}| + \dots + |C_{a_n}| = |Z(G)| + \sum_{i=m+1}^{n} |C_{a_i}|,
 	\]
+	and $|C_{a_i}| = [G : C_G(a_i)]$ by the Lemma. \qedhere
 \end{proof}
 
 \begin{takeaway}
@@ -2176,24 +2302,25 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 	Let $G = A_4$. Use the class equation to find $|G|$.
 \end{exercise}
 
+% Muhammed Alaa El-Din: I made this example "verify the class equation" instead of "find |G|": the solution uses |G| = 8 (for Lagrange and for the p-group theorem), so finding |G| this way was circular. I also verified directly that a^2 is central, computed every conjugacy class completely (the original asserted C_{ab} without computation), and flagged the forward reference.
 \begin{example}
-	Let $G = D_8 = \langle a, b \mid a^4 = b^2 = e,\ aba = b \rangle$. Use the class equation to find $|G|$.
+	Let $G = D_8 = \langle a, b \mid a^4 = b^2 = e,\ aba = b \rangle$, a group of order $8$. Verify the class equation for $G$.
 	
 	\vspace{0.5em}
 	\noindent \textbf{Solution:} The group has the elements
 	\[
 	G = \{ e, a, a^2, a^3, b, ab, a^2 b, a^3 b \}.
 	\]
-	From $aba = b$ we get $ba = a^{-1} b = a^3 b$, hence $bab = a^3$.
+	From $aba = b$ we get $ba = a^{-1} b = a^3 b$, hence $bab = a^3$. More generally, $b a^k = a^{-k} b$ for all $k \in \Z$.
 	
 	\vspace{0.5em}
-	\noindent \textbf{Step 1: the size of the center.} Since $|G| = 2^3$ is a power of a prime, we will see in the next subsection that $Z(G) \neq \{e\}$. As $Z(G) \leq G$, Lagrange gives $|Z(G)| \in \{1, 2, 4, 8\}$.
+	\noindent \textbf{Step 1: the center.} Since $|G| = 2^3$ is a power of a prime, $Z(G) \neq \{e\}$ by the Theorem in the next subsection (whose proof does not use this example). As $Z(G) \leq G$, Lagrange gives $|Z(G)| \in \{1, 2, 4, 8\}$.
 	\begin{itemize}
 		\item $|Z(G)| \neq 1$ since $G$ is a $2$-group.
 		\item $|Z(G)| \neq 8$ since $G$ is not abelian ($ba = a^3 b \neq ab$).
 		\item If $|Z(G)| = 4$, then $|G/Z(G)| = 2$, so $G/Z(G)$ is cyclic and $G$ would be abelian, a contradiction.
 	\end{itemize}
-	Hence $|Z(G)| = 2$ and $Z(G) = \{e, a^2\}$.
+	Hence $|Z(G)| = 2$. Moreover $a^2 \in Z(G)$: it commutes with $a$, and $b a^2 = a^{-2} b = a^2 b$. Therefore $Z(G) = \{e, a^2\}$.
 	
 	\vspace{0.5em}
 	\noindent \textbf{Step 2: the conjugacy classes.}
@@ -2202,23 +2329,28 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 		\item if $x = a^k$, then $x^{-1} a x = a$ (powers of $a$ commute with $a$);
 		\item if $x = a^k b$, then $x^{-1} a x = b^{-1} a^{-k} a\, a^k b = b a b = a^3$.
 	\end{itemize}
-	So $C_a = \{ a, a^3 \}$. Similarly, $a^{-1} b a = a^{-1} (ba) = a^{-1} a^{3} b = a^2 b$, so
+	So $C_a = \{ a, a^3 \}$. For the elements $a^j b$, using $b a^k = a^{-k} b$ and $b^{-1} = b$:
+	\[
+	(a^k)^{-1} (a^j b)\, a^k = a^{j-k} a^{-k} b = a^{j-2k} b, \qquad
+	(a^k b)^{-1} (a^j b)\, (a^k b) = b\, a^{j-k}\, b\, a^k b = a^{k-j} a^{k} b = a^{2k-j} b.
+	\]
+	As $k$ varies, the exponents $j - 2k$ and $2k - j$ (modulo $4$) take exactly the two values with the same parity as $j$. Hence
 	\[
 	C_b = \{ b, a^2 b \}, \qquad C_{ab} = \{ ab, a^3 b \}.
 	\]
 	
 	\vspace{0.5em}
-	\noindent \textbf{Step 3: the class equation.}
+	\noindent \textbf{Step 3: the class equation.} The non-central classes are $C_a, C_b, C_{ab}$, so
 	\[
-	|G| = |Z(G)| + |C_a| + |C_b| + |C_{ab}| = 2 + 2 + 2 + 2 = 8.
+	|Z(G)| + |C_a| + |C_b| + |C_{ab}| = 2 + 2 + 2 + 2 = 8 = |G|.
 	\]
 \end{example}
 
+% Muhammed Alaa El-Din: I made the list without the old item 2, <a,b | a^4 = b^2 = e, ba = a^3 b>, because it is the same group as item 1 (bab = a^3 <=> ba = a^3 b, as b^2 = e).
 \begin{exercise}
 	By using the class equation of groups, find $|G|$, where
 	\begin{enumerate}
         \item $G = \langle a, b \mid a^4 = b^2 = e,\ bab = a^3 \rangle = D_8$
-		\item $G = \langle a, b \mid a^4 = b^2 = e,\ ba = a^3 b \rangle$
 		\item $G = \langle a, b \mid a^4 = e,\ b^2 = a^2,\ ba = a^3 b \rangle = Q_8$
 		\item $G = \langle a, b \mid a^3 = b^2 = e,\ ba = a^2 b \rangle$
 		\item $G = \langle a, b \mid a^7 = b^3 = e,\ ba = a^2 b \rangle$
@@ -2230,6 +2362,7 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 
 \subsection{The Center of a $p$-Group}
 
+% Muhammed Alaa El-Din: I made the sums in this proof run over class representatives, as in the corrected class equation.
 \begin{theorem}
 	Let $G$ be a group of order $p^n$, where $p$ is a prime and $n \geq 1$. Then $Z(G) \neq \{e\}$.
 \end{theorem}
@@ -2237,8 +2370,9 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 \begin{proof}
 	Consider the class equation
 	\[
-	|G| = |Z(G)| + \sum_{a \notin Z(G)} |C_a|.
+	|G| = |Z(G)| + \sum_{i=m+1}^{n'} |C_{a_i}|,
 	\]
+	where $a_{m+1}, \dots, a_{n'}$ are representatives of the distinct conjugacy classes not contained in $Z(G)$.
 	Let $a \notin Z(G)$. Then there exists $x \in G$ with $xa \neq ax$, so $x \notin C_G(a)$. Hence $C_G(a)$ is a proper subgroup of $G$, and by Lagrange
 	\[
 	|C_G(a)| = p^e \quad \text{with } e < n.
@@ -2249,7 +2383,7 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 	\]
 	so $p \mid |C_a|$ for every $a \notin Z(G)$. Now
 	\[
-	p^n = |Z(G)| + \sum_{a \notin Z(G)} [G : C_G(a)],
+	p^n = |Z(G)| + \sum_{i=m+1}^{n'} [G : C_G(a_i)],
 	\]
 	where $p \mid p^n$ and $p$ divides every term of the sum. Hence $p \mid |Z(G)|$, so $|Z(G)| \neq 1$, i.e.\ $Z(G) \neq \{e\}$.
 \end{proof}
@@ -2281,6 +2415,22 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 \begin{definition}{Core of a Subgroup}
 	Let $H$ be a subgroup of $G$. The \textbf{core} of $H$ in $G$, denoted $H_G$, is the largest normal subgroup of $G$ contained in $H$.
 \end{definition}
+
+% Muhammed Alaa El-Din: I made a proof that the "largest normal subgroup contained in H" actually exists (the definition presupposes it), with the explicit formula H_G = intersection of the conjugates of H. This works for any index, finite or not.
+\begin{proposition}[Existence of the Core]
+	For every $H \leq G$,
+	\[
+	H_G = \bigcap_{g \in G} g H g^{-1}.
+	\]
+\end{proposition}
+
+\begin{proof}
+	Let $N = \bigcap_{g \in G} g H g^{-1}$. It is a subgroup (an intersection of subgroups), and $N \subseteq eHe^{-1} = H$. For $x \in G$,
+	\[
+	x N x^{-1} = \bigcap_{g \in G} (xg) H (xg)^{-1} = N,
+	\]
+	because $xg$ runs over all of $G$ as $g$ does; so $N \trianglelefteq G$. Finally, if $K \trianglelefteq G$ and $K \subseteq H$, then $K = gKg^{-1} \subseteq gHg^{-1}$ for every $g$, so $K \subseteq N$. Hence $N$ is the largest normal subgroup of $G$ contained in $H$.
+\end{proof}
 
 \begin{remark}
 	\begin{itemize}
@@ -2394,8 +2544,12 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 	Let $H \leq G$ with $[G : H] = 2$. Then $H \trianglelefteq G$.
 \end{corollary}
 
+% Muhammed Alaa El-Din: I made the proof cover infinite groups too: the statement is for an arbitrary group G, but the original proof only treated finite G (via Theorem on smallest-prime index). The direct argument below works in general.
 \begin{proof}
-	If $G$ is finite, then $|G| = 2|H|$ is even and $2$ is the smallest prime dividing $|G|$; apply Theorem~\ref{thm:primeindex} with $p = 2$.
+	Let $g \in G$. If $g \in H$, then $gH = H = Hg$. If $g \notin H$, then, since there are only two left cosets and they partition $G$, we have $gH = G \setminus H$; likewise, there are only two right cosets, so $Hg = G \setminus H$. Hence $gH = Hg$ for all $g \in G$, i.e.\ $H \trianglelefteq G$.
+	
+	\vspace{0.5em}
+	\noindent (For finite $G$ this is also the case $p = 2$ of Theorem~\ref{thm:primeindex}, since $|G| = 2|H|$ is even and $2$ is the smallest prime.)
 \end{proof}
 
 % ------------------------------------------
@@ -2439,11 +2593,8 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 	\]
 \end{theorem}
 
+% Muhammed Alaa El-Din: I made the proof a single argument: the original split into the cases H = G and H != G, but the argument of the second case works verbatim when H = G, so the case split was unnecessary.
 \begin{proof}
-	\emph{Case 1: $H = G$.} Since $|G| = p^n$, we have $Z(G) \neq \{e\}$, so $H \cap Z(G) = G \cap Z(G) = Z(G) \neq \{e\}$.
-	
-	\vspace{0.5em}
-	\noindent \emph{Case 2: $H \neq G$.}
 	Since $H \leq G$, Lagrange gives $|H| = p^k$ for some $k$, and $H \neq \{e\}$ gives $k \geq 1$. Therefore
 	\[
 	|H| \equiv 0 \pmod{p}. \tag{1}
@@ -2462,7 +2613,7 @@ $G = G_1 \times \dots \times G_n \implies G_i \cap G_j = \{e\} \quad \forall i \
 	\[
 	|H \cap Z(G)| = |\Fix_H(G)| \equiv |H| \pmod{p}. \tag{2}
 	\]
-	From (1) and (2), $|H \cap Z(G)| \equiv 0 \pmod{p}$, so $p \mid |H \cap Z(G)|$. In particular $|H \cap Z(G)| \geq p > 1$, hence
+	From (1) and (2), $|H \cap Z(G)| \equiv 0 \pmod{p}$, so $p \mid |H \cap Z(G)|$. Since $e \in H \cap Z(G)$, this set is non-empty, so $|H \cap Z(G)| \geq p > 1$, hence
 	\[
 	H \cap Z(G) \neq \{e\}. \qedhere
 	\]
