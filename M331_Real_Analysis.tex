@@ -1012,4 +1012,526 @@
 		\]
 	\end{exercise}
 	
-\end{document}
+	% ==========================================================
+	%                       LECTURE 5
+	% ==========================================================
+	\lecturetitle{5}{Subsequences and Limit Points}
+	% \textit{Date: Oct 10, 2026}
+	
+	\subsection{Subsequences}
+	
+	\begin{definition}{Subsequence}
+		Let $\{k_n\}_{n=1}^{\infty}$ be a strictly increasing sequence of positive integers, i.e.
+		\[
+		k_1 < k_2 < k_3 < \cdots < k_n < \cdots
+		\]
+		Given a sequence $\{x_n\}_{n=1}^{\infty}$ and a strictly increasing sequence of indices $\{k_n\}_{n=1}^{\infty}$, we say that $\{x_{k_n}\}_{n=1}^{\infty}$ is a \textbf{subsequence} of $\{x_n\}_{n=1}^{\infty}$.
+	\end{definition}
+	
+	\begin{example}
+		The sequences $\{x_{2n}\}$, $\{x_{2n+1}\}$, $\{x_{n^2}\}$ and $\{x_{n^3}\}$ are subsequences of $\{x_n\}$.
+	\end{example}
+	
+	\begin{definition}{Limit Point of a Sequence}
+		In a metric space $(M,d)$, a point $x_0$ is called a \textbf{limit point} of the sequence $\{x_n\}_{n=1}^{\infty}\subseteq M$ if this sequence has a subsequence $\{x_{k_n}\}$ that tends to $x_0$.
+	\end{definition}
+	
+	\begin{example}
+		The sequence $1,-1,1,-1,\dots$, that is $\{(-1)^n\}_{n=1}^{\infty}$, has two limit points, $1$ and $-1$, since
+		\[
+		x_{2n}=1, \qquad x_{2n+1}=-1 \qquad \forall n\in\Z^+ .
+		\]
+	\end{example}
+	
+	\begin{caution}
+		A \emph{limit point of a sequence} (a limit of some subsequence) is not the same notion as an \emph{accumulation point of a set} (Lecture 3).
+	\end{caution}
+	
+	\subsection{Subsequences and Convergence}
+	
+	\begin{lemma}
+		If $\{k_n\}$ is a strictly increasing sequence of positive integers, then $k_n\ge n$ for all $n\in\Z^+$.
+	\end{lemma}
+	
+	\begin{proof}
+		We use induction on $n$. Since $k_1$ is a positive integer, $k_1\ge 1$. Suppose $k_m\ge m$ for some $m$. Then
+		\[
+		k_{m+1} > k_m \ge m \implies k_{m+1} > m \implies k_{m+1}\ge m+1 ,
+		\]
+		because the $k_n$ are integers.
+	\end{proof}
+	
+	\begin{theorem}
+		\label{thm:subseq}
+		The sequence $\{x_n\}_{n=1}^{\infty}$ converges to $x_0$ if and only if every subsequence of $\{x_n\}$ converges to $x_0$.
+	\end{theorem}
+	
+	\begin{proof}
+		\textbf{($\Rightarrow$)} Suppose that $x_n\to x_0$. Thus
+		\[
+		\forall \varepsilon>0 \ \ \exists N_\varepsilon\in\Z^+ \ \text{ s.t. } \ \forall n\in\Z^+ \quad n\ge N_\varepsilon \implies d(x_n,x_0)<\varepsilon .
+		\]
+		Let $\{x_{k_n}\}$ be any subsequence. Since $k_n\ge n$, we have
+		\[
+		\forall n\in\Z^+ \quad n\ge N_\varepsilon \implies k_n\ge N_\varepsilon \implies d(x_{k_n},x_0)<\varepsilon ,
+		\]
+		so $x_{k_n}\to x_0$.
+		
+		\medskip
+		\noindent\textbf{($\Leftarrow$)} Suppose that all subsequences of $\{x_n\}_{n=1}^{\infty}$ tend to $x_0$. Then $\{x_n\}$, being a subsequence of itself (take $k_n=n$), tends to $x_0$.
+	\end{proof}
+	
+	\begin{theorem}
+		\label{thm:cauchylimitpoint}
+		A Cauchy sequence cannot have more than one limit point.
+	\end{theorem}
+	
+	\begin{exercise}
+		Prove Theorem~\ref{thm:cauchylimitpoint}. \textit{(Assignment.)}
+	\end{exercise}
+	
+	\begin{theorem}
+		\label{thm:cauchy_converges}
+		If a Cauchy sequence has a limit point, then it converges.
+	\end{theorem}
+	
+	\begin{exercise}
+		Prove Theorem~\ref{thm:cauchy_converges}. \textit{(Assignment.)}
+	\end{exercise}
+	
+	% ==========================================================
+	%                       LECTURE 6
+	% ==========================================================
+	\lecturetitle{6}{Equivalent Metrics and Continuity}
+	% \textit{Date: Oct 17, 2026}
+	
+	\subsection{Equivalent Metrics}
+	
+	\begin{definition}{Equivalent Metrics}
+		Two metrics $d,\rho$ on the same non-empty set $M$ are called \textbf{equivalent} if there exist $\alpha,\beta\in\R^+$ such that
+		\[
+		\alpha\, d(x,y)\le \rho(x,y)\le \beta\, d(x,y) \qquad \forall x,y\in M .
+		\]
+	\end{definition}
+	
+	\begin{example}
+		On $M=\R^2$, the two metrics $d_1$ and $d_\infty$ are equivalent, where
+		\begin{align*}
+			d_1\bigl((x_1,y_1),(x_2,y_2)\bigr) &= |x_1-x_2|+|y_1-y_2| ,\\
+			d_\infty\bigl((x_1,y_1),(x_2,y_2)\bigr) &= \max\{|x_1-x_2|,\,|y_1-y_2|\} .
+		\end{align*}
+		Indeed,
+		\[
+		d_\infty \le d_1 \le 2\, d_\infty .
+		\]
+	\end{example}
+	
+	\begin{exercise}
+		What about $d_2$ (the Euclidean metric)? Is it equivalent to $d_1$ and $d_\infty$?
+	\end{exercise}
+	
+	\begin{exercise}
+		\begin{enumerate}[label=(\arabic*)]
+			\item Show that ``being equivalent'' is an equivalence relation on the set of metrics on $M$ (reflexive, symmetric, transitive).
+			\item Show that if $x_n\to x_0$ with respect to $d$, then $x_n\to x_0$ with respect to $\rho$.
+		\end{enumerate}
+	\end{exercise}
+	
+	\subsection{Continuity}
+	
+	Let $(X,d)$ and $(Y,\rho)$ be two metric spaces and let $f:X\to Y$ be a function.
+	
+	\begin{definition}{Continuity at a Point}
+		For $x_0\in X$, we say that $f$ is \textbf{continuous at $x_0$} if
+		\[
+		\forall \varepsilon>0 \ \ \exists \delta_\varepsilon>0 \ \text{ s.t. } \ \forall x\in X \quad d(x,x_0)<\delta_\varepsilon \implies \rho\bigl(f(x),f(x_0)\bigr)<\varepsilon .
+		\]
+	\end{definition}
+	
+	\begin{definition}{Continuous Function}
+		$f$ is called \textbf{continuous} if it is continuous at each $x_0\in X$, that is,
+		\[
+		\forall x_0\in X \ \ \forall \varepsilon>0 \ \ \exists \delta(\varepsilon,x_0)>0 \ \text{ s.t. } \ \forall x\in X \quad d(x,x_0)<\delta \implies \rho\bigl(f(x),f(x_0)\bigr)<\varepsilon .
+		\]
+	\end{definition}
+	
+	\begin{definition}{Uniform Continuity}
+		$f$ is called \textbf{uniformly continuous} on $X$ if
+		\[
+		\forall \varepsilon>0 \ \ \exists \delta_\varepsilon>0 \ \text{ s.t. } \ \forall x',x''\in X \quad d(x',x'')<\delta_\varepsilon \implies \rho\bigl(f(x'),f(x'')\bigr)<\varepsilon .
+		\]
+	\end{definition}
+	
+	\begin{remark}
+		In uniform continuity the number $\delta_\varepsilon$ depends only on $\varepsilon$, whereas in ordinary continuity it may also depend on the point $x_0$.
+	\end{remark}
+	
+	\begin{definition}{Lipschitz Condition}
+		A function $f:X\to Y$ is called \textbf{Lipschitz} if
+		\[
+		\exists L\in\R^+ \ \text{ s.t. } \ \rho\bigl(f(x'),f(x'')\bigr)\le L\, d(x',x'') \qquad \forall x',x''\in X .
+		\]
+		We write $f\in \mathrm{Lip}(X,Y)$.
+	\end{definition}
+	
+	\begin{remark}
+		Every $f\in \mathrm{Lip}(X,Y)$ must be uniformly continuous.
+	\end{remark}
+	
+	\begin{example}
+		Any linear function $f:\R\to\R$, $f(x)=ax+b$, is Lipschitz with respect to the usual metric. Indeed,
+		\[
+		|f(x')-f(x'')| = |a(x'-x'')| = |a|\,|x'-x''| ,
+		\]
+		so $L=|a|+1$ (any $L\ge |a|$ with $L>0$) works.
+	\end{example}
+	
+	\begin{remark}
+		If a function is differentiable with bounded derivative, then it is Lipschitz (by the Mean Value Theorem).
+	\end{remark}
+	
+	\begin{exercise}
+		Show that the function $f:\R\to\R$, $f(x)=x^2$, is \textbf{not} uniformly continuous.
+	\end{exercise}
+	
+	\noindent The following computation shows that $f(x)=x^2$ is continuous at every $a\in\R$, but with a $\delta$ that depends on $a$. Using
+	\[
+	x^2-a^2 = (x-a)^2+2a(x-a)
+	\]
+	we get
+	\begin{align*}
+		|x^2-a^2| &\le |x-a|^2 + 2|a|\,|x-a| \\
+		&= \bigl(|x-a|+|a|\bigr)^2 - a^2 .
+	\end{align*}
+	Hence $|x^2-a^2|<\varepsilon$ as soon as $\bigl(|x-a|+|a|\bigr)^2<\varepsilon+a^2$, that is,
+	\[
+	|x-a| < \sqrt{\varepsilon+a^2}-|a| =: \delta .
+	\]
+	
+	\begin{exercise}
+		Generalize the previous discussion to $f(x)=x^p$ with $p>1$.
+	\end{exercise}
+	
+	\begin{exercise}
+		The composition of continuous (respectively uniformly continuous) functions is continuous (respectively uniformly continuous).
+		\begin{enumerate}[label=(\arabic*)]
+			\item If $f$ is continuous at $x_0$ and $g$ is continuous at $y_0=f(x_0)$, then $g\circ f$ is continuous at $x_0$.
+			\item If $f$ and $g$ are uniformly continuous, then $g\circ f$ is uniformly continuous.
+		\end{enumerate}
+	\end{exercise}
+	
+	\subsection{Continuity in Terms of Open Balls}
+	
+	\begin{remark}
+		Continuity at a point $x_0$ can be written in terms of open balls. The condition
+		\[
+		\forall \varepsilon>0 \ \ \exists \delta>0 \ \text{ s.t. } \ \forall x\in X \quad d(x,x_0)<\delta \implies \rho\bigl(f(x),f(x_0)\bigr)<\varepsilon
+		\]
+		is equivalent to
+		\[
+		\forall \varepsilon>0 \ \ \exists \delta>0 \ \text{ s.t. } \ \forall x\in X \quad x\in B_d(x_0;\delta) \implies x\in f^{-1}\bigl[B_\rho\bigl(f(x_0);\varepsilon\bigr)\bigr],
+		\]
+		that is,
+		\[
+		\forall \varepsilon>0 \ \ \exists \delta>0 \ \text{ s.t. } \ B_d(x_0;\delta)\subseteq f^{-1}\bigl[B_\rho\bigl(f(x_0);\varepsilon\bigr)\bigr].
+		\]
+	\end{remark}
+	
+	\subsection{Global Continuity}
+	
+	\begin{theorem}
+		\label{thm:globalcont}
+		A function $f:(X,d)\to(Y,\rho)$ is continuous if and only if the inverse image $f^{-1}[G]$ of every open set $G\subseteq Y$ is open in $X$.
+	\end{theorem}
+	
+	
+	% ==========================================================
+	%                       LECTURE 7
+	% ==========================================================
+	\lecturetitle{7}{Sequential Continuity and Compactness}
+	% \textit{Date: Oct 20, 2026}
+	
+	\subsection{Sequential Continuity}
+	
+	\begin{theorem}[Sequential Continuity]
+		\label{thm:seqcont}
+		Let $f:(X,d)\to(Y,\rho)$ be a function and $x_0\in X$. Then
+		\[
+		f \text{ is continuous at } x_0 \iff \text{for any sequence } \{x_n\}_{n=1}^{\infty}\subseteq X \text{ with } x_n\to x_0, \ \ \lim_{n\to\infty} f(x_n)=f(x_0).
+		\]
+	\end{theorem}
+	
+	\begin{proof}
+		\textbf{($\Rightarrow$)} If $f$ is continuous at $x_0$, then
+		\[
+		\forall \varepsilon>0 \ \ \exists \delta_\varepsilon>0 \ \text{ s.t. } \ \forall x\in X \quad d(x,x_0)<\delta_\varepsilon \implies \rho\bigl(f(x),f(x_0)\bigr)<\varepsilon . \tag{1}
+		\]
+		Since $x_n\to x_0$, for this $\delta_\varepsilon>0$ there is $N\in\Z^+$ such that
+		\[
+		\forall n\in\Z^+ \quad n\ge N \implies d(x_0,x_n)<\delta_\varepsilon . \tag{2}
+		\]
+		From (1) and (2) we have
+		\[
+		\forall \varepsilon>0 \ \ \exists N\in\Z^+ \ \text{ s.t. } \ \forall n\ge N \quad \rho\bigl(f(x_0),f(x_n)\bigr)<\varepsilon ,
+		\]
+		which means $\lim_{n\to\infty} f(x_n)=f(x_0)$.
+		
+		\medskip
+		\noindent\textbf{($\Leftarrow$)} We prove the contrapositive. Suppose that $f$ is not continuous at $x_0$. Then
+		\[
+		\exists \varepsilon>0 \ \ \forall \delta>0 \ \ \exists x_\delta\in X \ \text{ s.t. } \ d(x_\delta,x_0)<\delta \ \text{ and } \ \rho\bigl(f(x_0),f(x_\delta)\bigr)\ge\varepsilon .
+		\]
+		Let $\delta_1=1,\ \delta_2=\tfrac12,\ \delta_3=\tfrac13$, and so on. Then there exist $x_1,x_2,x_3,\dots\in X$ such that
+		\[
+		d(x_n,x_0)<\tfrac1n \quad\text{and}\quad \rho\bigl(f(x_n),f(x_0)\bigr)\ge\varepsilon \qquad \forall n\in\Z^+ .
+		\]
+		Thus $x_n\to x_0$ but $f(x_n)\not\to f(x_0)$.
+	\end{proof}
+	
+	\begin{example}
+		Let
+		\[
+		f(x)=\begin{cases} \sin\!\left(\dfrac1x\right) & x\neq 0 \\[2mm] k & x=0 . \end{cases}
+		\]
+		Regardless of the value of $k$, this function is not continuous at $0$. Consider
+		\[
+		x_n=\frac{1}{2n\pi+\pi/2}\to 0, \qquad y_n=\frac{1}{n\pi}\to 0 .
+		\]
+		Then $f(x_n)=\sin\!\bigl(2n\pi+\tfrac{\pi}{2}\bigr)=1$ and $f(y_n)=\sin(n\pi)=0$ for all $n$. If $f$ were continuous at $0$, Theorem~\ref{thm:seqcont} would give $f(x_n)\to f(0)=k$ and $f(y_n)\to k$, hence $k=1$ and $k=0$, a contradiction.
+	\end{example}
+	
+	\subsection{Uniform Continuity and Cauchy Sequences}
+	
+	\begin{theorem}
+		Uniformly continuous functions preserve Cauchy sequences. That is, if $f:(X,d)\to(Y,\rho)$ is uniformly continuous and $\{x_n\}_{n=1}^{\infty}$ is Cauchy in $X$, then $\{f(x_n)\}_{n=1}^{\infty}$ is Cauchy in $Y$.
+	\end{theorem}
+	
+	\begin{proof}
+		Since $f$ is uniformly continuous,
+		\[
+		\forall \varepsilon>0 \ \ \exists \delta_\varepsilon>0 \ \text{ s.t. } \ \forall x',x''\in X \quad d(x',x'')<\delta_\varepsilon \implies \rho\bigl(f(x'),f(x'')\bigr)<\varepsilon . \tag{1}
+		\]
+		Since $\{x_n\}\subseteq X$ is Cauchy, for the number $\delta_\varepsilon>0$ there is $N\in\Z^+$ such that
+		\[
+		\forall m,n\ge N \quad d(x_n,x_m)<\delta_\varepsilon . \tag{2}
+		\]
+		From (1) and (2),
+		\[
+		\forall \varepsilon>0 \ \ \exists N\in\Z^+ \ \text{ s.t. } \ \forall m,n\ge N \quad \rho\bigl(f(x_n),f(x_m)\bigr)<\varepsilon ,
+		\]
+		so $\{f(x_n)\}_{n=1}^{\infty}$ is Cauchy in $Y$.
+	\end{proof}
+	
+	\begin{caution}
+		The converse is not true. The function $f(x)=x^2$ is not uniformly continuous on $\R$, but it preserves Cauchy sequences (a Cauchy sequence in $\R$ converges, and a continuous function maps a convergent sequence to a convergent sequence).
+	\end{caution}
+	
+	\subsection{Compactness}
+	
+	\begin{definition}{Open Cover}
+		A collection $\{G_i : i\in I\}$ of open sets is called an \textbf{open cover} for the set $K$ if
+		\[
+		K\subseteq \bigcup_{i\in I} G_i .
+		\]
+		(More generally, $\{G_i:i\in I\}$ is a \textbf{cover} for $A$ if $A\subseteq\bigcup_{i\in I}G_i$.)
+	\end{definition}
+	
+	\begin{definition}{Subcover}
+		By a \textbf{subcover} of $\{G_i:i\in I\}$ we mean a collection $\{G_j:j\in J\}$ where $J\subseteq I$ which also covers $A$, that is,
+		\[
+		A\subseteq\bigcup_{j\in J} G_j .
+		\]
+	\end{definition}
+	
+	\begin{definition}{Compact Set}
+		A subset $K$ of a metric space $(X,d)$ is called \textbf{compact} if every open cover of $K$ has a finite subcover. That is, whenever
+		\[
+		K\subseteq\bigcup_{i\in I} G_i \quad (G_i \text{ open}),
+		\]
+		there exist $i_1,\dots,i_n\in I$ such that
+		\[
+		K\subseteq G_{i_1}\cup G_{i_2}\cup\cdots\cup G_{i_n} .
+		\]
+	\end{definition}
+	
+	\begin{theorem}[Compact sets are bounded]
+		Every compact set is bounded.
+	\end{theorem}
+	
+	\begin{proof}
+		Let $K$ be compact. For every $x\in K$ we have $x\in B(x;1)$, so
+		\[
+		K\subseteq\bigcup_{x\in K}B(x;1)
+		\]
+		is an open cover of $K$ (open balls are open sets). By compactness there exist $x_1,x_2,\dots,x_m\in K$ such that
+		\[
+		K\subseteq\bigcup_{i=1}^{m}B(x_i;1) .
+		\]
+		A finite union of bounded sets is bounded (Lecture 2), hence $K$ is bounded.
+	\end{proof}
+	
+	\begin{theorem}[Compact sets are closed]
+		Every compact set is closed.
+	\end{theorem}
+	
+	\begin{proof}
+		Let $K$ be a compact set and let $y\in K^c$. For every $x\in K$ we have $x\neq y$, so we can find $\varepsilon_x>0$ (for instance $\varepsilon_x=\tfrac12 d(x,y)$) such that
+		\[
+		B(x;\varepsilon_x)\cap B(y;\varepsilon_x)=\emptyset .
+		\]
+		Now $K\subseteq\bigcup_{x\in K}B(x;\varepsilon_x)$ is an open cover of $K$. Since $K$ is compact, there are $x_1,\dots,x_n\in K$ with
+		\[
+		K\subseteq\bigcup_{i=1}^{n}B(x_i;\varepsilon_{x_i}) .
+		\]
+		Take $\varepsilon=\min\{\varepsilon_{x_1},\dots,\varepsilon_{x_n}\}>0$. Then $B(y;\varepsilon)\subseteq B(y;\varepsilon_{x_i})$ is disjoint from $B(x_i;\varepsilon_{x_i})$ for every $i$, so
+		\[
+		B(y;\varepsilon)\cap K=\emptyset \implies B(y;\varepsilon)\subseteq K^c .
+		\]
+		Thus every point of $K^c$ is an interior point, so $K^c$ is open and $K$ is closed.
+	\end{proof}
+	
+	\begin{theorem}
+		A closed subset of a compact set is compact.
+	\end{theorem}
+	
+	\begin{proof}
+		Let $K$ be compact and let $F\subseteq K$ be closed. Let $\{G_i:i\in I\}$ be an open cover for $F$. Add $F^c$ (which is open) to this collection; the new collection is an open cover for $K$. Hence it has a finite subcover for $K$. If this finite subcover contains $F^c$, remove it. What remains is a finite subcollection of $\{G_i\}$ which still covers $F$ (since $F^c\cap F=\emptyset$). So $F$ is compact.
+	\end{proof}
+	
+	\begin{theorem}[Closed intervals are compact]
+		\label{thm:closedintervalcompact}
+		Any closed interval $I=[a,b]$ is compact in $\R$.
+	\end{theorem}
+	
+	\begin{proof}
+		Let $\{G_i:i\in I_0\}$ be an open cover for $[a,b]$. Then there is $i_0$ such that $a\in G_{i_0}$, and since $G_{i_0}$ is open there is $\beta>a$ such that $[a,\beta[\,\subseteq G_{i_0}$. Define
+		\[
+		S=\bigl\{\beta\in[a,b] : [a,\beta] \text{ has a finite subcover}\bigr\}, \qquad \beta_0=\sup S .
+		\]
+		The set $S$ is non-empty ($a\in S$, since $G_{i_0}$ alone covers $[a,a]$) and bounded above by $b$, so $\beta_0$ exists and $\beta_0\in[a,b]$.
+		
+		\smallskip
+		\noindent Suppose $\beta_0<b$ and derive a contradiction. The point $\beta_0$ lies in some $G_j$, which is open, so $]\beta_0-\eta,\beta_0+\eta[\,\subseteq G_j$ for some $\eta>0$. By the definition of supremum there is $\beta\in S$ with $\beta_0-\eta<\beta\le\beta_0$. Then $[a,\beta]$ is covered by finitely many $G_i$'s, and adding $G_j$ gives a finite subcover of $[a,\beta_0+\eta/2]\cap[a,b]$. Hence $\min\{\beta_0+\eta/2,\,b\}\in S$, and this number is greater than $\beta_0$, contradicting $\beta_0=\sup S$.
+			
+		\smallskip
+		\noindent Therefore $\beta_0=b$, and the same argument shows $b\in S$. So $[a,b]$ has a finite subcover.
+	\end{proof}
+	
+	\begin{theorem}
+		A bounded closed subset of $\R$ is compact.
+	\end{theorem}
+	
+	\begin{proof}
+		If $K\subseteq\R$ is bounded, then $K\subseteq[a,b]$ for some $a<b$. Since $K$ is a closed subset of the compact set $[a,b]$ (Theorem~\ref{thm:closedintervalcompact}), it is compact.
+	\end{proof}
+	
+	\begin{takeaway}
+		In $\R$: \ $K$ is compact $\iff$ $K$ is closed and bounded.
+	\end{takeaway}
+	
+	
+	% ==========================================================
+	%                       LECTURE 8
+	% ==========================================================
+	\lecturetitle{8}{Compactness and Continuous Functions}
+	% \textit{Date: Oct 24, 2026}
+	
+	\subsection{Compact Subsets of $\R$}
+	
+	\begin{recall}[Supremum]
+		$\beta=\sup K$ if and only if
+		\begin{enumerate}[label=(\roman*)]
+			\item $x\le\beta$ for all $x\in K$, and
+			\item $\forall\varepsilon>0 \ \ \exists x_\beta\in K$ such that $\beta-\varepsilon<x_\beta\le\beta$.
+		\end{enumerate}
+	\end{recall}
+	
+	\begin{theorem}
+		\label{thm:maxmin}
+		A non-empty compact subset of $\R$ has a maximum (and a minimum).
+	\end{theorem}
+	
+	\begin{proof}
+		Let $K\neq\emptyset$ be bounded and closed, and let $\alpha=\inf K$ and $\beta=\sup K$. If $\beta\in K$ we are done. Otherwise, by property (ii) of the supremum, for every $\varepsilon>0$ there is $x_\beta\in K$ with $\beta-\varepsilon<x_\beta<\beta$, so $x_\beta\neq\beta$ and $\beta\in K'$ (accumulation point). Since $K$ is closed,
+		\[
+		\beta\in K'\subseteq K ,
+		\]
+		which contradicts $\beta\notin K$. Hence $\beta\in K$, that is, $\beta=\max K$. The same argument gives $\alpha=\min K$.
+	\end{proof}
+	
+	\subsection{Continuous Images of Compact Sets}
+	
+	\begin{theorem}
+		\label{thm:imagecompact}
+		The direct image of a compact set by a continuous function is compact.
+	\end{theorem}
+	
+	\begin{proof}
+		Let $f:(X,d)\to(Y,\rho)$ be continuous and let $K\subseteq X$ be compact. We prove that $f[K]$ is compact in $Y$.
+		
+		Let $\{G_i:i\in I\}$ be an open cover for $f[K]$, i.e.
+		\[
+		f[K]\subseteq\bigcup_{i\in I}G_i .
+		\]
+		Then
+		\[
+		K\subseteq f^{-1}\Bigl[\bigcup_{i\in I}G_i\Bigr]=\bigcup_{i\in I}f^{-1}[G_i] .
+		\]
+		Each $f^{-1}[G_i]$ is open in $X$ since $f$ is continuous (Theorem~\ref{thm:globalcont}), so $\{f^{-1}[G_i]:i\in I\}$ is an open cover for $K$. By compactness of $K$, there exist $i_1,\dots,i_n\in I$ such that
+		\[
+		K\subseteq\bigcup_{k=1}^{n}f^{-1}[G_{i_k}] .
+		\]
+		Then
+		\[
+		f[K]\subseteq\bigcup_{k=1}^{n}G_{i_k} .
+		\]
+		Hence $f[K]$ is compact.
+	\end{proof}
+	
+	\begin{corollary}[Extreme Value Theorem]
+		Let $(M,d)$ be a metric space and let $\emptyset\neq K\subseteq M$ be compact. If $f:M\to\R$ is continuous, then $f$ has a maximum (and a minimum) on $K$. That is, there exist $x_1,x_2\in K$ such that
+		\[
+		f(x_1)\le f(x)\le f(x_2) \qquad \forall x\in K .
+		\]
+	\end{corollary}
+	
+	\begin{proof}
+		By Theorem~\ref{thm:imagecompact}, $f[K]$ is a non-empty compact subset of $\R$, so by Theorem~\ref{thm:maxmin} it has a minimum $f(x_1)$ and a maximum $f(x_2)$ for some $x_1,x_2\in K$.
+	\end{proof}
+	
+	\subsection{Direct Images of Unions and Intersections}
+	
+	\begin{exercise}
+		Let $f:X\to Y$ be a function and $A_1,A_2\subseteq X$. For each of the following, decide which of $=,\ \subseteq,\ \supseteq$ holds (and give a counterexample when equality fails):
+		\begin{enumerate}[label=(\arabic*)]
+			\item $f[A_1\cup A_2] \ \square \ f[A_1]\cup f[A_2]$
+			\item $f[A_1\cap A_2] \ \square \ f[A_1]\cap f[A_2]$
+		\end{enumerate}
+	\end{exercise}
+	
+	\begin{exercise}[Assignment]
+		For an arbitrary family $\{A_i\}_{i\in I}$ of subsets of $X$, decide which relation holds:
+		\[
+		f\Bigl[\bigcup_{i\in I}A_i\Bigr] \ \square \ \bigcup_{i\in I}f[A_i], \qquad
+		f\Bigl[\bigcap_{i\in I}A_i\Bigr] \ \square \ \bigcap_{i\in I}f[A_i].
+		\]
+	\end{exercise}
+	
+	\subsection{Accumulation Points and Sequences}
+	
+	\begin{exercise}
+		Let $x_0$ be an accumulation point of a subset $A$ of a metric space $(M,d)$. Prove that there exists a sequence $\{x_n\}\subseteq A$ such that $x_n\to x_0$.
+	\end{exercise}
+	
+	\begin{remark}
+		In general,
+		\[
+		x_0\in\cl{A} \iff \exists\,\{x_n\}\subseteq A \ \text{ such that } \ x_n\to x_0 .
+		\]
+		(This is the closure--sequence theorem of Lecture 4; its proof was left as an assignment.)
+	\end{remark}
+	
+\end{document} 	
+
+
+
