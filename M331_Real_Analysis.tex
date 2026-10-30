@@ -1194,19 +1194,37 @@
 		Show that the function $f:\R\to\R$, $f(x)=x^2$, is \textbf{not} uniformly continuous.
 	\end{exercise}
 	
-	\noindent The following computation shows that $f(x)=x^2$ is continuous at every $a\in\R$, but with a $\delta$ that depends on $a$. Using
-	\[
-	x^2-a^2 = (x-a)^2+2a(x-a)
-	\]
-	we get
-	\begin{align*}
-		|x^2-a^2| &\le |x-a|^2 + 2|a|\,|x-a| \\
-		&= \bigl(|x-a|+|a|\bigr)^2 - a^2 .
-	\end{align*}
-	Hence $|x^2-a^2|<\varepsilon$ as soon as $\bigl(|x-a|+|a|\bigr)^2<\varepsilon+a^2$, that is,
-	\[
-	|x-a| < \sqrt{\varepsilon+a^2}-|a| =: \delta .
-	\]
+	  \begin{proof}
+    Recall the definition of uniform continuity for a function $f: X \to Y$:
+    \[
+    \forall \varepsilon > 0, \;\exists \delta > 0 \;\text{such that}\; \forall x', x'' \in X, \quad d(x', x'') < \delta \implies \rho(f(x'), f(x'')) < \varepsilon.
+    \]
+    To show that $f(x) = x^2$ is not uniformly continuous, we must prove the negation of this statement:
+    \[
+    \exists \varepsilon_0 > 0 \;\text{such that}\; \forall \delta > 0, \;\exists x', x'' \in \mathbb{R} \;\text{such that}\; |x' - x''| < \delta \;\land\; |f(x') - f(x'')| \ge \varepsilon_0.
+    \]
+    
+    \noindent Choose $\varepsilon_0 = 1$. For any given $\delta > 0$, select:
+    \[
+    x' = \frac{1}{\delta}, \qquad x'' = \frac{1}{\delta} + \frac{\delta}{2}.
+    \]
+    
+    \noindent First, we check the distance between $x'$ and $x''$:
+    \[
+    d(x', x'') = |x' - x''| = \left| \frac{1}{\delta} - \left(\frac{1}{\delta} + \frac{\delta}{2}\right) \right| = \frac{\delta}{2} < \delta.
+    \]
+    
+    \noindent Next, we evaluate the distance between their images under $f(x) = x^2$:
+    \begin{align*}
+    \rho(f(x'), f(x'')) &= |f(x') - f(x'')| = |(x')^2 - (x'')^2| \\
+    &= |x' - x''| \cdot |x' + x''| \\
+    &= \left| \frac{1}{\delta} - \left(\frac{1}{\delta} + \frac{\delta}{2}\right) \right| \cdot \left| \frac{1}{\delta} + \left(\frac{1}{\delta} + \frac{\delta}{2}\right) \right| \\
+    &= \frac{\delta}{2} \cdot \left| \frac{2}{\delta} + \frac{\delta}{2} \right| \\
+    &= 1 + \frac{\delta^2}{4} > 1 = \varepsilon_0.
+    \end{align*}
+    
+    \noindent Since we found $\varepsilon_0 = 1$ such that for every $\delta > 0$ there exist $x', x'' \in \mathbb{R}$ with $|x' - x''| < \delta$ and $|f(x') - f(x'')| > \varepsilon_0$, the function $f(x) = x^2$ is not uniformly continuous on $\mathbb{R}$.
+    \end{proof}
 	
 	\begin{exercise}
 		Generalize the previous discussion to $f(x)=x^p$ with $p>1$.
