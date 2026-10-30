@@ -373,8 +373,10 @@
 			\item \textbf{Triangle Inequality:} 
 			\[ d(x, z) = |x - z| = |(x - y) + (y - z)| \leq |x - y| + |y - z| = d(x, y) + d(y, z) \]
 		\end{enumerate}
+		% Muhammed Alaa El-Din: I made it explicit that the complex distance is the Euclidean metric d_2 on R^2 (identifying z = x + iy with (x, y)), whose triangle inequality is proved after the Cauchy--Schwarz inequality below.
 		For any two complex numbers $z_1 = x_1 + iy_1$ and $z_2 = x_2 + iy_2$, the distance (Euclidean metric) is defined as:
 		\[ |z_1 - z_2| = \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2} \]
+		Identifying $z = x + iy$ with $(x, y) \in \R^2$, this is exactly the Euclidean metric $d_2$ on $\R^2$ of the example below; its triangle inequality is proved in Corollary~\ref{cor:euclidtriangle}.
 	\end{example}
 	
 	\begin{example}Let $M$ be any non-empty set and define the distance function as:
@@ -393,6 +395,7 @@
 	\end{example}
 	
 	
+	% Muhammed Alaa El-Din: I made a note on why these are metrics: non-negativity and symmetry are clear, but the triangle inequality for d_2 needs the Cauchy--Schwarz inequality (proved below) and for d_p it needs Minkowski's inequality; it fails for 0 < p < 1, which is why p >= 1 is required.
 	\begin{example}On $\R^2$, for points $x = (x_1, x_2)$ and $y = (y_1, y_2)$, we may define different metrics:
 		\begin{enumerate}
 			\item \[ d_1(x, y) = |x_1 - y_1| + |x_2 - y_2| \]
@@ -400,6 +403,7 @@
 			\item \[ d_\infty(x, y) = \max(|x_1 - y_1|, |x_2 - y_2|) \]
 			\item \[ d_p(x, y) = \left( |x_1 - y_1|^p + |x_2 - y_2|^p \right)^{1/p}, \quad p \ge 1 \]
 		\end{enumerate}
+		For $d_1$ and $d_\infty$ the triangle inequality follows directly from the one in $\R$. For $d_2$ it follows from the Cauchy--Schwarz inequality (Corollary~\ref{cor:euclidtriangle}), and for $d_p$ it is Minkowski's inequality (proof omitted). The condition $p \ge 1$ is essential: for $0 < p < 1$ the triangle inequality fails, e.g.\ for $p = \tfrac12$, $x = (0,0)$, $y = (1,0)$, $z = (1,1)$ we get $d_p(x,z) = 4 > 2 = d_p(x,y) + d_p(y,z)$.
 	\end{example}
 	
 	
@@ -409,23 +413,40 @@
 		\[ \left( \sum_{i=1}^{n} a_i b_i \right)^2 \leq \left( \sum_{i=1}^{n} a_i^2 \right) \left( \sum_{i=1}^{n} b_i^2 \right) \]
 	\end{theorem}
 	
+	% Muhammed Alaa El-Din: I made the case C = 0 come first, so that the discriminant argument is only used when it is valid (it needs a genuine quadratic, i.e. C > 0).
 	\begin{proof}
-		Consider the non-negative quadratic expression for any real parameter $t$:
+		Let $A = \sum_{i=1}^{n} a_i^2$, $B = \sum_{i=1}^{n} a_i b_i$, and $C = \sum_{i=1}^{n} b_i^2$.
+		
+		\noindent If $C = 0$, then all $b_i = 0$, and the inequality holds trivially since both sides equal zero. So assume $C > 0$.
+		
+		\noindent Consider the non-negative quadratic expression for any real parameter $t$:
 		\[ \sum_{i=1}^{n} (a_i - t b_i)^2 \geq 0 \]
 		
 		\noindent Expanding this gives:
 		\[ \sum_{i=1}^{n} \left(a_i^2 - 2t a_i b_i + t^2 b_i^2\right) = \left(\sum_{i=1}^{n} a_i^2\right) - 2t \left(\sum_{i=1}^{n} a_i b_i\right) + t^2 \left(\sum_{i=1}^{n} b_i^2\right) \geq 0 \]
 		
-		\noindent Letting $A = \sum_{i=1}^{n} a_i^2$, $B = \sum_{i=1}^{n} a_i b_i$, and $C = \sum_{i=1}^{n} b_i^2$, the inequality becomes a quadratic in $t$:
-		\[ A - 2Bt + Ct^2 \geq 0 \]
+		\noindent that is, the quadratic in $t$
+		\[ Ct^2 - 2Bt + A \geq 0 \qquad \forall t \in \R. \]
 		
-		\noindent Assume first that $C > 0$. For the quadratic $Ct^2 - 2Bt + A$ to remain non-negative for all real $t$, its discriminant $\Delta = (-2B)^2 - 4AC$ must be less than or equal to zero:
+		\noindent Since $C > 0$, for this quadratic to remain non-negative for all real $t$, its discriminant $\Delta = (-2B)^2 - 4AC$ must be less than or equal to zero:
 		\[ 4B^2 - 4AC \leq 0 \implies B^2 \leq AC \]
 		
 		\noindent Substituting back $A$, $B$, and $C$ yields the Cauchy--Schwarz inequality:
-		\[ \left( \sum_{i=1}^{n} a_i b_i \right)^2 \leq \left( \sum_{i=1}^{n} a_i^2 \right) \left( \sum_{i=1}^{n} b_i^2 \right) \]
-		
-		\noindent Note, however, that this proof is valid only if $C = \sum_{i=1}^{n} b_i^2 > 0$. If $C = 0$, then all $b_i = 0$, and the inequality holds trivially since both sides equal zero.
+		\[ \left( \sum_{i=1}^{n} a_i b_i \right)^2 \leq \left( \sum_{i=1}^{n} a_i^2 \right) \left( \sum_{i=1}^{n} b_i^2 \right). \qedhere \]
+	\end{proof}
+	
+	% Muhammed Alaa El-Din: I made this new corollary: it is the reason the Cauchy--Schwarz inequality appears in this lecture, and without it the claim that d_2 (and the complex distance) is a metric was never proved.
+	\begin{corollary}[Triangle Inequality for the Euclidean Metric]
+		\label{cor:euclidtriangle}
+		For $x, y \in \R^n$ put $d_2(x,y) = \bigl(\sum_{i=1}^n (x_i - y_i)^2\bigr)^{1/2}$. Then $d_2$ is a metric on $\R^n$.
+	\end{corollary}
+	
+	\begin{proof}
+		Non-negativity, definiteness and symmetry are clear. For the triangle inequality, put $a_i = x_i - y_i$ and $b_i = y_i - z_i$, so $a_i + b_i = x_i - z_i$. By Cauchy--Schwarz,
+		\[
+		\sum_{i=1}^n (a_i + b_i)^2 = \sum a_i^2 + 2\sum a_i b_i + \sum b_i^2 \le \sum a_i^2 + 2\Bigl(\sum a_i^2\Bigr)^{1/2}\Bigl(\sum b_i^2\Bigr)^{1/2} + \sum b_i^2 = \Bigl[\Bigl(\sum a_i^2\Bigr)^{1/2} + \Bigl(\sum b_i^2\Bigr)^{1/2}\Bigr]^2 .
+		\]
+		Taking square roots gives $d_2(x,z) \le d_2(x,y) + d_2(y,z)$.
 	\end{proof}
 	
 	\lecturetitle{2}{Open Balls and Metric Space Topology}
@@ -457,7 +478,9 @@
 	\begin{definition}{Bounded Set}A subset $E$ of a metric space $(M,d)$ is called bounded if it is contained in a ball $E \subseteq B(x_0; r)$ for some $x_0 \in M$ and $r \in \mathbb{R}^{+}$.
 	\end{definition}
 	
+	% Muhammed Alaa El-Din: I made the finite case explicit (by induction), since the statement mentions a finite number of sets but the proof only treats two; this finite version is used in Lecture 7.
 	\begin{theorem}
+		\label{thm:unionbounded}
 		The union of any two (finite number of) bounded set is bounded
 	\end{theorem}
 	\begin{proof}
@@ -478,6 +501,9 @@
 		\]
 		
 		\noindent So in both cases $x \in B(x_1; R)$. Hence $E_1 \cup E_2 \subseteq B(x_1; R)$, and the union is bounded.
+		
+		\medskip
+		\noindent For finitely many bounded sets $E_1, \dots, E_m$, induction on $m$ applies: $E_1 \cup \cdots \cup E_m = (E_1 \cup \cdots \cup E_{m-1}) \cup E_m$ is the union of two bounded sets.
 	\end{proof}
 	
 	\subsection{Interior Points and Open Sets}
@@ -495,11 +521,12 @@
 		\]
 	\end{definition} 
 	
+	% Muhammed Alaa El-Din: I made the interval notation consistent with the rest of the notes (]a,b[ for open intervals), and stated that the usual metric of R is meant.
 	\begin{example}
-		
+		In $\R$ with the usual metric:
 		\begin{itemize}
 			\item Let $G = \left]0,1\right[ \implies G^\circ = G$.
-			\item Let $E = [a, b]$. Then $E^\circ = (a, b)$.
+			\item Let $E = [a, b]$. Then $E^\circ = \left]a, b\right[$.
 		\end{itemize}
 	\end{example}
 	
@@ -606,11 +633,16 @@
 	
 	\subsection{Properties of Open Sets}
 	
+	% Muhammed Alaa El-Din: I made these relations exercises (they were stated without proof) and added an example showing that the inclusion in (1) can be strict.
 	\begin{remark}Basic relationships for interior sets:
 		\begin{enumerate}
 			\item $(G_1 \cup G_2)^\circ \supseteq G_1^\circ \cup G_2^\circ$
 			\item $(G_1 \cap G_2)^\circ = G_1^\circ \cap G_2^\circ$
 		\end{enumerate}
+		\textcolor{red}{(Ex: Prove them.)} The inclusion in (1) can be strict: in $\R$, with $G_1 = [0,1]$ and $G_2 = [1,2]$,
+		\[
+		(G_1 \cup G_2)^\circ = \left]0,2\right[ \;\supsetneq\; \left]0,1\right[ \cup \left]1,2\right[ = G_1^\circ \cup G_2^\circ .
+		\]
 	\end{remark}
 	
 	\begin{theorem}[Properties of Open Sets]
@@ -638,6 +670,8 @@
 			B(x_0; r) = B(x_0; r_1) \cap B(x_0; r_2) \subseteq G_1 \cap G_2
 			\]
 			Therefore, $x_0$ is an interior point of $G_1 \cap G_2$, which proves that $G_1 \cap G_2$ is open.
+			% Muhammed Alaa El-Din: I made the extension to finitely many sets explicit, and added why the word "finite" matters.
+			For finitely many open sets $G_1, \dots, G_m$ the same argument works with $r = \min\{r_1, \dots, r_m\} > 0$. (For infinitely many sets the infimum of the radii may be $0$: e.g.\ $\bigcap_{n=1}^\infty \left]-\tfrac1n, \tfrac1n\right[ = \{0\}$ is not open in $\R$.)
 			
 			\vspace{0.5em}
 			\begin{center}
@@ -742,6 +776,15 @@
 		\end{enumerate}
 	\end{takeaway}
 	
+	% Muhammed Alaa El-Din: I made a short justification of these properties (they were stated without proof): they follow from the properties of open sets by De Morgan's laws.
+	\begin{proof}[Justification]
+		Take complements and use De Morgan's laws:
+		\[
+		\Bigl(\bigcup_{k=1}^{m} F_k\Bigr)^c = \bigcap_{k=1}^{m} F_k^c, \qquad \Bigl(\bigcap_{i\in I} F_i\Bigr)^c = \bigcup_{i\in I} F_i^c .
+		\]
+		If the $F$'s are closed, the right-hand sides are a finite intersection, respectively an arbitrary union, of open sets, hence open. Finally $M^c = \emptyset$ and $\emptyset^c = M$ are open.
+	\end{proof}
+	
 	% =====================================================
 	\subsection{Accumulation Points of a Set}
 	
@@ -770,18 +813,19 @@
 			\begin{enumerate}[label=(\roman*)]
 				\item Let $x_0<0$. Take $r=\tfrac12|x_0|$. Then $B(x_0;r)$ contains no point from $E$.
 				\item Let $x_0>1$. Take $r=\tfrac12(x_0-1)$. Then $B(x_0;r)\cap E=\emptyset$.
+				% Muhammed Alaa El-Din: I made the choice of r justified: the neighbour of 1/n_0 on the other side, 1/(n_0 - 1), is even farther away, so only the gap to 1/(n_0 + 1) matters.
 				\item Let $x_0\in E$. Then $x_0=\tfrac{1}{n_0}$ for some $n_0\in\Z^+$. Take
 				\[
 				r=\tfrac12\Bigl(\tfrac1{n_0}-\tfrac1{n_0+1}\Bigr)=\frac{1}{2n_0(n_0+1)} .
 				\]
-				Then $B^*(x_0;r)\cap E=\emptyset$.
+				Then $B^*(x_0;r)\cap E=\emptyset$, because the nearest points of $E$ to $x_0$ are $\tfrac1{n_0+1}$ (at distance $\tfrac{1}{n_0(n_0+1)} > r$) and, if $n_0 \ge 2$, $\tfrac1{n_0-1}$ (at distance $\tfrac{1}{n_0(n_0-1)} > r$).
 				\item If $x_0\notin E$ lies between $\tfrac1{n_0+1}$ and $\tfrac1{n_0}$, take
 				\[
 				r=\tfrac12\min\Bigl\{\tfrac1{n_0}-x_0,\; x_0-\tfrac1{n_0+1}\Bigr\}.
 				\]
 				Then $B(x_0;r)\cap E=\emptyset$.
 			\end{enumerate}
-			In each case $x_0$ is not an accumulation point of $E$.
+			In each case $x_0$ is not an accumulation point of $E$. (Every $x_0 \neq 0$ falls into one of the cases (i)--(iv).)
 		\end{enumerate}
 	\end{example}
 	
@@ -797,11 +841,12 @@
 		The set of accumulation points of a set $E$ is denoted by $E'$.
 	\end{remark}
 	
+	% Muhammed Alaa El-Din: I made the answer to part (2) more precise: equality fails, but the inclusion (E_1 \cap E_2)' \subseteq E_1' \cap E_2' always holds.
 	\begin{exercise}[True or false?]
 		\label{ex:accum.ofintersectoin}
 		\begin{enumerate}[label=(\arabic*)]
 			\item $(E_1\cup E_2)' \overset{?}{=} E_1'\cup E_2'$ \quad (\textbf{true})
-			\item $(E_1\cap E_2)' \overset{?}{=} E_1'\cap E_2'$ \quad (\textbf{false})
+			\item $(E_1\cap E_2)' \overset{?}{=} E_1'\cap E_2'$ \quad (\textbf{false} in general; only $(E_1\cap E_2)' \subseteq E_1'\cap E_2'$ holds)
 		\end{enumerate}
 	\end{exercise}
 	
@@ -823,6 +868,7 @@
 		\]
 	\end{theorem}
 	
+	% Muhammed Alaa El-Din: I made two gaps explicit: the monotonicity G_0 \subseteq A => G_0^\circ \subseteq A^\circ is now justified, and I added the final step showing that the formula really means "A^\circ is the largest open set in A" (in particular, A^\circ is open).
 	\begin{proof}
 		\textbf{(i)} Let $x_0\in A^\circ$. Then there is an open ball $B(x_0;r)$ such that $B(x_0;r)\subseteq A$. Since open balls are open sets (Theorem~\ref{thm:openballopenset}), $B(x_0;r)$ is an open set contained in $A$, so $x_0$ belongs to the right-hand side. Hence
 		\[
@@ -831,8 +877,10 @@
 		
 		\textbf{(ii)} Let $x_0\in\bigcup_{G\subseteq A,\ G\text{ open}} G$. Then there exists an open set $G_0\subseteq A$ such that $x_0\in G_0$.
 		
-		Note that $G_0\subseteq A \Rightarrow G_0^\circ\subseteq A^\circ$. But $G_0^\circ = G_0$ (since $G_0$ is open). Hence $x_0\in G_0\subseteq A^\circ$.
+		Note that $G_0\subseteq A \Rightarrow G_0^\circ\subseteq A^\circ$ (if $B(x;r)\subseteq G_0$, then $B(x;r)\subseteq A$). But $G_0^\circ = G_0$ (since $G_0$ is open). Hence $x_0\in G_0\subseteq A^\circ$.
 		
+		\medskip
+		\noindent \textbf{(iii)} By (i) and (ii), $A^\circ$ is a union of open sets, hence open, and it is contained in $A$; and every open $G\subseteq A$ appears in the union, so $G\subseteq A^\circ$. Thus $A^\circ$ is the largest open set contained in $A$.
 	\end{proof}
 	
 	
@@ -971,8 +1019,9 @@
 		A metric space $(M,d)$ is called \textbf{complete} if every Cauchy sequence in $M$ is convergent.
 	\end{definition}
 	
+	% Muhammed Alaa El-Din: I made explicit that the Cauchy property in Q is inherited from R (both use the same metric), which is the real reason the sequence is Cauchy in Q.
 	\begin{example}
-		$\R$ with the usual metric is complete, but $\Q$ with the usual metric is not. Consider the sequence of rational numbers $x_n=\bigl(1+\tfrac1n\bigr)^n$. It converges in $\R$ (to the irrational number $e$), so it is Cauchy. But it has no limit in $\Q$, because limits are unique and $e\notin\Q$.
+		$\R$ with the usual metric is complete, but $\Q$ with the usual metric is not. Consider the sequence of rational numbers $x_n=\bigl(1+\tfrac1n\bigr)^n$. It converges in $\R$ (to the irrational number $e$), so it is Cauchy in $\R$, and hence also Cauchy in $\Q$ (the Cauchy condition only involves the distances $|x_n - x_m|$, which are the same in $\Q$ and in $\R$). But it has no limit in $\Q$: a limit $q\in\Q$ would also be a limit in $\R$, and limits are unique, so $q = e\notin\Q$.
 	\end{example}
 	
 	% =====================================================
@@ -996,9 +1045,10 @@
 		Prove the Corollary~\ref{cor:completemetricandclosness}.
 	\end{exercise}
 	
+	% Muhammed Alaa El-Din: I made "Equivalently" into "Alternatively": the eventual constancy of Cauchy sequences in Z is a second, direct proof of completeness, not an equivalent reformulation of closedness.
 	\begin{example}
 		$\Z\subseteq\R$ is complete, since it is closed in $\R$ (its complement is a union of open intervals).
-		Equivalently, a Cauchy sequence in $\Z$ is eventually constant.
+		Alternatively, one can argue directly: a Cauchy sequence in $\Z$ is eventually constant (take $\varepsilon = \tfrac12$; two integers at distance $<\tfrac12$ are equal), hence convergent.
 	\end{example}
 	
 	\begin{example}
@@ -1036,15 +1086,18 @@
 		In a metric space $(M,d)$, a point $x_0$ is called a \textbf{limit point} of the sequence $\{x_n\}_{n=1}^{\infty}\subseteq M$ if this sequence has a subsequence $\{x_{k_n}\}$ that tends to $x_0$.
 	\end{definition}
 	
+	% Muhammed Alaa El-Din: I made the claim "two limit points" complete: the original only showed that 1 and -1 are limit points, not that there are no others.
 	\begin{example}
 		The sequence $1,-1,1,-1,\dots$, that is $\{(-1)^n\}_{n=1}^{\infty}$, has two limit points, $1$ and $-1$, since
 		\[
 		x_{2n}=1, \qquad x_{2n+1}=-1 \qquad \forall n\in\Z^+ .
 		\]
+		There are no others: every term lies in $\{1,-1\}$, so for $x_0\notin\{1,-1\}$ and $r = \min\{|x_0-1|,|x_0+1|\}>0$, no term lies in $B(x_0;r)$, and no subsequence can tend to $x_0$.
 	\end{example}
 	
+	% Muhammed Alaa El-Din: I made the caution concrete with an example showing the two notions really differ.
 	\begin{caution}
-		A \emph{limit point of a sequence} (a limit of some subsequence) is not the same notion as an \emph{accumulation point of a set} (Lecture 3).
+		A \emph{limit point of a sequence} (a limit of some subsequence) is not the same notion as an \emph{accumulation point of a set} (Lecture 3). For example, the constant sequence $x_n = 5$ has the limit point $5$, but its set of values $\{5\}$ has no accumulation points.
 	\end{caution}
 	
 	\subsection{Subsequences and Convergence}
@@ -1114,6 +1167,11 @@
 		\]
 	\end{definition}
 	
+	% Muhammed Alaa El-Din: I made a remark on terminology: many textbooks call this notion "strongly" (or "Lipschitz") equivalent and reserve "equivalent" for metrics with the same open sets; the notion here implies that one.
+	\begin{remark}
+		Many textbooks call this notion \emph{strongly equivalent} (or \emph{Lipschitz equivalent}) and use the word ``equivalent'' for the weaker condition that $d$ and $\rho$ have the same open sets. Metrics that are equivalent in the sense above always have the same open sets and the same convergent sequences (see the exercises below), but the converse is false.
+	\end{remark}
+	
 	\begin{example}
 		On $M=\R^2$, the two metrics $d_1$ and $d_\infty$ are equivalent, where
 		\begin{align*}
@@ -1174,27 +1232,31 @@
 		We write $f\in \mathrm{Lip}(X,Y)$.
 	\end{definition}
 	
+	% Muhammed Alaa El-Din: I made the one-line proof explicit (delta = epsilon / L).
 	\begin{remark}
-		Every $f\in \mathrm{Lip}(X,Y)$ must be uniformly continuous.
+		Every $f\in \mathrm{Lip}(X,Y)$ must be uniformly continuous: given $\varepsilon>0$, take $\delta_\varepsilon = \varepsilon/L$; then $d(x',x'')<\delta_\varepsilon$ implies $\rho\bigl(f(x'),f(x'')\bigr)\le L\,d(x',x'')<\varepsilon$.
 	\end{remark}
 	
+	% Muhammed Alaa El-Din: I made the wording precise: f(x) = ax + b is affine (linear only when b = 0), and the admissible constants are exactly L >= |a| with L > 0 (L = |a| + 1 is just one choice, needed when a = 0).
 	\begin{example}
-		Any linear function $f:\R\to\R$, $f(x)=ax+b$, is Lipschitz with respect to the usual metric. Indeed,
+		Any affine function $f:\R\to\R$, $f(x)=ax+b$, is Lipschitz with respect to the usual metric. Indeed,
 		\[
 		|f(x')-f(x'')| = |a(x'-x'')| = |a|\,|x'-x''| ,
 		\]
-		so $L=|a|+1$ (any $L\ge |a|$ with $L>0$) works.
+		so any $L\ge |a|$ with $L>0$ works; for instance $L=|a|+1$ (the ``$+1$'' only matters when $a = 0$, since $L$ must be positive).
 	\end{example}
 	
+	% Muhammed Alaa El-Din: I made the hypothesis "on an interval" explicit: the Mean Value Theorem needs the segment between x' and x'' to lie in the domain. On a non-interval domain the claim fails (example added).
 	\begin{remark}
-		If a function is differentiable with bounded derivative, then it is Lipschitz (by the Mean Value Theorem).
+		If a function is differentiable \emph{on an interval} with bounded derivative, $|f'(x)|\le L$, then it is Lipschitz with constant $L$: by the Mean Value Theorem, $|f(x')-f(x'')| = |f'(c)|\,|x'-x''|\le L\,|x'-x''|$. The interval hypothesis matters: on $D = \left]0,1\right[\cup\left]1,2\right[$, the function equal to $0$ on $\left]0,1\right[$ and to $1$ on $\left]1,2\right[$ has $f' = 0$ but is not Lipschitz (take $x'' < 1 < x'$ arbitrarily close to $1$).
 	\end{remark}
 	
 	\begin{exercise}
 		Show that the function $f:\R\to\R$, $f(x)=x^2$, is \textbf{not} uniformly continuous.
 	\end{exercise}
 	
-	  \begin{proof}
+	  % Muhammed Alaa El-Din: I made this a "Solution" (it solves the exercise above) instead of an unlabeled proof, and made the final inequality match the negation (>= epsilon_0).
+	  \begin{proof}[Solution]
     Recall the definition of uniform continuity for a function $f: X \to Y$:
     \[
     \forall \varepsilon > 0, \;\exists \delta > 0 \;\text{such that}\; \forall x', x'' \in X, \quad d(x', x'') < \delta \implies \rho(f(x'), f(x'')) < \varepsilon.
@@ -1220,14 +1282,15 @@
     &= |x' - x''| \cdot |x' + x''| \\
     &= \left| \frac{1}{\delta} - \left(\frac{1}{\delta} + \frac{\delta}{2}\right) \right| \cdot \left| \frac{1}{\delta} + \left(\frac{1}{\delta} + \frac{\delta}{2}\right) \right| \\
     &= \frac{\delta}{2} \cdot \left| \frac{2}{\delta} + \frac{\delta}{2} \right| \\
-    &= 1 + \frac{\delta^2}{4} > 1 = \varepsilon_0.
+    &= 1 + \frac{\delta^2}{4} \ge 1 = \varepsilon_0.
     \end{align*}
     
-    \noindent Since we found $\varepsilon_0 = 1$ such that for every $\delta > 0$ there exist $x', x'' \in \mathbb{R}$ with $|x' - x''| < \delta$ and $|f(x') - f(x'')| > \varepsilon_0$, the function $f(x) = x^2$ is not uniformly continuous on $\mathbb{R}$.
+    \noindent Since we found $\varepsilon_0 = 1$ such that for every $\delta > 0$ there exist $x', x'' \in \mathbb{R}$ with $|x' - x''| < \delta$ and $|f(x') - f(x'')| \ge \varepsilon_0$, the function $f(x) = x^2$ is not uniformly continuous on $\mathbb{R}$.
     \end{proof}
 	
+	% Muhammed Alaa El-Din: I made the domain [0, \infty) explicit: x^p is not defined on all of R for non-integer p > 1.
 	\begin{exercise}
-		Generalize the previous discussion to $f(x)=x^p$ with $p>1$.
+		Generalize the previous discussion to $f:[0,\infty)\to\R$, $f(x)=x^p$ with $p>1$.
 	\end{exercise}
 	
 	\begin{exercise}
@@ -1261,6 +1324,18 @@
 		\label{thm:globalcont}
 		A function $f:(X,d)\to(Y,\rho)$ is continuous if and only if the inverse image $f^{-1}[G]$ of every open set $G\subseteq Y$ is open in $X$.
 	\end{theorem}
+	
+	% Muhammed Alaa El-Din: I made a proof for this theorem; it was stated without proof, yet it is used in Lecture 8 to prove that continuous images of compact sets are compact.
+	\begin{proof}
+		\textbf{($\Rightarrow$)} Let $G\subseteq Y$ be open and let $x_0\in f^{-1}[G]$. Then $f(x_0)\in G$, so there is $\varepsilon>0$ with $B_\rho(f(x_0);\varepsilon)\subseteq G$. By continuity at $x_0$ (in the form of the previous Remark) there is $\delta>0$ with
+		\[
+		B_d(x_0;\delta)\subseteq f^{-1}\bigl[B_\rho(f(x_0);\varepsilon)\bigr]\subseteq f^{-1}[G].
+		\]
+		So every point of $f^{-1}[G]$ is an interior point, i.e.\ $f^{-1}[G]$ is open.
+		
+		\medskip
+		\noindent\textbf{($\Leftarrow$)} Let $x_0\in X$ and $\varepsilon>0$. The ball $B_\rho(f(x_0);\varepsilon)$ is open (Theorem~\ref{thm:openballopenset}), so by hypothesis $U = f^{-1}\bigl[B_\rho(f(x_0);\varepsilon)\bigr]$ is open in $X$. Since $x_0\in U$, there is $\delta>0$ with $B_d(x_0;\delta)\subseteq U$, which is continuity at $x_0$ by the previous Remark.
+	\end{proof}
 	
 	
 	% ==========================================================
@@ -1340,8 +1415,12 @@
 		so $\{f(x_n)\}_{n=1}^{\infty}$ is Cauchy in $Y$.
 	\end{proof}
 	
+	% Muhammed Alaa El-Din: I made the cited facts explicit (completeness of R and Theorem "Sequential Continuity"), and added that mere continuity does NOT preserve Cauchy sequences in general, so that the role of completeness is clear.
 	\begin{caution}
-		The converse is not true. The function $f(x)=x^2$ is not uniformly continuous on $\R$, but it preserves Cauchy sequences (a Cauchy sequence in $\R$ converges, and a continuous function maps a convergent sequence to a convergent sequence).
+		The converse is not true. The function $f(x)=x^2$ is not uniformly continuous on $\R$, but it preserves Cauchy sequences: a Cauchy sequence in $\R$ converges (completeness of $\R$), and by Theorem~\ref{thm:seqcont} a continuous function maps a convergent sequence to a convergent sequence, which is Cauchy.
+		
+		\smallskip
+		\noindent On a non-complete space, a merely continuous function need not preserve Cauchy sequences: $f(x) = \tfrac1x$ on $\left]0,1\right[$ is continuous, $x_n = \tfrac1{n+1}$ is Cauchy, but $f(x_n) = n+1$ is not.
 	\end{caution}
 	
 	\subsection{Compactness}
@@ -1354,8 +1433,9 @@
 		(More generally, $\{G_i:i\in I\}$ is a \textbf{cover} for $A$ if $A\subseteq\bigcup_{i\in I}G_i$.)
 	\end{definition}
 	
+	% Muhammed Alaa El-Din: I made the set in this definition explicit (the original switched from K to A without saying which set is covered).
 	\begin{definition}{Subcover}
-		By a \textbf{subcover} of $\{G_i:i\in I\}$ we mean a collection $\{G_j:j\in J\}$ where $J\subseteq I$ which also covers $A$, that is,
+		Let $\{G_i:i\in I\}$ be a cover for a set $A$. By a \textbf{subcover} of $\{G_i:i\in I\}$ we mean a collection $\{G_j:j\in J\}$ where $J\subseteq I$ which also covers $A$, that is,
 		\[
 		A\subseteq\bigcup_{j\in J} G_j .
 		\]
@@ -1385,7 +1465,7 @@
 		\[
 		K\subseteq\bigcup_{i=1}^{m}B(x_i;1) .
 		\]
-		A finite union of bounded sets is bounded (Lecture 2), hence $K$ is bounded.
+		A finite union of bounded sets is bounded (Theorem~\ref{thm:unionbounded}), hence $K$ is bounded.
 	\end{proof}
 	
 	\begin{theorem}[Compact sets are closed]
@@ -1421,18 +1501,26 @@
 		Any closed interval $I=[a,b]$ is compact in $\R$.
 	\end{theorem}
 	
+	% Muhammed Alaa El-Din: I made the last step of this proof complete. The original ended with "the same argument shows b \in S"; but beta_0 = b only says sup S = b, not that b itself belongs to S. I wrote out the argument. I also removed the unused remark about [a, beta[ \subseteq G_{i_0} and spelled out why [beta, beta_0 + eta/2] is covered by G_j.
 	\begin{proof}
-		Let $\{G_i:i\in I_0\}$ be an open cover for $[a,b]$. Then there is $i_0$ such that $a\in G_{i_0}$, and since $G_{i_0}$ is open there is $\beta>a$ such that $[a,\beta[\,\subseteq G_{i_0}$. Define
+		Let $\{G_i:i\in I_0\}$ be an open cover for $[a,b]$. Define
 		\[
-		S=\bigl\{\beta\in[a,b] : [a,\beta] \text{ has a finite subcover}\bigr\}, \qquad \beta_0=\sup S .
+		S=\bigl\{\beta\in[a,b] : [a,\beta] \text{ is covered by finitely many of the } G_i\bigr\}, \qquad \beta_0=\sup S .
 		\]
-		The set $S$ is non-empty ($a\in S$, since $G_{i_0}$ alone covers $[a,a]$) and bounded above by $b$, so $\beta_0$ exists and $\beta_0\in[a,b]$.
+		The set $S$ is non-empty ($a\in S$, since $a$ lies in some $G_{i_0}$, which alone covers $[a,a]$) and bounded above by $b$, so $\beta_0$ exists and $\beta_0\in[a,b]$.
 		
 		\smallskip
-		\noindent Suppose $\beta_0<b$ and derive a contradiction. The point $\beta_0$ lies in some $G_j$, which is open, so $]\beta_0-\eta,\beta_0+\eta[\,\subseteq G_j$ for some $\eta>0$. By the definition of supremum there is $\beta\in S$ with $\beta_0-\eta<\beta\le\beta_0$. Then $[a,\beta]$ is covered by finitely many $G_i$'s, and adding $G_j$ gives a finite subcover of $[a,\beta_0+\eta/2]\cap[a,b]$. Hence $\min\{\beta_0+\eta/2,\,b\}\in S$, and this number is greater than $\beta_0$, contradicting $\beta_0=\sup S$.
-			
+		\noindent \emph{Key step.} The point $\beta_0$ lies in some $G_j$, which is open, so $]\beta_0-\eta,\beta_0+\eta[\,\subseteq G_j$ for some $\eta>0$. By the definition of supremum there is $\beta\in S$ with $\beta_0-\eta<\beta\le\beta_0$. Then $[a,\beta]$ is covered by finitely many $G_i$'s, and
+		\[
+		[\beta,\ \beta_0+\eta/2] \subseteq\ ]\beta_0-\eta,\beta_0+\eta[\ \subseteq G_j ,
+		\]
+		so adding $G_j$ gives a finite subcover of $[a,\beta_0+\eta/2]\cap[a,b]$. Hence $\min\{\beta_0+\eta/2,\,b\}\in S$.
+		
 		\smallskip
-		\noindent Therefore $\beta_0=b$, and the same argument shows $b\in S$. So $[a,b]$ has a finite subcover.
+		\noindent \emph{$\beta_0 = b$.} If $\beta_0<b$, then $\min\{\beta_0+\eta/2,\,b\}>\beta_0$ belongs to $S$, contradicting $\beta_0=\sup S$.
+		
+		\smallskip
+		\noindent \emph{$b\in S$.} Since $\beta_0 = b$, the key step gives $\min\{b+\eta/2,\,b\} = b\in S$. So $[a,b]$ is covered by finitely many $G_i$, i.e.\ the cover has a finite subcover.
 	\end{proof}
 	
 	\begin{theorem}
@@ -1469,8 +1557,9 @@
 		A non-empty compact subset of $\R$ has a maximum (and a minimum).
 	\end{theorem}
 	
+	% Muhammed Alaa El-Din: I made the link between the hypothesis (compact) and the proof (closed and bounded) explicit, and cited the completeness axiom for the existence of sup and inf.
 	\begin{proof}
-		Let $K\neq\emptyset$ be bounded and closed, and let $\alpha=\inf K$ and $\beta=\sup K$. If $\beta\in K$ we are done. Otherwise, by property (ii) of the supremum, for every $\varepsilon>0$ there is $x_\beta\in K$ with $\beta-\varepsilon<x_\beta<\beta$, so $x_\beta\neq\beta$ and $\beta\in K'$ (accumulation point). Since $K$ is closed,
+		Let $K\neq\emptyset$ be compact. By Lecture~7, $K$ is bounded and closed. By the completeness axiom of $\R$, $\alpha=\inf K$ and $\beta=\sup K$ exist. If $\beta\in K$ we are done. Otherwise, by property (ii) of the supremum, for every $\varepsilon>0$ there is $x_\beta\in K$ with $\beta-\varepsilon<x_\beta<\beta$, so $x_\beta\neq\beta$ and $\beta\in K'$ (accumulation point). Since $K$ is closed,
 		\[
 		\beta\in K'\subseteq K ,
 		\]
@@ -1499,9 +1588,10 @@
 		\[
 		K\subseteq\bigcup_{k=1}^{n}f^{-1}[G_{i_k}] .
 		\]
-		Then
+		% Muhammed Alaa El-Din: I made the last step justified, using f[f^{-1}[G]] \subseteq G.
+		Then, since $f\bigl[f^{-1}[G]\bigr]\subseteq G$ for every $G\subseteq Y$,
 		\[
-		f[K]\subseteq\bigcup_{k=1}^{n}G_{i_k} .
+		f[K]\subseteq\bigcup_{k=1}^{n}f\bigl[f^{-1}[G_{i_k}]\bigr]\subseteq\bigcup_{k=1}^{n}G_{i_k} .
 		\]
 		Hence $f[K]$ is compact.
 	\end{proof}
@@ -1541,15 +1631,13 @@
 		Let $x_0$ be an accumulation point of a subset $A$ of a metric space $(M,d)$. Prove that there exists a sequence $\{x_n\}\subseteq A$ such that $x_n\to x_0$.
 	\end{exercise}
 	
+	% Muhammed Alaa El-Din: I made a precise reference to Theorem "closure--sequence" of Lecture 4 instead of a descriptive name.
 	\begin{remark}
 		In general,
 		\[
 		x_0\in\cl{A} \iff \exists\,\{x_n\}\subseteq A \ \text{ such that } \ x_n\to x_0 .
 		\]
-		(This is the closure--sequence theorem of Lecture 4; its proof was left as an assignment.)
+		(This is Theorem~\ref{thm:closure} of Lecture 4; its proof was left as an assignment.)
 	\end{remark}
 	
-\end{document} 	
-
-
-
+\end{document}
