@@ -1639,5 +1639,196 @@
 		\]
 		(This is Theorem~\ref{thm:closure} of Lecture 4; its proof was left as an assignment.)
 	\end{remark}
+
+	% ==========================================================
+%                       LECTURE 9
+% ==========================================================
+\lecturetitle{9}{Finite Intersection Property and Dense Sets}
+% \textit{Date: Oct 31, 2026}
+
+\subsection{Finite Intersection Property}
+
+\begin{definition}{Finite Intersection Property}
+	A collection of sets is said to have the \textbf{finite intersection property} if the intersection of any finite subcollection has a non-empty intersection.
+\end{definition}
+
+\begin{theorem}
+	The metric space $M$ is compact if and only if any nested sequence
+	\[
+	A_1 \supseteq A_2 \supseteq A_3 \supseteq \cdots
+	\]
+	of closed sets with the finite intersection property has a non-empty intersection.
+    \[
+	\forall n \qquad \bigcap_{k=1}^{n} A_k = A_n \neq \emptyset ,
+	\]
+	this implies
+	\[
+	\bigcap_{n=1}^{\infty} A_n \neq \emptyset .
+	\]
+	Passing to complements (De Morgan), the conclusion reads
+	\[
+	\Bigl(\bigcap_{n=1}^{\infty} A_n\Bigr)^{c} = \bigcup_{n=1}^{\infty} A_n^{c} \neq M .
+	\]
+\end{theorem}
+
+\subsection{Dense Sets}
+
+\begin{definition}{Dense Set}
+	A set $D$ of a metric space $M$ is called \textbf{dense} if $\cl{D} = M$.
+\end{definition}
+
+\noindent Equivalently, $D$ is dense if every element $x\in M$ can be approximated by a sequence $\{x_n\}_{n=1}^{\infty}\subseteq D$, that is,
+\[
+\forall x\in M \quad \exists \{x_n\}_{n=1}^{\infty}\subseteq D \ \text{ s.t. } \ x_n \to x .
+\]
+
+\begin{example}[Rational numbers]
+	$\Q$ is dense in $\R$ (with the usual metric).
+	
+	\smallskip
+	\noindent\textbf{Decimal approximations.} Let $x\in[0,1]$. Then
+	\[
+	x = 0.x_1x_2x_3\cdots x_n\cdots = \sum_{k=1}^{\infty}\frac{x_k}{10^k}.
+	\]
+	Take
+	\[
+	y_n = \frac{\lfloor 10^n x\rfloor}{10^n}.
+	\]
+	Then $y_n\in\Q$ for all $n\in\Z^+$ (note that $\lfloor 10x\rfloor = x_1$ and $\lfloor 100x\rfloor = x_1x_2$, and so on), and
+	\[
+	\lim_{n\to\infty} y_n = x \qquad \textit{(Assignment.)}
+	\]
+\end{example}
+
+\begin{remark}
+	Another sequence of rational approximations is $y_n = \dfrac{\lfloor n!\,x\rfloor}{n!}$.
+\end{remark}
+
+\begin{definition}{Nowhere Dense}
+	A set $D$ is called \textbf{nowhere dense} if $(\cl{D})^{\circ} = \emptyset$. (A dense set is sometimes called \emph{everywhere dense}.)
+\end{definition}
+
+\begin{example}[Continuous functions]
+	Consider the space $C[a,b]$ of continuous functions on $[a,b]$ with the distance
+	\[
+	d_\infty(f,g) = \max\bigl\{\,|f(x)-g(x)| : x\in[a,b]\,\bigr\}.
+	\]
+	Consider the set $D$ of all polynomials on $[a,b]$.
+\end{example}
+
+\subsection{Bernstein Polynomials}
+
+\noindent The map
+\[
+[0,1]\to[a,b], \qquad x\mapsto (b-a)x+a
+\]
+allows us to work on $[0,1]$ without loss of generality.
+
+\begin{definition}{Bernstein Polynomial}
+	Given any continuous function $f$ on $[0,1]$, define
+	\[
+	B_n(f;x) = \sum_{k=0}^{n}\binom{n}{k} f\!\left(\frac{k}{n}\right) x^{k}(1-x)^{n-k}.
+	\]
+\end{definition}
+
+\begin{theorem}[Bernstein]
+	For every continuous $f$ on $[0,1]$,
+	\[
+	\forall \varepsilon>0 \ \ \exists N_\varepsilon \ \text{ s.t. } \ \forall n\ge N_\varepsilon \quad \|f - B_n(f)\|_\infty < \varepsilon .
+	\]
+	In particular, the polynomials are dense in $\bigl(C[a,b],d_\infty\bigr)$.
+\end{theorem}
+
+\textit{Proof: to be done as an assignment.}
+
+
+\begin{exercise}
+	Prove that $\R\setminus\Q$ is dense in $\R$ (with the usual metric).
+\end{exercise}
+
+\begin{example}
+	If $D$ is dense in a metric space $M$ (and $D$ is closed), then $D = M$.
+	
+	\smallskip
+	\noindent Indeed, $D$ closed gives $D=\cl{D}$, and $D$ dense gives $\cl{D}=M$; hence $D=M$.
+\end{example}
+
+
+% ==========================================================
+%                       LECTURE 10
+% ==========================================================
+\lecturetitle{10}{Total Boundedness and Completion of a Metric Space}
+% \textit{Date: Nov 3, 2026}
+
+\subsection{Total Boundedness}
+
+\begin{definition}{Totally Bounded}
+	Let $(M,d)$ be a metric space. A subset $A$ of $M$ is called \textbf{totally bounded} if for each $\varepsilon>0$ there is a finite set $\{x_1,\dots,x_n\}\subseteq M$ such that
+	\[
+	A\subseteq\bigcup_{k=1}^{n}B(x_k;\varepsilon).
+	\]
+	In this case, the set $\{x_1,\dots,x_n\}$ is called an \textbf{$\varepsilon$-net} for $A$.
+\end{definition}
+
+\begin{remark}
+	Note that any compact set is totally bounded, but the converse is not true. Also,
+	\[
+	\text{totally bounded} \implies \text{bounded}.
+	\]
+\end{remark}
+
+\subsection{Completion of a Metric Space}
+
+\begin{definition}{Isometry}
+	By an \textbf{isometry} between two metric spaces $(X,d)$ and $(Y,\rho)$ we mean a function $\phi:X\to Y$ that preserves the distance, that is,
+	\[
+	\rho\bigl(\phi(x),\phi(x')\bigr) = d(x,x') \qquad \forall x,x'\in X .
+	\]
+\end{definition}
+
+\begin{definition}{Cauchy Completion}
+	By a \textbf{Cauchy completion} of a metric space $(X,d)$ we mean a complete metric space $(\widetilde{X},\widetilde{d})$ and an isometry
+	\[
+	\phi:X\to\widetilde{X}
+	\]
+	such that $\phi(X)$ is dense in $\widetilde{X}$.
+\end{definition}
+
+\subsection{The Cauchy Completion}
+
+Let $(X,d)$ be a metric space and let $X^{*}$ be the set of all Cauchy sequences in $X$.
+
+\begin{definition}{Equivalent Cauchy Sequences}
+	Let $\{x_n\}$ and $\{x_n'\}$ be two Cauchy sequences in $X$. We say that $\{x_n\}$ and $\{x_n'\}$ are \textbf{equivalent} if
+	\[
+	\lim_{n\to\infty} d(x_n,x_n') = 0 .
+	\]
+\end{definition}
+
+\begin{exercise}[Assignment]
+	Show that this is an equivalence relation on $X^{*}$ (and that the limit above exists).
+\end{exercise}
+
+\noindent Let $\widetilde{X}$ be the set of all equivalence classes of Cauchy sequences in $X$:
+\[
+\widetilde{X} = \Bigl\{\,\bigl[\{x_n\}\bigr] : \{x_n\} \text{ is a Cauchy sequence in } X\,\Bigr\}.
+\]
+We define $\widetilde{d}$ on $\widetilde{X}$ by
+\[
+\widetilde{d}\Bigl(\bigl[\{x_n\}\bigr],\bigl[\{y_n\}\bigr]\Bigr) = \lim_{n\to\infty} d(x_n,y_n).
+\]
+
+\begin{exercise}[Assignment]
+	Prove that $\widetilde{d}$ is a well-defined metric on $\widetilde{X}$. That is:
+	\begin{enumerate}[label=(\arabic*)]
+		\item the limit exists;
+		\item it does not depend on the choice of representatives of the classes (well-definedness);
+		\item $\widetilde{d}$ satisfies the three metric axioms.
+	\end{enumerate}
+\end{exercise}
+
+\begin{takeaway}
+    Next, we then prove that $(\widetilde{X},\widetilde{d})$ is complete, and that $X$ is isometric to a dense subset of $\widetilde{X}$.
+\end{takeaway}
 	
 \end{document}
