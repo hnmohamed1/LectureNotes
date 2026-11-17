@@ -18,6 +18,8 @@
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\cl}[1]{\overline{#1}}
+\newcommand{\oi}[2]{\left]#1,#2\right[}
+\renewcommand{\qedsymbol}{$\blacksquare$}
 
 % --- COLOR PALETTE ---
 \definecolor{primaryColor}{RGB}{28, 54, 115}      % Dark Navy (Definitions / Primary)
@@ -1754,7 +1756,7 @@ allows us to work on $[0,1]$ without loss of generality.
 \end{example}
 
 
-% ==========================================================
+	% ==========================================================
 %                       LECTURE 10
 % ==========================================================
 \lecturetitle{10}{Total Boundedness and Completion of a Metric Space}
@@ -1787,16 +1789,16 @@ allows us to work on $[0,1]$ without loss of generality.
 \end{definition}
 
 \begin{definition}{Cauchy Completion}
-	By a \textbf{Cauchy completion} of a metric space $(X,d)$ we mean a complete metric space $(\widetilde{X},\widetilde{d})$ and an isometry
+	By a \textbf{Cauchy completion} of a metric space $(X,d)$ we mean a complete metric space $(X^*,d^*)$ and an isometry
 	\[
-	\phi:X\to\widetilde{X}
+	\phi:X\to X^*
 	\]
-	such that $\phi(X)$ is dense in $\widetilde{X}$.
+	such that $\phi(X)$ is dense in $X^*$.
 \end{definition}
 
 \subsection{The Cauchy Completion}
 
-Let $(X,d)$ be a metric space and let $X^{*}$ be the set of all Cauchy sequences in $X$.
+Let $(X,d)$ be a metric space and let $C(X)$ be the set of all Cauchy sequences in $X$.
 
 \begin{definition}{Equivalent Cauchy Sequences}
 	Let $\{x_n\}$ and $\{x_n'\}$ be two Cauchy sequences in $X$. We say that $\{x_n\}$ and $\{x_n'\}$ are \textbf{equivalent} if
@@ -1809,26 +1811,693 @@ Let $(X,d)$ be a metric space and let $X^{*}$ be the set of all Cauchy sequences
 	Show that this is an equivalence relation on $X^{*}$ (and that the limit above exists).
 \end{exercise}
 
-\noindent Let $\widetilde{X}$ be the set of all equivalence classes of Cauchy sequences in $X$:
+\noindent Let $X^*$ be the set of all equivalence classes of Cauchy sequences in $X$:
 \[
-\widetilde{X} = \Bigl\{\,\bigl[\{x_n\}\bigr] : \{x_n\} \text{ is a Cauchy sequence in } X\,\Bigr\}.
+X^* = \Bigl\{\,\bigl[\{x_n\}\bigr] : \{x_n\} \text{ is a Cauchy sequence in } X\,\Bigr\}.
 \]
-We define $\widetilde{d}$ on $\widetilde{X}$ by
+We define $d^*$ on $X^*$ by
 \[
-\widetilde{d}\Bigl(\bigl[\{x_n\}\bigr],\bigl[\{y_n\}\bigr]\Bigr) = \lim_{n\to\infty} d(x_n,y_n).
+d^*\Bigl(\bigl[\{x_n\}\bigr],\bigl[\{y_n\}\bigr]\Bigr) = \lim_{n\to\infty} d(x_n,y_n).
 \]
 
 \begin{exercise}[Assignment]
-	Prove that $\widetilde{d}$ is a well-defined metric on $\widetilde{X}$. That is:
+	Prove that $d^*$ is a well-defined metric on $X^*$. That is:
 	\begin{enumerate}[label=(\arabic*)]
 		\item the limit exists;
 		\item it does not depend on the choice of representatives of the classes (well-definedness);
-		\item $\widetilde{d}$ satisfies the three metric axioms.
+		\item $d^*$ satisfies the three metric axioms.
 	\end{enumerate}
 \end{exercise}
 
 \begin{takeaway}
-    Next, we then prove that $(\widetilde{X},\widetilde{d})$ is complete, and that $X$ is isometric to a dense subset of $\widetilde{X}$.
+	Next, we then prove that $(X^*,d^*)$ is complete, and that $X$ is isometric to a dense subset of $X^*$.
 \end{takeaway}
+
+
+% ==========================================================
+%                       LECTURE 11
+% ==========================================================
+\lecturetitle{11}{\textit{Continuation:} Cauchy Completion}
+% \textit{Date: Nov 14, 2026}
+
+\subsection{The Equivalence Relation on Cauchy Sequences}
+
+Let $(X,d)$ be a metric space and let $C(X)$ be the set of all Cauchy sequences in $X$. Define a relation $\sim$ on $C(X)$ by
+\[
+\{x_n\}\sim\{x_n'\} \iff \lim_{n\to\infty} d(x_n,x_n')=0 .
+\]
+
+\begin{proposition}
+	The relation $\sim$ is an equivalence relation on $C(X)$.
+\end{proposition}
+
+\begin{proof}
+	\textbf{(i) Reflexive.} $d(x_n,x_n)=0\to 0$, so $\{x_n\}\sim\{x_n\}$.
+	
+	\smallskip
+	\noindent\textbf{(ii) Symmetric.} $d(x_n,x_n')=d(x_n',x_n)$, so if $d(x_n,x_n')\to0$ then $d(x_n',x_n)\to 0$.
+	
+	\smallskip
+	\noindent\textbf{(iii) Transitive.} Suppose $\{x_n\} \sim\{x_n'\}$ and $\{x_n'\}\sim\{x_n''\}$. Then $d(x_n,x_n')\to0$ and $d(x_n',x_n'')\to0$. Since
+	\[
+	0\le d(x_n,x_n'')\le d(x_n,x_n')+d(x_n',x_n'') ,
+	\]
+	the right-hand side tends to $0$, so $d(x_n,x_n'')\to 0$. Hence $\{x_n\}\sim\{x_n''\}$.
+\end{proof}
+
+\subsection{The Metric Space $(X^{*},d^{*})$}
+
+Let $X^{*}$ be the set of all equivalence classes under $\sim$:
+\[
+X^{*} = \Bigl\{\,\bigl[\{x_n\}\bigr] : \{x_n\} \text{ is a Cauchy sequence in } X\,\Bigr\}.
+\]
+We define $d^{*}$ on $X^{*}$ by
+\[
+d^{*}\Bigl(\bigl[\{x_n\}\bigr],\bigl[\{y_n\}\bigr]\Bigr) := \lim_{n\to\infty} d(x_n,y_n).
+\]
+
+\begin{proposition}
+	The limit above exists, and it does not depend on the choice of the representatives of the classes.
+\end{proposition}
+
+\begin{proof}
+	\textbf{Existence of the limit.} We show that $\{d(x_n,y_n)\}_{n}$ is a Cauchy sequence in $\R$. By the triangle inequality, for all $m,n$,
+	\[
+	d(x_n,y_n)\le d(x_n,x_m)+d(x_m,y_m)+d(y_m,y_n),
+	\]
+	and exchanging the roles of $(n,m)$,
+	\[
+	d(x_m,y_m)\le d(x_m,x_n)+d(x_n,y_n)+d(y_n,y_m).
+	\]
+	Hence
+	\[
+	\bigl|d(x_n,y_n)-d(x_m,y_m)\bigr|\le d(x_n,x_m)+d(y_n,y_m).
+	\]
+	Given $\varepsilon>0$, since $\{x_n\}$ and $\{y_n\}$ are Cauchy there is $N$ such that $d(x_n,x_m)<\varepsilon/2$ and $d(y_n,y_m)<\varepsilon/2$ for all $m,n\ge N$. So $|d(x_n,y_n)-d(x_m,y_m)|<\varepsilon$ for $m,n\ge N$, i.e.\ $\{d(x_n,y_n)\}$ is Cauchy in $\R$. Since $\R$ is complete, the limit exists.
+	
+	\medskip
+	\noindent\textbf{Independence of the representatives.} Let $\{x_n\}\sim\{x_n'\}$ and $\{y_n\}\sim\{y_n'\}$. Look at these two inequalities:
+	\begin{align*}
+		d(x_n,y_n)&\le d(x_n,x_n')+d(x_n',y_n')+d(y_n',y_n),\\
+		d(x_n',y_n')&\le d(x_n',x_n)+d(x_n,y_n)+d(y_n,y_n').
+	\end{align*}
+	Together they give
+	\[
+	\bigl|d(x_n,y_n)-d(x_n',y_n')\bigr|\le d(x_n,x_n')+d(y_n,y_n')\to 0.
+	\]
+	Therefore $\lim d(x_n,y_n)=\lim d(x_n',y_n')$, so the limit does not depend on the representatives.
+\end{proof}
+
+\noindent It remains to prove that $d^{*}$ satisfies the three conditions of a metric.
+
+\begin{proposition}
+	$d^{*}$ is a metric on $X^{*}$.
+\end{proposition}
+
+\begin{proof}
+	\textbf{(i) Non-negativity and definiteness.} Non-negativity is obvious, being a limit of non-negative numbers. If
+	\[
+	d^{*}\Bigl(\bigl[\{x_n\}\bigr],\bigl[\{x_n'\}\bigr]\Bigr)=0,
+	\]
+	then $\lim d(x_n,x_n')=0$, that is, $\bigl[\{x_n\}\bigr]=\bigl[\{x_n'\}\bigr]$. Conversely, equal classes have distance $0$.
+	
+	\smallskip
+	\noindent\textbf{(ii) Symmetry.} $d(x_n,y_n)=d(y_n,x_n)$ for every $n$.
+	
+	\smallskip
+	\noindent\textbf{(iii) Triangle inequality.} See the exercise below.
+\end{proof}
+
+\begin{exercise}
+	Prove the triangle inequality for $d^{*}$.
+\end{exercise}
+
+\subsection{Embedding $X$ into $X^{*}$}
+
+For each $x\in X$ define
+\[
+\widehat{x}=\Bigl[\{x\}_{n=1}^{\infty}\Bigr]
+\]
+the class of the constant sequence $x,x,x,\dots$ (a constant sequence is clearly Cauchy). Define
+\[
+\phi:X \to X^{*}, \qquad \phi(x)=\widehat{x}.
+\]
+
+\begin{proposition}
+	$\phi$ is an isometry.
+\end{proposition}
+
+\begin{proof}
+	For $x,y\in X$,
+	\[
+	d^{*}(\widehat x,\widehat y)=\lim_{n\to\infty}d(x,y)=d(x,y). 
+	\]
+	Hence $\phi$ preserves distances.
+\end{proof}
+
+\begin{center}
+	\begin{tikzpicture}[scale=1.0, font=\sffamily]
+		% ---------- Space (X,d) ----------
+		\draw[thick, primaryColor, fill=primaryColor, fill opacity=0.08] (-3.5,0) ellipse (2 and 1.6);
+		\node[primaryColor, font=\bfseries] at (-3.5,2.0) {$(X,d)$};
+		
+		\fill (-3.0,0.8)  circle (1.8pt) node[left=3pt] {$x$};
+		\fill (-3.0,-0.8) circle (1.8pt) node[left=3pt] {$y$};
+		\draw[<->, >=stealth, thick, primaryColor] (-3.0,0.7) -- (-3.0,-0.7)
+		node[midway, left=3pt, font=\small] {$d(x,y)$};
+		
+		% ---------- Space (X*,d*) ----------
+		\draw[thick, theoremColor, fill=theoremColor, fill opacity=0.05] (1.5,-2.2) rectangle (8.5,2.2);
+		\node[theoremColor, font=\bfseries] at (5.0,2.6) {$(X^{*},d^{*})$};
+		
+		\draw[thick, accentColor, fill=accentColor, fill opacity=0.12] (5.0,0) ellipse (2 and 1.6);
+		\node[accentColor, font=\small\bfseries] at (7,1.25) {$\phi(X)$};
+		
+		\fill (4.2,0.8)  circle (1.8pt) node[right=3pt, font=\small] {$\widehat{x}=\phi(x)$};
+		\fill (4.2,-0.8) circle (1.8pt) node[right=3pt, font=\small] {$\widehat{y}=\phi(y)$};
+		\draw[<->, >=stealth, thick, accentColor] (4.2,0.7) -- (4.2,-0.7)
+		node[midway , right=3pt, font=\small] {$d^{*}(\widehat{x},\widehat{y})$};
+		
+		% ---------- The map phi ----------
+		\draw[->, >=stealth, thick, gray] (-2.9,0.8)  -- (4.1,0.8)  node[midway, above] {$\phi$};
+		\draw[->, >=stealth, thick, gray] (-2.9,-0.8) -- (4.1,-0.8) node[midway, below] {$\phi$};
+		
+	\end{tikzpicture}
+\end{center}
+
+\subsection{$\phi(X)$ is Dense in $X^{*}$}
+
+\begin{proposition}
+	$\phi(X)$ is dense in $X^{*}$.
+\end{proposition}
+
+\begin{proof}
+	Let $x^{*}=\bigl[\{x_n\}\bigr]\in X^{*}$, where $\{x_n\}$ is Cauchy, and let $\varepsilon>0$. There is $N_\varepsilon\in\Z^+$ such that
+	\[
+	\forall\, m,n\ge N_\varepsilon \quad d(x_n,x_m)<\varepsilon/2 .
+	\]
+	In particular $d(x_m,x_{N_\varepsilon})<\varepsilon/2$ for all $m\ge N_\varepsilon$. Consider the constant sequence $x_{N_\varepsilon},x_{N_\varepsilon},\dots$, that is, the element $\widehat{x_{N_\varepsilon}}=\phi(x_{N_\varepsilon})\in\phi(X)$. Then
+	\[
+	d^{*}\bigl(x^{*},\widehat{x_{N_\varepsilon}}\bigr)=\lim_{m\to\infty}d(x_m,x_{N_\varepsilon})\le\frac{\varepsilon}{2}<\varepsilon .
+	\]
+	So for every element $x^{*}\in X^{*}$ and every $\varepsilon>0$ there is $\widehat x\in\phi(X)$ with $d^{*}(x^{*},\widehat x)<\varepsilon$, i.e.\ $\overline{\phi(X)}=X^{*}$.
+\end{proof}
+
+\subsection{$X^{*}$ is Complete}
+
+It remains to prove that $(X^{*},d^{*})$ is complete.
+
+\begin{proposition}
+	Every Cauchy sequence in the dense subset $\phi(X)$ converges in $X^{*}$.
+\end{proposition}
+
+\begin{proof}
+	Let $\{\widehat{z_k}\}_{k}$ be a Cauchy sequence in $\phi(X)$. Since $\phi$ is an isometry,
+	\[
+	d(z_n,z_m)=d^{*}(\widehat{z_n},\widehat{z_m})\qquad\forall\, m,n\in\Z^+ ,
+	\]
+	hence $\{z_1,z_2,z_3,\dots\}$ is a Cauchy sequence in $X$. For $\varepsilon>0$ there is $N_\varepsilon\in\Z^+$ such that
+	\[
+	d(z_k,z_n)<\frac{\varepsilon}{2}\qquad\text{for } k,n\ge N_\varepsilon .
+	\]
+	Let $z^{*}=\bigl[\{z_1,z_2,\dots\}\bigr]\in X^{*}$. For $k\ge N_\varepsilon$,
+	\[
+	d^{*}\bigl(\widehat{z_k},z^{*}\bigr)=\lim_{n\to\infty}d(z_k,z_n)\le\frac{\varepsilon}{2}<\varepsilon .
+	\]
+	Thus $\widehat{z_k}\to z^{*}$.
+\end{proof}
+
+
+\begin{theorem}
+	$(X^{*},d^{*})$ is complete.
+\end{theorem}
+
+\begin{proof}
+	Let $\{w_k\}$ be any Cauchy sequence in $X^{*}$. Since $\phi(X)$ is dense, for each $k$ there is $z_k\in X$ with $d^{*}(w_k,\widehat{z_k})<\tfrac1k$. Then
+	\[
+	d^{*}(\widehat{z_k},\widehat{z_m})\le d^{*}(\widehat{z_k},w_k)+d^{*}(w_k,w_m)+d^{*}(w_m,\widehat{z_m})<\frac1k+d^{*}(w_k,w_m)+\frac1m ,
+	\]
+	so $\{\widehat{z_k}\}$ is Cauchy in $\phi(X)$. By the previous proposition $\widehat{z_k}\to z^{*}$ for some $z^{*}\in X^{*}$. Finally
+	\[
+	d^{*}(w_k,z^{*})\le d^{*}(w_k,\widehat{z_k})+d^{*}(\widehat{z_k},z^{*})<\frac1k+d^{*}(\widehat{z_k},z^{*})\xrightarrow[k\to\infty]{}0 ,
+	\]
+	so $w_k\to z^{*}$. Hence every Cauchy sequence in $X^{*}$ converges.
+\end{proof}
+
+
+
+% ==========================================================
+%                       LECTURE 12
+% ==========================================================
+\lecturetitle{12}{Equipotent Sets and Countability}
+% \textit{Date: Nov 17, 2026}
+
+\subsection{Pigeonhole Principle and Equipotency}
+
+\begin{theorem}[Pigeonhole Principle]
+	If $n>m$ ($n,m\in\Z^+$) and $n$ objects are put inside $m$ containers, then at least one container has more than one object.
+\end{theorem}
+
+\noindent In terms of sets: if $A$ and $B$ are finite sets with $|A|>|B|$, there is no injective function $A\to B$.
+
+\begin{definition}{Equipotent Sets}
+	We call two sets $A$ and $B$ \textbf{equipotent} (and write $A \approx  B$) if there is a bijection $f:A\to B$.
+\end{definition}
+
+\begin{exercise}
+	Show that equipotency is an equivalence relation (reflexive, symmetric, transitive).
+\end{exercise}
+
+
+\subsection{Infinite Sets}
+
+According to the pigeonhole principle, no finite set is equipotent to a proper subset of itself. (If $A$ has $n$ elements and $B\subset A$ has $m<n$ elements, an injection $A\to B$ would put $n$ objects in $m$ containers with no container used twice.) Thus we can define infinite sets as follows.
+
+\begin{definition}{Infinite Set}
+	A set $A$ is \textbf{infinite} if it is equipotent to one of its proper subsets.
+\end{definition}
+
+\begin{example}
+	Let $A=\{0,1,2,\dots\}$ and $B=\{1,2,3,\dots\}$. Show that $A\approx B$ and that $A$ is infinite.
+	
+	\vspace{0.5em}
+	\noindent \textbf{Solution:}
+	Define: 
+	\[
+	f:A\to B, \qquad f(n)=n+1.
+	\]
+	
+	\begin{itemize}
+		\item \textbf{$f$ is injective:} if $f(n)=f(m)$, then $n+1=m+1$, so $n=m$.
+		\item \textbf{$f$ is surjective:} if $b\in B$, then $b-1\in A$ and $f(b-1)=b$.
+	\end{itemize}
+	
+	\noindent Hence $f$ is a bijection, so $A\approx B$. Since $B\subset A$, the set $A$ is equipotent to one of its  proper subset. Therefore $A$ is infinite.
+\end{example}
+
+\begin{example}
+	Show that $\mathbb{Z}^+\approx 2\mathbb{Z}^+$.
+	
+	\vspace{0.5em}
+	\noindent \textbf{Solution:}
+	Define:
+	\[
+	f:\mathbb{Z}^+\to 2\mathbb{Z}^+, \qquad f(n)=2n.
+	\] 
+	
+	\begin{itemize}
+		\item \textbf{$f$ is injective:} if $f(n)=f(m)$, then $2n=2m$, so $n=m$.
+		\item \textbf{$f$ is surjective:} if $y\in 2\mathbb{Z}^+$, then $y=2n$ for some $n\in\mathbb{Z}^+$, so $f(n)=y$.
+	\end{itemize}
+	
+	\noindent Hence $f$ is a bijection, and therefore $\mathbb{Z}^+\approx 2\mathbb{Z}^+$.
+\end{example}
+
+\begin{example}
+	Show that $2\mathbb{Z}^+\approx 2\mathbb{Z}^++1$.
+	
+	\vspace{0.5em}
+	\noindent \textbf{Solution:}
+	Define:
+	\[
+	f:2\mathbb{Z}^+\to 2\mathbb{Z}^++1, \qquad f(n)=n+1.
+	\]  If $n$ is even, then $n+1$ is odd, so $f$ is well defined.
+	
+	\begin{itemize}
+		\item \textbf{$f$ is injective:} if $f(n)=f(m)$, then $n+1=m+1$, so $n=m$.
+		\item \textbf{$f$ is surjective:} if $k\in 2\mathbb{Z}^++1$, then $k-1\in 2\mathbb{Z}^+$ and $f(k-1)=k$.
+	\end{itemize}
+	
+	\noindent Hence $f$ is a bijection, and therefore $2\mathbb{Z}^+\approx 2\mathbb{Z}^++1$.
+\end{example}	
+
+\subsection{Equipotent Intervals in $\R$}
+
+\begin{example}
+	\label{exp:openinteq}
+	Let $a,b\in\R$ with $a<b$. Show that $\oi{0}{1}\approx\oi{a}{b}$.
+	
+	\vspace{0.5em}
+	\noindent \textbf{Solution:}
+	Define:
+	\[
+	f:\oi{0}{1}\to\oi{a}{b}, \qquad f(x)=a+(b-a)x .
+	\]
+	
+	\begin{center}
+		\begin{tikzpicture}[scale=1.2, font=\sffamily]
+			% Axes
+			\draw[->, thick] (-0.4, 0) -- (3.6, 0) node[right] {$x$};
+			\draw[->, thick] (0, -0.4) -- (0, 3.6) node[above] {$y$};
+			
+			% Marks on the axes
+			\node[below left, font=\small] at (0,0) {$0$};
+			\draw (2.6,0.06) -- (2.6,-0.06) node[below, font=\small] {$1$};
+			\draw (0.06,1.2) -- (-0.06,1.2) node[left, font=\small] {$a$};
+			\draw (0.06,3.0) -- (-0.06,3.0) node[left, font=\small] {$b$};
+			
+			% Dashed guide lines
+			\draw[dashed, thin, gray] (0,3.0) -- (2.6,3.0);
+			\draw[dashed, thin, gray] (2.6,0) -- (2.6,3.0);
+			\draw[dashed, thin, gray] (0,1.2) -- (2.6,1.2);
+			
+			% Graph of f on ]0,1[ (open endpoints)
+			\draw[thick, primaryColor] (0,1.2) -- (2.6,3.0);
+			\draw[thick, primaryColor, fill=white] (0,1.2) circle (2pt);
+			\draw[thick, primaryColor, fill=white] (2.6,3.0) circle (2pt);
+			
+			% Label
+			\node[primaryColor, anchor=north west, font=\small] at (1.5,2.45) {$f(x)=(b-a)x+a$};
+		\end{tikzpicture}
+	\end{center}
+	
+	If $0<x<1$, then $a<a+(b-a)x<b$ because $b-a>0$, so $f$ is well defined.
+	
+	\begin{itemize}
+		\item \textbf{$f$ is injective:} if $f(x)=f(x')$, then $a+(b-a)x=a+(b-a)x'$, so $(b-a)x=(b-a)x'$. Since $b-a\neq 0$, we get $x=x'$.
+		\item \textbf{$f$ is surjective:} if $y\in\oi{a}{b}$, put $x=\dfrac{y-a}{b-a}$. Then $0<x<1$ and $f(x)=a+(y-a)=y$.
+	\end{itemize}
+	
+	\noindent Hence $f$ is a bijection, and therefore $\oi{0}{1}\approx\oi{a}{b}$.
+	
+\end{example}
+
+\begin{corollary}
+	Any two bounded open intervals are equipotent:
+	\[
+	\oi{a}{b}\approx\oi{c}{d}\qquad (a<b,\ c<d).
+	\]
+\end{corollary}
+
+\begin{proof}
+	By example~\ref{exp:openinteq}, $\oi{a}{b}\approx\oi{0}{1}$ and $\oi{0}{1}\approx\oi{c}{d}$; conclude by transitivity.
+\end{proof}
+
+\noindent In fact, unbounded intervals are also equipotent to bounded ones.
+
+\begin{example}
+	Show that $\oi{0}{1}\approx\oi{0}{\infty}$.
+	
+	\vspace{0.5em}
+	\noindent \textbf{Solution:}
+	Define:
+	\[
+	f:\oi{0}{1}\to\oi{0}{\infty}, \qquad f(x)=\frac1x-1 .
+	\]
+	If $0<x<1$, then $\frac1x>1$, so $f(x)>0$ and $f$ is well defined.
+	
+	\begin{itemize}
+		\item \textbf{$f$ is injective:} if $f(x)=f(x')$, then $\frac1x-1=\frac1{x'}-1$, so $\frac1x=\frac1{x'}$ and $x=x'$.
+		\item \textbf{$f$ is surjective:} if $y\in\oi{0}{\infty}$, put $x=\dfrac{1}{y+1}$. Then $0<x<1$ and $f(x)=(y+1)-1=y$.
+	\end{itemize}
+	
+	\noindent Hence $f$ is a bijection with inverse $y\mapsto\dfrac{1}{y+1}$, and therefore $\oi{0}{1}\approx\oi{0}{\infty}$.
+\end{example}
+
+\begin{example}
+	Show that $\oi{-1}{1}\approx\oi{-\infty}{\infty}$.
+	
+	\vspace{0.5em}
+	\noindent \textbf{Solution:}
+	Define:
+	\[
+	f:\oi{-1}{1}\to\oi{-\infty}{\infty}, \qquad f(x)=\tan\!\left(\frac{\pi}{2}x\right).
+	\]
+	If $-1<x<1$, then $-\frac{\pi}{2}<\frac{\pi}{2}x<\frac{\pi}{2}$, so $f$ is well defined.
+	
+	\begin{itemize}
+		\item \textbf{$f$ is injective:} $\tan$ is strictly increasing on $\left(-\frac{\pi}{2},\frac{\pi}{2}\right)$, so $f(x)=f(x')$ implies $\frac{\pi}{2}x=\frac{\pi}{2}x'$, hence $x=x'$.
+		\item \textbf{$f$ is surjective:} if $y\in\R$, put $x=\dfrac{2}{\pi}\arctan y$. Then $-1<x<1$ and $f(x)=\tan(\arctan y)=y$.
+	\end{itemize}
+	
+	\noindent Hence $f$ is a bijection, and therefore $\oi{-1}{1}\approx\oi{-\infty}{\infty}$.
+\end{example}
+
+\begin{example}
+	Show that $f:\oi{-\infty}{\infty}\to\oi{-1}{1}$, $f(y)=\dfrac{y}{\sqrt{1+y^2}}$, is a bijection.
+	
+	\vspace{0.5em}
+	\noindent \textbf{Solution:}
+	Since $|y|<\sqrt{1+y^2}$ for every $y\in\R$, we have $|f(y)|<1$, so $f$ is well defined.
+	
+	\begin{itemize}
+		\item \textbf{$f$ is injective:} suppose $f(y_1)=f(y_2)$, i.e.
+		\[
+		\frac{y_1}{\sqrt{1+y_1^2}}=\frac{y_2}{\sqrt{1+y_2^2}} .
+		\]
+		Then $y_1,y_2$ have the same sign (or both are $0$, and then $y_1=y_2$). Squaring,
+		\[
+		\frac{y_1^2}{1+y_1^2}=\frac{y_2^2}{1+y_2^2}
+		\ \Longrightarrow\ y_1^2(1+y_2^2)=y_2^2(1+y_1^2)
+		\ \Longrightarrow\ y_1^2=y_2^2 ,
+		\]
+		so $|y_1|=|y_2|$. Since they have the same sign, $y_1=y_2$.
+		\item \textbf{$f$ is surjective:} if $t\in\oi{-1}{1}$, put $y=\dfrac{t}{\sqrt{1-t^2}}$. Then $1+y^2=\dfrac{1}{1-t^2}$, so
+		\[
+		f(y)=y\sqrt{1-t^2}=t .
+		\]
+	\end{itemize}
+	
+	\noindent Hence $f$ is a bijection with inverse $t\mapsto\dfrac{t}{\sqrt{1-t^2}}$, and therefore $\oi{-\infty}{\infty}\approx\oi{-1}{1}$.
+\end{example}
+
+
+
+\begin{takeaway}
+	Any two non-trivial open intervals in $\R$ (bounded or not) are equipotent.
+\end{takeaway}
+
+\subsection{Open Versus Half-Open and Closed Intervals}
+
+\begin{example}
+	$\oi{0}{1}\approx\left]0,1\right]$. Define $f:\left]0,1\right]\to\oi{0}{1}$ by
+	\[
+	f(x)=\begin{cases}
+		x & x\neq\dfrac1n\ \ (n\in\Z^+),\\[2mm]
+		\dfrac1{n+1} & x=\dfrac1n\ \ (n\in\Z^+).
+	\end{cases}
+	\]
+	The idea is to shift the points $1,\tfrac12,\tfrac13,\dots$ one step towards $0$ and leave all other points fixed:
+	\begin{center}
+		\begin{tikzpicture}[scale=1.0, font=\sffamily]
+			\draw[thick] (0,0) -- (12,0);
+			\foreach \x/\l in {0/0, 6/{\tfrac12}, 4/{\tfrac13}, 3/{\tfrac14}, 2.4/{\tfrac15}, 12/1}
+			\draw (\x,0.08) -- (\x,-0.08);
+			\node[below] at (0,-0.1) {$0$};
+			\node[below] at (12,-0.1) {$1$};
+			\node[below] at (6,-0.1) {$\tfrac12$};
+			\node[below] at (4,-0.1) {$\tfrac13$};
+			\node[below] at (3,-0.1) {$\tfrac14$};
+			\node[below] at (2.4,-0.1) {$\tfrac15$};
+			\draw[->, >=stealth, thick, primaryColor] (12,0.1) to[bend right=40] (6,0.1);
+			\draw[->, >=stealth, thick, primaryColor] (6,0.1) to[bend right=40] (4,0.1);
+			\draw[->, >=stealth, thick, primaryColor] (4,0.1) to[bend right=40] (3,0.1);
+			\draw[->, >=stealth, thick, primaryColor] (3,0.1) to[bend right=40] (2.4,0.1);
+		\end{tikzpicture}
+	\end{center}
+	\textbf{$f$ is a bijection.}
+\end{example}
+
+\begin{corollary}
+	$\oi{a}{b}\approx\left]a,b\right]$ for $a<b$.
+\end{corollary}
+
+\begin{proof}
+	The affine bijection $x\mapsto a+(b-a)x$ maps $\left]0,1\right]$ onto $\left]a,b\right]$ and $\oi{0}{1}$ onto $\oi{a}{b}$. Combine with the example and use transitivity.
+\end{proof}
+
+\begin{remark}
+	Let $a,b\in\R$ with $a<b$. Then $\left]a,b\right]\approx\left[a,b\right[$ by the ``mirror image'' of the interval about its midpoint $\dfrac{a+b}{2}$.
+	
+	\vspace{0.5em}
+	\noindent \textbf{Details:}
+	Define:
+	\[
+	f:\left]a,b\right]\to\left[a,b\right[, \qquad f(x)=a+b-x .
+	\]
+	
+	\noindent \textbf{$f$ is well defined:} let $x\in\left]a,b\right]$, so $a<x\leq b$. Multiplying by $-1$ reverses the inequalities:
+	\[
+	-b\leq -x<-a .
+	\]
+	Adding $a+b$ to every part gives
+	\[
+	a\leq a+b-x<b ,
+	\]
+	that is, $f(x)\in\left[a,b\right[$.
+	
+	\begin{itemize}
+		\item \textbf{$f$ is injective:} if $f(x)=f(x')$, then $a+b-x=a+b-x'$, so $x=x'$.
+		\item \textbf{$f$ is surjective:} let $y\in\left[a,b\right[$, so $a\leq y<b$. Put $x=a+b-y$. Multiplying by $-1$ and adding $a+b$ as above gives $a<a+b-y\leq b$, that is, $x\in\left]a,b\right]$. Moreover
+		\[
+		f(x)=a+b-(a+b-y)=y .
+		\]
+	\end{itemize}
+	
+	\noindent Hence $f$ is a bijection, and therefore $\left]a,b\right]\approx\left[a,b\right[$.
+	
+\end{remark}
+
+
+\begin{example}
+	$\left[0,1\right]\approx\oi{0}{1}$. Again move a sequence of points along: define $f:\left[0,1\right]\to\oi{0}{1}$ by
+	\[
+	f(x)=\begin{cases}
+		\dfrac12 & x=0,\\[2mm]
+		\dfrac1{n+2} & x=\dfrac1n\ \ (n\in\Z^+),\\[2mm]
+		x & \text{otherwise}.
+	\end{cases}
+	\]
+	Then $0\mapsto\tfrac12$, $1\mapsto\tfrac13$, $\tfrac12\mapsto\tfrac14,\dots$, and $f$ is a bijection onto $\oi{0}{1}$.
+	
+	\begin{center}
+		\begin{tikzpicture}[scale=1.0, font=\sffamily]
+			% Domain [0,1]
+			\node[left] at (-0.4,2.5) {$\left[0,1\right]$};
+			\draw[thick] (0,2.5) -- (12,2.5);
+			\foreach \x in {0,12,6,4,3,2.4,2}
+			\draw (\x,2.58) -- (\x,2.42);
+			\fill (0,2.5) circle (2pt);
+			\fill (12,2.5) circle (2pt);
+			\node[above] at (0,2.65) {$0$};
+			\node[above] at (12,2.65) {$1$};
+			\node[above] at (6,2.65) {$\tfrac12$};
+			\node[above] at (4,2.65) {$\tfrac13$};
+			\node[above] at (3,2.65) {$\tfrac14$};
+			\node[above] at (2.4,2.65) {$\tfrac15$};
+			\node[above] at (2,2.65) {$\tfrac16$};
+			
+			% Codomain ]0,1[
+			\node[left] at (-0.4,0) {$\oi{0}{1}$};
+			\draw[thick] (0,0) -- (12,0);
+			\foreach \x in {6,4,3,2.4,2}
+			\draw (\x,0.08) -- (\x,-0.08);
+			\draw[thick, fill=white] (0,0) circle (2pt);
+			\draw[thick, fill=white] (12,0) circle (2pt);
+			\node[below] at (0,-0.15) {$0$};
+			\node[below] at (12,-0.15) {$1$};
+			\node[below] at (6,-0.15) {$\tfrac12$};
+			\node[below] at (4,-0.15) {$\tfrac13$};
+			\node[below] at (3,-0.15) {$\tfrac14$};
+			\node[below] at (2.4,-0.15) {$\tfrac15$};
+			\node[below] at (2,-0.15) {$\tfrac16$};
+			
+			% Arrows
+			\draw[->, >=stealth, thick, primaryColor] (0,2.4) -- (5.9,0.1);
+			\draw[->, >=stealth, thick, primaryColor] (12,2.4) -- (4.1,0.1);
+			\draw[->, >=stealth, thick, primaryColor] (6,2.4) -- (3.1,0.1);
+			\draw[->, >=stealth, thick, primaryColor] (4,2.4) -- (2.45,0.1);
+			\draw[->, >=stealth, thick, primaryColor] (3,2.4) -- (2.05,0.1);
+			
+			% Label
+			\node[primaryColor, font=\small] at (9.5,1.25) {$f(x)=x$ for all other $x$};
+		\end{tikzpicture}
+	\end{center}
+\end{example}
+
+\begin{takeaway}
+	Any two non-trivial intervals in $\R$ are equipotent. In particular, if $-\infty\le a<b\le\infty$ and $-\infty\le c<d\le\infty$, then
+	\[
+	\oi{a}{b}\approx\oi{c}{d}.
+	\]
+\end{takeaway}
+
+\subsection{Countable Sets}
+
+\begin{definition}{Countable Set}
+	A set $A$ is called \textbf{countable} if it is equipotent to a subset of $\Z$. Infinite countable sets are called \textbf{denumerable}.
+\end{definition}
+
+
+\begin{remark}
+	An infinite set is denumerable if and only if it can be listed in a sequence of distinct terms.
+\end{remark}
+
+\begin{theorem}
+	$\oi{0}{1}$ is not denumerable.
+\end{theorem}
+
+\begin{proof}
+	Suppose the converse. That is, $\oi{0}{1}\approx\{x_1,x_2,x_3,\dots\}$. Write each $x_k$ in its decimal expansion:
+	\begin{align*}
+		x_1 &= 0.\,x_1^{(1)}\,x_1^{(2)}\cdots x_1^{(n)}\cdots\\
+		x_2 &= 0.\,x_2^{(1)}\,x_2^{(2)}\cdots x_2^{(n)}\cdots\\
+		&\ \,\vdots\\
+		x_n &= 0.\,x_n^{(1)}\,x_n^{(2)}\cdots x_n^{(n)}\cdots
+	\end{align*}
+	
+	\noindent Define $y=0.\,y^{(1)}\,y^{(2)}\cdots y^{(n)}\cdots$ where
+	\[
+	y^{(n)}=\begin{cases}
+		0 & \text{if } x_n^{(n)}\geq 5,\\[1mm]
+		6 & \text{if } x_n^{(n)}< 5 .
+	\end{cases}
+	\]
+	Then $y^{(n)}\neq x_n^{(n)}$ for every $n$, so $y$ differs from $x_n$ in the $n$-th decimal digit. The digits of $y$ are only $0$ and $6$, so $y$ has no second expansion ending in $9$'s, and therefore $y\neq x_n$ $(\forall\, n\in\Z^+)$. This is a contradiction, since $y$ is not in the list $\{x_1,x_2,x_3,\dots\}$.
+\end{proof}
+
+\begin{exercise} 	A finite union of countable sets is countable.
+	
+\end{exercise}
+
+
+
+\begin{theorem}
+	$\Z^+\times\Z^+\approx\Z^+$.
+\end{theorem}
+
+
+
+\begin{proof}
+	Define:
+	\[
+	f:\Z^+\times\Z^+\to\Z^+, \qquad f(m,n)=2^{m-1}(2n-1).
+	\]
+	\textbf{$f$ is onto:} every positive integer can be written as $2^{m-1}(2n-1)$, namely a power of $2$ times an odd number.
+	
+	\smallskip
+	\noindent\textbf{$f$ is one-to-one:} suppose $2^{m_1-1}(2n_1-1)=2^{m_2-1}(2n_2-1)$ and, say, $m_1>m_2$. Dividing by $2^{m_2-1}$ gives
+	\[
+	2^{m_1-m_2}(2n_1-1)=2n_2-1,
+	\]
+	where the left side is even and the right side is odd, a contradiction. So $m_1=m_2$, and then $2n_1-1=2n_2-1$, hence $n_1=n_2$.
+	
+	
+\end{proof}
+
+\begin{remark}
+	$\Z^+\times\Z^+=\bigcup_{n=1}^{\infty}\Z^+\times\{n\}$.
+\end{remark}
+
+\begin{exercise}
+	A countable union of countable sets is countable.
+\end{exercise}
+
+\begin{exercise}
+	If $A_1\approx A_2$ and $B_1\approx B_2$, then $A_1\times B_1\approx A_2\times B_2$.
+\end{exercise}
+
+% Note: Z ~ Z^+ is used below; it is not in the handwritten notes, so a one-line bijection is given.
+\noindent Thus $\Z\times\Z^+\approx\Z^+\times\Z^+$. (This uses $\Z\approx\Z^+$, for instance via $n\mapsto 2n$ for $n>0$ and $n\mapsto 1-2n$ for $n\le 0$.) Together with the theorem, $\Z\times\Z^+\approx\Z^+$.
+
+\begin{remark}
+	$\Q$ is equipotent to a subset of $\Z\times\Z^+$.
+\end{remark}
+
+\begin{exercise}
+	A subset of a countable set is countable.
+\end{exercise}
+
+\begin{example}[$\Q$ is countable]
+	Take
+	\[
+	f(m,n)=\frac mn \quad\text{if } \gcd(m,n)=1 .
+	\]
+	Then
+	\[
+	\Q\approx\bigl\{(m,n): m\in\Z,\ n\in\Z^+,\ \gcd(m,n)=1\bigr\},
+	\]
+	a subset of $\Z\times\Z^+\approx\Z^+$. Hence $\Q$ is countable.
+\end{example}
 	
 \end{document}
