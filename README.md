@@ -5,7 +5,7 @@ Cairo University, Faculty of Science.
 | Course | Prof. | PDF | Until | 
 |---|---|---|---|
 | M311 Abstract Algebra | Mohamed Ramadan | [Download](https://github.com/hnmohamed1/LectureNotes/releases/download/latest/M311_Abstract_Algebra.pdf) | Lecture 11 |
-| M331 Real Analysis | Moemen Abu-risha | [Download](https://github.com/hnmohamed1/LectureNotes/releases/download/latest/M331_Real_Analysis.pdf) | Lecture 10 |
+| M331 Real Analysis | Moemen Abu-risha | [Download](https://github.com/hnmohamed1/LectureNotes/releases/download/latest/M331_Real_Analysis.pdf) | Lecture 12 |
 
 Source is in the `.tex` files. To build locally: `latexmk -pdf M311_Abstract_Algebra.tex`.
 
