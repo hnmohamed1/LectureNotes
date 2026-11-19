@@ -14,4 +14,4 @@ Source is in the `.tex` files. To build locally: `latexmk -pdf M311_Abstract_Alg
 
 These lecture notes were written by **Mohamed Hassan**, based on the course materials and lectures provided by **Prof. Mohamed Ramadan** and **Prof. Moemen Abu-risha**. 
 
-I would like to express my sincere gratitude to both professors for their guidance and dedicated instruction. Special thanks also go to my friend **Mina Basilious** for reviewing the proofs and refining the text.
+I would like to express my sincere gratitude to both professors for their guidance and dedicated instruction. Special thanks also go to my friends **Mohamed Alaa El-Din**  and **Mina Basilious** for reviewing the proofs and refining the text and their contributaion.
