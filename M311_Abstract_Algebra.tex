@@ -3212,5 +3212,424 @@
 		\vspace{0.5em}
 		\noindent ($\Leftarrow$) \textit{Do it as exercise}
 	\end{proof}
+
+	\lecturetitle{12}{Normalizers \& Sylow's Second Theorem}
+	\rhead{Lecture 12}
+	% \textit{Date: Nov 16, 2026}
+	
+	% ==========================================================
+	\subsection{The Normalizer of a Subgroup}
+	
+	\begin{definition}{Normalizer}
+		Let $H \leq G$. The \textbf{normalizer} of $H$ in $G$ is
+		\[
+		N_G(H) = \{ x \in G \mid H^{x} = H \},
+		\]
+		where $H^{x} = x^{-1} H x$ (see 
+	\end{definition}
+	
+	\begin{proposition}[Properties of the Normalizer]
+		\label{prop:normalizer}
+		Let $H \leq G$. Then:
+		\begin{enumerate}
+			\item $H^{x} = H$ for all $x \in H$; hence $H \trianglelefteq N_G(H)$,
+			\item $N_G(H) = G \iff H \trianglelefteq G$.
+		\end{enumerate}
+	\end{proposition}
+
+    \begin{exercise}
+        Prove Propostion~\ref{prop:normalizer}
+    \end{exercise}
+	
+	% ------------------------------------------
+	\subsection{The Index of a Sylow Subgroup and of its Normalizer}
+
+    \begin{proposition}
+        \label{prop:sylow-order}
+        Let $G$ be a finite group with $|G| = p^{n}m$, where $p$ is prime and
+        $\gcd(p,m)=1$. If $P \le G$ is a Sylow $p$-subgroup, then
+        $|P| = p^{n}$.
+    \end{proposition}
+	
+	\begin{corollary}
+		\label{cor:indexsylow}
+		Let $P \in \Syl_p(G)$. Then
+		\[
+		p \nmid [N_G(P) : P] \qquad \text{and} \qquad p \nmid [G : P].
+		\]
+	\end{corollary}
+	
+	\begin{proof}
+		We have $P \leq N_G(P) \leq G$, so
+		\[
+		[G : P] = [G : N_G(P)]\,[N_G(P) : P].
+		\]
+		Since $p \nmid [G : P]$, it follows that $p \nmid [G : N_G(P)]$ and $p \nmid [N_G(P) : P]$.
+	\end{proof}
+	
+	% ------------------------------------------
+	\subsection{Sylow's Second Theorem}
+	
+	\begin{corollary}
+		\label{cor:psubgroupconj}
+		Let $P \in \Syl_p(G)$. If $H$ is a $p$-subgroup of $G$, then
+		\[
+		H \subseteq aPa^{-1} \quad \text{for some } a \in G.
+		\]
+	\end{corollary}
+	
+	\begin{proof}
+		Let $X$ be the set of left cosets of $P$ in $G$:
+		\[
+		X = \{ aP \mid a \in G \}, \qquad |X| = [G : P].
+		\]
+		Let $H$ act on $X$ by left multiplication:
+		\[
+		H \times X \longrightarrow X, \qquad (h, aP) \longmapsto h \cdot aP := haP.
+		\]
+		Set $|G| = p^{n} m$ with $\gcd(p, m) = 1$. This means that $[G : P] = m = |X|$, so
+		\[
+		p \nmid |X|.
+		\]
+		Since $H$ is a $p$-group which acts on $X$, we have
+		\begin{align*}
+		    \Fix_X(H) &= \{ aP \mid h \cdot aP = aP \ \text{ for all } h \in H \} \\
+            &= \{ aP \mid h \in aP \ \text{ for all } h \in H \} ,
+		\end{align*}
+		and by Lemma~\ref{lem:fixedpoints},
+		\[
+		|\Fix_X(H)| \equiv |X| \pmod{p}.
+		\]
+		As $p \nmid |X|$, we get $|\Fix_X(H)| \not\equiv 0 \pmod p$; in particular $|\Fix_X(H)| \neq 0$. Hence there is $aP \in \Fix_X(H)$ for some $a \in G$. Then
+		\begin{align*}
+			&haP = aP \quad &&\text{for all } h \in H\\
+			&\Rightarrow\ a^{-1}haP = P \quad &&\text{for all } h \in H\\
+			&\Rightarrow\ a^{-1}ha \in P \quad &&\text{for all } h \in H\\
+			&\Rightarrow\ a^{-1}Ha \subseteq P \quad \Rightarrow\ H \subseteq aPa^{-1}. 
+		\end{align*}
+	\end{proof}
+	
+	\noindent By taking $H$ to be any Sylow $p$-subgroup of $G$ we obtain the following theorem.
+	
+	\begin{theorem}[Sylow's Second Theorem]
+		\label{thm:secondsylow}
+		If $G$ is a finite group, then any two Sylow $p$-subgroups of $G$ are conjugate in $G$. That is, if $P_1, P_2 \in \Syl_p(G)$, then there exists $x \in G$ such that
+		\[
+		P_1 = P_2^{x}.
+		\]
+	\end{theorem}
+	
+	\begin{corollary}
+		\label{cor:normaliffunique}
+		A Sylow $p$-subgroup $P$ of $G$ is normal if and only if $P$ is unique.
+	\end{corollary}
+
+	
+	\begin{corollary}
+		\label{cor:pinsylow}
+		Every $p$-subgroup $H$ of $G$ is contained in some Sylow $p$-subgroup of $G$.
+	\end{corollary}
+    
+    \begin{proof}
+        This follows from Corollary~\ref{cor:psubgroupconj}: $H \subseteq aPa^{-1}$, and $aPa^{-1}$ is again a Sylow $p$-subgroup by Corollary~\ref{cor:sylowprops}(2).
+    \end{proof}
+	
+	 
+	
+	\begin{example}
+		Let $G = S_3$. It has three Sylow $2$-subgroups
+		\[
+		\langle (12) \rangle, \qquad \langle (13) \rangle, \qquad \langle (23) \rangle,
+		\]
+		and they are conjugate in $G$.
+	\end{example}
+	
+	\begin{example}
+		Let $G = D_3 = \langle a, b \mid a^3 = b^2 = e,\ aba = b \rangle$. The Sylow $2$-subgroups of $G$ are
+		\[
+		\langle b \rangle = \{e, b\}, \qquad \{e, ba\}, \qquad \{e, ba^2\},
+		\]
+		and they are conjugate in $G$. For example:
+		\begin{itemize}
+			\item $a\{e, b\}a^{-1} = \{e, ba\}$,
+			\item $a^{2}\{e, b\}a^{-2} = \{e, ba^2\}$.
+		\end{itemize}
+	\end{example}
+	
+	\begin{exercise}
+		\label{ex:sylinsub}
+		Let $P \in \Syl_p(G)$ and $P \leq K \leq G$. Show that
+		\[
+		P \in \Syl_p(K).
+		\]
+	\end{exercise}
+	
+	\begin{exercise}
+		Let $K \trianglelefteq G$ and $P \in \Syl_p(G)$. Show that
+		\begin{itemize}
+			\item $P \cap K \in \Syl_p(K)$,
+			\item $PK/K \in \Syl_p(G/K)$.
+		\end{itemize}
+	\end{exercise}
+	
+	% ------------------------------------------
+	\subsection{Counting Sylow Subgroups}
+	
+	\begin{lemma}
+		\label{lem:normalizerindex}
+		Let $H$ be a $p$-subgroup of a finite group $G$. Then
+		\[
+		[N_G(H) : H] \equiv [G : H] \pmod{p}.
+		\]
+	\end{lemma}
+	
+	\begin{proof}
+		Let $R$ be the set of all right cosets of $H$ in $G$, i.e.
+		\[
+		R = \{ Hx \mid x \in G \}, \qquad |R| = [G : H].
+		\]
+		Suppose that $H$ acts on $R$ by right multiplication:
+		\[
+		H \times R \longrightarrow R, \qquad (h, Hx) \longmapsto h \cdot Hx := Hxh^{-1}.
+		\]
+		% (In the handwritten notes the action is written h . Hx = Hxh; the inverse is needed for this to satisfy (h_1 h_2).Hx = h_1.(h_2.Hx).)
+		Consider
+		\begin{align*}
+			\Fix_R(H) &= \{ Hx \mid Hxh^{-1} = Hx \ \text{ for all } h \in H \}\\
+			&= \{ Hx \mid Hx = Hxh \ \text{ for all } h \in H \}\\
+			&= \{ Hx \mid H = Hxhx^{-1} \ \text{ for all } h \in H \}\\
+			&= \{ Hx \mid xhx^{-1} \in H \ \text{ for all } h \in H \}\\
+			&= \{ Hx \mid xHx^{-1} = H \}\\
+			&= \{ Hx \mid H^{x} = H \}\\
+			&= \{ Hx \mid x \in N_G(H) \}.
+		\end{align*}
+		This gives
+		\[
+		|\Fix_R(H)| = [N_G(H) : H].
+		\]
+		By Lemma~\ref{M-lem:fixedpoints},
+		\[
+		|\Fix_R(H)| \equiv |R| \pmod{p},
+		\]
+		that is,
+		\[
+		[N_G(H) : H] \equiv |R| = [G : H] \pmod{p}. \qedhere
+		\]
+	\end{proof}
+	
+	\begin{lemma}
+		\label{lem:numconjugates}
+		Let $P \in \Syl_p(G)$. Then the number of all conjugates of $P$ in $G$ is $[G : N_G(P)]$. In particular, the number of Sylow $p$-subgroups of $G$ is $[G : N_G(P)]$.
+	\end{lemma}
+	
+	\begin{proof}
+		Write
+		\[
+		L = \{ N_G(P)x \mid x \in G \}, \qquad D = \{ P^{x} \mid x \in G \}.
+		\]
+		Define a map
+		\[
+		\phi : L \longrightarrow D, \qquad N_G(P)x \longmapsto P^{x}.
+		\]
+		The map $\phi$ is well defined, one-to-one and onto. Then $\phi$ is a bijection, so
+		\[
+		[G : N_G(P)] = |L| = |D| = |\Syl_p(G)|,
+		\]
+		where $D = \Syl_p(G)$ by Sylow's Second Theorem (Theorem~\ref{thm:secondsylow}) and Corollary~\ref{cor:sylowprops}(2).
+	\end{proof}
+	
+	\begin{remark}
+		Note that $[G : N_G(P)] = 1 \iff N_G(P) = G$, and then $P \trianglelefteq G$ (Proposition~\ref{prop:normalizer}(2)).
+	\end{remark}
+	
+	
+	% ==========================================================
+	%                       LECTURE 13
+	% ==========================================================
+	
+	\lecturetitle{13}{Sylow's Third Theorem }
+	\rhead{Lecture 13}
+	% \textit{Date: Nov 18, 2026}
+	
+	% ==========================================================
+	\subsection{Sylow's Third Theorem}
+	
+	\begin{theorem}[Sylow's Third Theorem]
+		\label{thm:thirdsylow}
+        Let $G$ be a group of order $p^nm$ , where $p$ is a prime and $\gcd(p, m) = 1$. Let $n_p$ denoted the number of Sylow p-subgroups of $G$. Then:
+		\begin{enumerate}
+			\item $n_p \equiv 1 \pmod{p}$,
+			\item $n_p \mid |G|$.
+		\end{enumerate}
+	\end{theorem}
+    
+	
+	\begin{proof}
+		\textbf{Part (1).} Let $P \in \Syl_p(G)$ and set
+		\[
+		\mathcal{F} = \{ T \mid T \in \Syl_p(G) \}.
+		\]
+		Consider the action of $P$ on $\mathcal{F}$ by conjugation:
+		\[
+		P \times \mathcal{F} \longrightarrow \mathcal{F}, \qquad (x, T) \longmapsto x \cdot T := xTx^{-1}.
+		\]
+		Note that
+		\begin{align*}
+			\Fix_{\mathcal{F}}(P) &= \{ T \in \mathcal{F} \mid x \cdot T = T \ \text{ for all } x \in P \}\\
+			&= \{ T \in \mathcal{F} \mid xTx^{-1} = T \ \text{ for all } x \in P \}\\
+			&= \{ T \in \mathcal{F} \mid T^{x} = T \ \text{ for all } x \in P \}\\
+			&= \{ T \in \mathcal{F} \mid P \leq N_G(T) \}.
+		\end{align*}
+		Let $T \in \Fix_{\mathcal{F}}(P)$. Then $P \leq N_G(T) \leq G$ and also $T \leq N_G(T) \leq G$. From Exercise~\ref{ex:sylinsub} of Lecture~12 ($P \leq K \leq G$ and $P \in \Syl_p(G)$ imply $P \in \Syl_p(K)$),
+		\[
+		P,\, T \in \Syl_p(N_G(T)).
+		\]
+		From Sylow's Second Theorem (Theorem~\ref{thm:secondsylow}), there is $x \in N_G(T)$ such that
+		\[
+		P = T^{x}.
+		\]
+		But from the definition of $N_G(T)$, $T^{x} = T$. So
+		\[
+		P = T^{x} = T.
+		\]
+		Therefore $\Fix_{\mathcal{F}}(P) = \{P\}$ (clearly $P \in \Fix_{\mathcal{F}}(P)$). Thus,
+		\[
+		|\Fix_{\mathcal{F}}(P)| = 1.
+		\]
+		From Lemma~\ref{lem:fixedpoints},
+		\[
+		|\Fix_{\mathcal{F}}(P)| \equiv |\mathcal{F}| \pmod{p},
+		\]
+		i.e.\ $|\mathcal{F}| \equiv |\Fix_{\mathcal{F}}(P)| \pmod{p}$. Now $|\mathcal{F}| = n_p$, then
+		\[
+		n_p \equiv 1 \pmod{p}.
+		\]
+		
+		\vspace{0.5em}
+		\noindent \textbf{Part (2).} Now we show that $n_p \mid |G|$. Consider the action of $G$ on $\mathcal{F}$ by conjugation:
+		\[
+		G \times \mathcal{F} \longrightarrow \mathcal{F}, \qquad (x, P) \longmapsto x \cdot P := xPx^{-1}.
+		\]
+		Then
+		\begin{align*}
+			\orb(P) &= \{ x \cdot P \mid x \in G \}\\
+			&= \{ xPx^{-1} \mid x \in G \}\\
+			&= \{ P^{x} \mid x \in G \}\\
+			&= \mathcal{F},
+		\end{align*}
+		where the last equality is Sylow's Second Theorem, and
+		\[
+		G_P = \{ x \in G \mid P^{x} = P \} = N_G(P).
+		\]
+		By the Orbit--Stabilizer Theorem (Theorem~\ref{M-thm:orbitstab}),
+		\[
+		|\orb(P)| = [G : G_P],
+		\]
+		which gives
+		\[
+		n_p = |\mathcal{F}| = \frac{|G|}{|G_P|} = \frac{|G|}{|N_G(P)|}.
+		\]
+		Then
+		\[
+		n_p \mid |G|.
+		\]
+		Moreover, if $N_G(P) = G$, this gives $n_p = 1$.
+	\end{proof}
+	
+	% ------------------------------------------
+	\subsection{Finding the Sylow Subgroups of a Group}
+	
+	\begin{recall}
+		For a prime $p$ and $n_p = |\Syl_p(G)|$ (Theorem~\ref{thm:thirdsylow}):
+		\[
+		n_p \equiv 1 \pmod{p} \iff p \mid n_p - 1 \iff n_p - 1 = pk \ \text{ for some } k \geq 0 \iff n_p = 1 + pk, \ k \geq 0.
+		\]
+	\end{recall}
+	
+	\begin{example}
+		Find all Sylow subgroups of $S_3$.
+		
+		\vspace{0.5em}
+		\noindent \textbf{Solution:} $|S_3| = 6 = 2 \cdot 3$. Then $S_3$ has a Sylow $2$-subgroup $P$ with $|P| = 2$, and a Sylow $3$-subgroup $Q$ with $|Q| = 3$.
+		
+		\vspace{0.5em}
+		\noindent \textbf{At $p = 2$:} $n_2 = 1 + 2k$, $k \geq 0$, and $n_2 \mid |S_3| = 2 \cdot 3 = 6$. So $n_2 = 1 + 2k$, $k \geq 0$, and $1 + 2k \mid 2 \cdot 3$, which gives $k = 0, 1$.
+		
+		\vspace{0.5em}
+		\noindent \emph{If $k = 0$:} $n_2 = 1$, so $S_3$ has only one Sylow $2$-subgroup $P$, $|P| = 2$. Then $P \trianglelefteq S_3$, hence $P^{x} = P$ for all $x \in S_3$. Since $|P| = 2$, $P$ is generated by a transposition; say $P = \langle (12) \rangle$. Put $x = (23) \in S_3$:
+		\begin{align*}
+			P^{x} = \langle (12) \rangle^{(23)} &= (23)\{(1), (12)\}(23)\\
+			&= \{(1), (23)(12)(23)\}\\
+			&= \{(1), (13)\} \neq \langle (12) \rangle = P.
+		\end{align*}
+		So $k = 0$ is ruled out.
+		
+		\vspace{0.5em}
+		\noindent Then $k = 1$, so $n_2 = 3$, i.e.\ $S_3$ has $3$ Sylow $2$-subgroups, which are
+		\[
+		\langle (12) \rangle, \qquad \langle (13) \rangle, \qquad \langle (23) \rangle.
+		\]
+		
+		\vspace{0.5em}
+		\noindent \textbf{At $p = 3$:} $n_3 = 1 + 3k$, $k \geq 0$, and $1 + 3k \mid 2 \cdot 3$. Then $k = 0$, which gives $n_3 = 1$.
+		
+		\vspace{0.5em}
+		\noindent So $S_3$ has only one Sylow $3$-subgroup $Q$, $|Q| = 3$, and $Q \trianglelefteq S_3$:
+		\[
+		Q = \langle (123) \rangle.
+		\]
+	\end{example}
+
+	
+	\begin{example}
+		Find all Sylow subgroups of $A_4$.
+		
+		\vspace{0.5em}
+		\noindent \textbf{Solution:} $|A_4| = 2^2 \cdot 3$. Then $A_4$ has a Sylow $2$-subgroup $P$ with $|P| = 2^2$, and a Sylow $3$-subgroup $Q$ with $|Q| = 3$.
+		
+		\vspace{0.5em}
+		\noindent \textbf{At $p = 2$:} $n_2 = 1 + 2k$, $k \geq 0$, and $n_2 \mid |A_4| = 2^2 \cdot 3$. So $n_2 = 1 + 2k$, $k \geq 0$, and $1 + 2k \mid 2^2 \cdot 3$, which gives $k = 0, 1$.
+		
+		\vspace{0.5em}
+		\noindent \emph{If $k = 1$:} $n_2 = 3$, so $A_4$ has three Sylow $2$-subgroups $P$, $|P| = 2^2$.
+		\[
+		\Rightarrow P \ntrianglelefteq G = A_4 \quad \Rightarrow \quad N_G(P) < G.
+		\]
+		Then there is $x \in G$ with $x \notin N_G(P)$. Then
+		\[
+		P^{x} \in \Syl_2(G) \ \Rightarrow\ \exists\, g \in G:\ P^{g} = P^{x} \ \Rightarrow\ P^{g^{-1}x} = P \ \Rightarrow\ g^{-1}x \in N_G(P) \ \Rightarrow\ x \in N_G(P),
+		\]
+		a contradiction. \textcolor{exerciseColor}{what about if $x = g$?}
+		
+		\vspace{0.5em}
+		\noindent Thus $k = 1$ is refused. Therefore $k = 0$, so $n_2 = 1$, and $A_4$ has only one Sylow $2$-subgroup $P$, $|P| = 4$. Then $P \trianglelefteq A_4$, and
+		\[
+		P = V_4 = \langle a, b \mid a^2 = b^2 = (ab)^2 = e \rangle.
+		\]
+		
+		\vspace{0.5em}
+		\noindent \textbf{At $p = 3$:} $n_3 = 1 + 3k$, $k \geq 0$, and $1 + 3k \mid 2^2 \cdot 3$, which gives $k = 0, 1$.
+		
+		\vspace{0.5em}
+		\noindent \emph{If $k = 0$:} $n_3 = 1$, so $A_4$ has only one Sylow $3$-subgroup $Q$, $|Q| = 3$, and $Q \trianglelefteq A_4$. So $A_4$ would have a normal Sylow $2$-subgroup $P$, $|P| = 4$, and a normal Sylow $3$-subgroup $Q$, $|Q| = 3$. Then $PQ \leq A_4$ and
+		\[
+		|PQ| = \frac{|P||Q|}{|P \cap Q|} = \frac{4 \cdot 3}{1} = 12 = |A_4|.
+		\]
+		Hence $A_4 = PQ$, $P, Q \trianglelefteq A_4$ and $P \cap Q = \{e\}$, so
+		\[
+		A_4 = P \times Q,
+		\]
+		where $|P| = 4$ is abelian and $|Q| = 3$ is cyclic, hence abelian. Then $A_4$ is abelian, a contradiction. So $k = 0$ is refused, and therefore $k = 1$, i.e.\ $n_3 = 4$.
+		
+		\vspace{0.5em}
+		\noindent So $A_4$ has $4$ Sylow $3$-subgroups:
+		\[
+		\langle (123) \rangle, \qquad \langle (134) \rangle, \qquad \langle (234) \rangle, \qquad \langle (124) \rangle.
+		\]
+	\end{example}
+	
+	\begin{exercise}
+		Find all Sylow subgroups of $S_4$, for each prime $p$ dividing $|G|$.
+	\end{exercise}
 	
 \end{document}
