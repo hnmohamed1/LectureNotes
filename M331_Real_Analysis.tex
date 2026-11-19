@@ -19,7 +19,6 @@
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\cl}[1]{\overline{#1}}
 \newcommand{\oi}[2]{\left]#1,#2\right[}
-\renewcommand{\qedsymbol}{$\blacksquare$}
 
 % --- COLOR PALETTE ---
 \definecolor{primaryColor}{RGB}{28, 54, 115}      % Dark Navy (Definitions / Primary)
@@ -1641,7 +1640,7 @@
 		\]
 		(This is Theorem~\ref{thm:closure} of Lecture 4; its proof was left as an assignment.)
 	\end{remark}
-
+	
 	% ==========================================================
 %                       LECTURE 9
 % ==========================================================
@@ -1650,28 +1649,56 @@
 
 \subsection{Finite Intersection Property}
 
+% Muhammed Alaa El-Din: I made the wording of this definition non-redundant (it said "the intersection ... has a non-empty intersection").
 \begin{definition}{Finite Intersection Property}
-	A collection of sets is said to have the \textbf{finite intersection property} if the intersection of any finite subcollection has a non-empty intersection.
+	A collection of sets is said to have the \textbf{finite intersection property} if every finite subcollection has a non-empty intersection.
 \end{definition}
 
+% Muhammed Alaa El-Din: I made the theorem state the standard (general) characterization for arbitrary families of closed sets and gave it a proof; the original stated only the nested-sequence version, with no proof. Its "if" direction for sequences is true in metric spaces but much harder (it is equivalent to sequential compactness), so I kept the nested version as a corollary in the direction that follows directly, and flagged the converse.
 \begin{theorem}
-	The metric space $M$ is compact if and only if any nested sequence
+	\label{thm:fip}
+	A metric space $M$ is compact if and only if every collection of closed subsets of $M$ with the finite intersection property has a non-empty intersection.
+\end{theorem}
+
+\begin{proof}
+	For a collection $\{F_i\}_{i\in I}$ of closed sets put $G_i = F_i^c$, which are open. By De Morgan,
+	\[
+	\bigcap_{i\in I} F_i = \emptyset \iff \bigcup_{i\in I} G_i = M,
+	\qquad
+	\bigcap_{k=1}^{n} F_{i_k} = \emptyset \iff \bigcup_{k=1}^{n} G_{i_k} = M .
+	\]
+	
+	\noindent ($\Rightarrow$) Let $M$ be compact and let $\{F_i\}$ be closed sets with the finite intersection property. If $\bigcap_i F_i = \emptyset$, then $\{G_i\}$ is an open cover of $M$, so it has a finite subcover $G_{i_1},\dots,G_{i_n}$, i.e.\ $F_{i_1}\cap\cdots\cap F_{i_n}=\emptyset$, contradicting the finite intersection property.
+	
+	\medskip
+	\noindent ($\Leftarrow$) Let $\{G_i\}$ be an open cover of $M$ and suppose it has no finite subcover. Then for every finite choice $i_1,\dots,i_n$ we have $\bigcup_k G_{i_k}\neq M$, i.e.\ $\bigcap_k F_{i_k}\neq\emptyset$. So the closed sets $F_i = G_i^c$ have the finite intersection property, and by hypothesis $\bigcap_i F_i\neq\emptyset$, i.e.\ $\bigcup_i G_i\neq M$, contradicting that $\{G_i\}$ covers $M$.
+\end{proof}
+
+\begin{corollary}[Nested Closed Sets]
+	Let $M$ be compact and let
 	\[
 	A_1 \supseteq A_2 \supseteq A_3 \supseteq \cdots
 	\]
-	of closed sets with the finite intersection property has a non-empty intersection.
-    \[
-	\forall n \qquad \bigcap_{k=1}^{n} A_k = A_n \neq \emptyset ,
-	\]
-	this implies
+	be a nested sequence of non-empty closed sets. Then
 	\[
 	\bigcap_{n=1}^{\infty} A_n \neq \emptyset .
 	\]
-	Passing to complements (De Morgan), the conclusion reads
+\end{corollary}
+
+\begin{proof}
+	For a nested sequence the finite intersection property is just the statement that each $A_n$ is non-empty:
 	\[
-	\Bigl(\bigcap_{n=1}^{\infty} A_n\Bigr)^{c} = \bigcup_{n=1}^{\infty} A_n^{c} \neq M .
+	\bigcap_{k=1}^{n} A_k = A_n \neq \emptyset \qquad \forall n .
 	\]
-\end{theorem}
+	Apply Theorem~\ref{thm:fip}. Passing to complements (De Morgan), the conclusion reads
+	\[
+	\Bigl(\bigcap_{n=1}^{\infty} A_n\Bigr)^{c} = \bigcup_{n=1}^{\infty} A_n^{c} \neq M . \qedhere
+	\]
+\end{proof}
+
+\begin{remark}
+	The converse also holds in metric spaces: if every nested sequence of non-empty closed sets in $M$ has a non-empty intersection, then $M$ is compact. Its proof is harder (it goes through sequential compactness) and is omitted here.
+\end{remark}
 
 \subsection{Dense Sets}
 
@@ -1679,26 +1706,28 @@
 	A set $D$ of a metric space $M$ is called \textbf{dense} if $\cl{D} = M$.
 \end{definition}
 
-\noindent Equivalently, $D$ is dense if every element $x\in M$ can be approximated by a sequence $\{x_n\}_{n=1}^{\infty}\subseteq D$, that is,
+% Muhammed Alaa El-Din: I made the source of this equivalence explicit (the closure--sequence theorem of Lecture 4).
+\noindent Equivalently (by Theorem~\ref{thm:closure}), $D$ is dense if every element $x\in M$ can be approximated by a sequence $\{x_n\}_{n=1}^{\infty}\subseteq D$, that is,
 \[
 \forall x\in M \quad \exists \{x_n\}_{n=1}^{\infty}\subseteq D \ \text{ s.t. } \ x_n \to x .
 \]
 
+% Muhammed Alaa El-Din: I made the approximation work for every real x (the original only treated x in [0,1], which does not prove density in all of R), renamed the decimal digits to d_k (the letter x_n was also used for sequences), and added the key inequality as a hint for the assignment.
 \begin{example}[Rational numbers]
 	$\Q$ is dense in $\R$ (with the usual metric).
 	
 	\smallskip
-	\noindent\textbf{Decimal approximations.} Let $x\in[0,1]$. Then
+	\noindent\textbf{Decimal approximations.} For $x\in[0,1[$ write its decimal expansion
 	\[
-	x = 0.x_1x_2x_3\cdots x_n\cdots = \sum_{k=1}^{\infty}\frac{x_k}{10^k}.
+	x = 0.d_1d_2d_3\cdots d_n\cdots = \sum_{k=1}^{\infty}\frac{d_k}{10^k}.
 	\]
-	Take
+	For an arbitrary $x\in\R$ take
 	\[
 	y_n = \frac{\lfloor 10^n x\rfloor}{10^n}.
 	\]
-	Then $y_n\in\Q$ for all $n\in\Z^+$ (note that $\lfloor 10x\rfloor = x_1$ and $\lfloor 100x\rfloor = x_1x_2$, and so on), and
+	Then $y_n\in\Q$ for all $n\in\Z^+$ (for $x\in[0,1[$, $\lfloor 10x\rfloor = d_1$, $\lfloor 100x\rfloor = 10d_1+d_2$, and so on, so $y_n = 0.d_1d_2\cdots d_n$ is the truncated expansion), and
 	\[
-	\lim_{n\to\infty} y_n = x \qquad \textit{(Assignment.)}
+	\lim_{n\to\infty} y_n = x \qquad \textit{(Assignment. Hint: } 0\le x-y_n<10^{-n}.)
 	\]
 \end{example}
 
@@ -1710,12 +1739,13 @@
 	A set $D$ is called \textbf{nowhere dense} if $(\cl{D})^{\circ} = \emptyset$. (A dense set is sometimes called \emph{everywhere dense}.)
 \end{definition}
 
+% Muhammed Alaa El-Din: I made this example say why the maximum exists (Extreme Value Theorem) and what the point of the example is (D is dense, by the theorem below); the original stopped without a conclusion.
 \begin{example}[Continuous functions]
 	Consider the space $C[a,b]$ of continuous functions on $[a,b]$ with the distance
 	\[
 	d_\infty(f,g) = \max\bigl\{\,|f(x)-g(x)| : x\in[a,b]\,\bigr\}.
 	\]
-	Consider the set $D$ of all polynomials on $[a,b]$.
+	(The maximum exists by the Extreme Value Theorem, since $|f-g|$ is continuous on the compact set $[a,b]$.) Consider the set $D$ of all polynomials on $[a,b]$. We will see below that $D$ is dense in $\bigl(C[a,b],d_\infty\bigr)$.
 \end{example}
 
 \subsection{Bernstein Polynomials}
@@ -1733,26 +1763,30 @@ allows us to work on $[0,1]$ without loss of generality.
 	\]
 \end{definition}
 
-\begin{theorem}[Bernstein]
+% Muhammed Alaa El-Din: I made the notation consistent (the norm ||.||_\infty was never defined; it is d_\infty), named the theorem (it proves the Weierstrass Approximation Theorem), and added the transfer from [0,1] to [a,b], which the "In particular" needs.
+\begin{theorem}[Bernstein; Weierstrass Approximation Theorem]
 	For every continuous $f$ on $[0,1]$,
 	\[
-	\forall \varepsilon>0 \ \ \exists N_\varepsilon \ \text{ s.t. } \ \forall n\ge N_\varepsilon \quad \|f - B_n(f)\|_\infty < \varepsilon .
+	\forall \varepsilon>0 \ \ \exists N_\varepsilon \ \text{ s.t. } \ \forall n\ge N_\varepsilon \quad d_\infty\bigl(f, B_n(f)\bigr) < \varepsilon .
 	\]
 	In particular, the polynomials are dense in $\bigl(C[a,b],d_\infty\bigr)$.
 \end{theorem}
 
 \textit{Proof: to be done as an assignment.}
 
+\noindent \textit{Transfer to $[a,b]$.} Given $g\in C[a,b]$ and $\varepsilon>0$, the function $f(x)=g\bigl((b-a)x+a\bigr)$ is continuous on $[0,1]$, so some polynomial $p$ satisfies $d_\infty(f,p)<\varepsilon$ on $[0,1]$. Then $q(t)=p\bigl(\tfrac{t-a}{b-a}\bigr)$ is a polynomial and $d_\infty(g,q)<\varepsilon$ on $[a,b]$, since $t\mapsto\tfrac{t-a}{b-a}$ maps $[a,b]$ onto $[0,1]$.
+
 
 \begin{exercise}
 	Prove that $\R\setminus\Q$ is dense in $\R$ (with the usual metric).
 \end{exercise}
 
+% Muhammed Alaa El-Din: I made "closed" a genuine hypothesis: in the original it appeared in parentheses, as if optional, but without it the statement is false (Q is dense in R but Q is not R).
 \begin{example}
-	If $D$ is dense in a metric space $M$ (and $D$ is closed), then $D = M$.
+	If $D$ is dense in a metric space $M$ and $D$ is closed, then $D = M$.
 	
 	\smallskip
-	\noindent Indeed, $D$ closed gives $D=\cl{D}$, and $D$ dense gives $\cl{D}=M$; hence $D=M$.
+	\noindent Indeed, $D$ closed gives $D=\cl{D}$, and $D$ dense gives $\cl{D}=M$; hence $D=M$. (Without closedness this fails: $\Q$ is dense in $\R$ but $\Q\neq\R$.)
 \end{example}
 
 
@@ -1772,11 +1806,12 @@ allows us to work on $[0,1]$ without loss of generality.
 	In this case, the set $\{x_1,\dots,x_n\}$ is called an \textbf{$\varepsilon$-net} for $A$.
 \end{definition}
 
+% Muhammed Alaa El-Din: I made the claims in this remark justified: short proofs of "compact => totally bounded" and "totally bounded => bounded", and counterexamples for both converses (they were asserted without examples).
 \begin{remark}
-	Note that any compact set is totally bounded, but the converse is not true. Also,
-	\[
-	\text{totally bounded} \implies \text{bounded}.
-	\]
+	\begin{itemize}
+		\item \textbf{Compact $\Rightarrow$ totally bounded.} If $A$ is compact and $\varepsilon>0$, the open cover $\{B(x;\varepsilon):x\in A\}$ of $A$ has a finite subcover, which is an $\varepsilon$-net. The converse is not true: $\oi{0}{1}$ is totally bounded in $\R$ but not compact (it is not closed).
+		\item \textbf{Totally bounded $\Rightarrow$ bounded.} Take $\varepsilon=1$: $A$ lies in a finite union of balls, which is bounded (Theorem~\ref{thm:unionbounded}). The converse is not true: an infinite set with the discrete metric is bounded (it lies in any ball of radius $2$), but no finite family of balls of radius $\tfrac12$ (each a single point) covers it.
+	\end{itemize}
 \end{remark}
 
 \subsection{Completion of a Metric Space}
@@ -1786,6 +1821,7 @@ allows us to work on $[0,1]$ without loss of generality.
 	\[
 	\rho\bigl(\phi(x),\phi(x')\bigr) = d(x,x') \qquad \forall x,x'\in X .
 	\]
+	(An isometry is automatically injective: $\phi(x)=\phi(x')$ gives $d(x,x')=0$.)
 \end{definition}
 
 \begin{definition}{Cauchy Completion}
@@ -1807,8 +1843,9 @@ Let $(X,d)$ be a metric space and let $C(X)$ be the set of all Cauchy sequences 
 	\]
 \end{definition}
 
+% Muhammed Alaa El-Din: I made the set correct: the relation is defined on C(X), the set of Cauchy sequences; X^* is the set of its equivalence classes and is only defined afterwards.
 \begin{exercise}[Assignment]
-	Show that this is an equivalence relation on $X^{*}$ (and that the limit above exists).
+	Show that this is an equivalence relation on $C(X)$ (and that the limit above exists).
 \end{exercise}
 
 \noindent Let $X^*$ be the set of all equivalence classes of Cauchy sequences in $X$:
@@ -1928,8 +1965,9 @@ d^{*}\Bigl(\bigl[\{x_n\}\bigr],\bigl[\{y_n\}\bigr]\Bigr) := \lim_{n\to\infty} d(
 	\noindent\textbf{(iii) Triangle inequality.} See the exercise below.
 \end{proof}
 
+% Muhammed Alaa El-Din: I made a hint for this exercise (limits preserve non-strict inequalities).
 \begin{exercise}
-	Prove the triangle inequality for $d^{*}$.
+	Prove the triangle inequality for $d^{*}$. \textit{(Hint: take the limit as $n\to\infty$ in $d(x_n,z_n)\le d(x_n,y_n)+d(y_n,z_n)$.)}
 \end{exercise}
 
 \subsection{Embedding $X$ into $X^{*}$}
@@ -1991,6 +2029,7 @@ the class of the constant sequence $x,x,x,\dots$ (a constant sequence is clearly
 	$\phi(X)$ is dense in $X^{*}$.
 \end{proposition}
 
+% Muhammed Alaa El-Din: I made the last step explicit: "every ball around x^* meets phi(X)" gives x^* in the closure via the closure--sequence theorem (take epsilon = 1/k).
 \begin{proof}
 	Let $x^{*}=\bigl[\{x_n\}\bigr]\in X^{*}$, where $\{x_n\}$ is Cauchy, and let $\varepsilon>0$. There is $N_\varepsilon\in\Z^+$ such that
 	\[
@@ -2000,7 +2039,7 @@ the class of the constant sequence $x,x,x,\dots$ (a constant sequence is clearly
 	\[
 	d^{*}\bigl(x^{*},\widehat{x_{N_\varepsilon}}\bigr)=\lim_{m\to\infty}d(x_m,x_{N_\varepsilon})\le\frac{\varepsilon}{2}<\varepsilon .
 	\]
-	So for every element $x^{*}\in X^{*}$ and every $\varepsilon>0$ there is $\widehat x\in\phi(X)$ with $d^{*}(x^{*},\widehat x)<\varepsilon$, i.e.\ $\overline{\phi(X)}=X^{*}$.
+	So for every element $x^{*}\in X^{*}$ and every $\varepsilon>0$ there is $\widehat x\in\phi(X)$ with $d^{*}(x^{*},\widehat x)<\varepsilon$. Taking $\varepsilon=\tfrac1k$ ($k=1,2,\dots$) gives a sequence in $\phi(X)$ converging to $x^{*}$, so $x^{*}\in\overline{\phi(X)}$ by Theorem~\ref{thm:closure}. Hence $\overline{\phi(X)}=X^{*}$.
 \end{proof}
 
 \subsection{$X^{*}$ is Complete}
@@ -2032,17 +2071,23 @@ It remains to prove that $(X^{*},d^{*})$ is complete.
 	$(X^{*},d^{*})$ is complete.
 \end{theorem}
 
+% Muhammed Alaa El-Din: I made the step "so {\hat z_k} is Cauchy" explicit with an epsilon/3 argument; the original only displayed the inequality.
 \begin{proof}
 	Let $\{w_k\}$ be any Cauchy sequence in $X^{*}$. Since $\phi(X)$ is dense, for each $k$ there is $z_k\in X$ with $d^{*}(w_k,\widehat{z_k})<\tfrac1k$. Then
 	\[
-	d^{*}(\widehat{z_k},\widehat{z_m})\le d^{*}(\widehat{z_k},w_k)+d^{*}(w_k,w_m)+d^{*}(w_m,\widehat{z_m})<\frac1k+d^{*}(w_k,w_m)+\frac1m ,
+	d^{*}(\widehat{z_k},\widehat{z_m})\le d^{*}(\widehat{z_k},w_k)+d^{*}(w_k,w_m)+d^{*}(w_m,\widehat{z_m})<\frac1k+d^{*}(w_k,w_m)+\frac1m .
 	\]
-	so $\{\widehat{z_k}\}$ is Cauchy in $\phi(X)$. By the previous proposition $\widehat{z_k}\to z^{*}$ for some $z^{*}\in X^{*}$. Finally
+	Given $\varepsilon>0$, choose $N$ with $\tfrac1N<\tfrac{\varepsilon}{3}$ and $d^{*}(w_k,w_m)<\tfrac{\varepsilon}{3}$ for all $k,m\ge N$; then $d^{*}(\widehat{z_k},\widehat{z_m})<\varepsilon$ for $k,m\ge N$. So $\{\widehat{z_k}\}$ is Cauchy in $\phi(X)$. By the previous proposition $\widehat{z_k}\to z^{*}$ for some $z^{*}\in X^{*}$. Finally
 	\[
 	d^{*}(w_k,z^{*})\le d^{*}(w_k,\widehat{z_k})+d^{*}(\widehat{z_k},z^{*})<\frac1k+d^{*}(\widehat{z_k},z^{*})\xrightarrow[k\to\infty]{}0 ,
 	\]
 	so $w_k\to z^{*}$. Hence every Cauchy sequence in $X^{*}$ converges.
 \end{proof}
+
+% Muhammed Alaa El-Din: I made a closing summary tying the results of this lecture back to the definition of a Cauchy completion in Lecture 10.
+\begin{takeaway}
+	Putting everything together: $(X^{*},d^{*})$ is a complete metric space, $\phi:X\to X^{*}$ is an isometry, and $\phi(X)$ is dense in $X^{*}$. Hence $(X^{*},d^{*})$ together with $\phi$ is a Cauchy completion of $(X,d)$. In particular, every metric space has a completion.
+\end{takeaway}
 
 
 
@@ -2076,6 +2121,11 @@ According to the pigeonhole principle, no finite set is equipotent to a proper s
 \begin{definition}{Infinite Set}
 	A set $A$ is \textbf{infinite} if it is equipotent to one of its proper subsets.
 \end{definition}
+
+% Muhammed Alaa El-Din: I made a remark on this definition: it is Dedekind's definition; "finite" was never defined, and the agreement between "infinite" in this sense and "not finite" uses (a weak form of) the axiom of choice.
+\begin{remark}
+	Here a set is \emph{finite} if it is empty or equipotent to $\{1,2,\dots,n\}$ for some $n\in\Z^+$. The definition above is \emph{Dedekind's} definition of an infinite set. The pigeonhole argument shows that a Dedekind-infinite set is not finite; the converse (every set that is not finite is Dedekind-infinite) is also true, but its proof uses a weak form of the axiom of choice.
+\end{remark}
 
 \begin{example}
 	Let $A=\{0,1,2,\dots\}$ and $B=\{1,2,3,\dots\}$. Show that $A\approx B$ and that $A$ is infinite.
@@ -2113,8 +2163,9 @@ According to the pigeonhole principle, no finite set is equipotent to a proper s
 	\noindent Hence $f$ is a bijection, and therefore $\mathbb{Z}^+\approx 2\mathbb{Z}^+$.
 \end{example}
 
+% Muhammed Alaa El-Din: I made the meaning of 2Z^+ + 1 explicit ({3, 5, 7, ...}, so 1 is not included), which is what makes f(n) = n + 1 onto.
 \begin{example}
-	Show that $2\mathbb{Z}^+\approx 2\mathbb{Z}^++1$.
+	Show that $2\mathbb{Z}^+\approx 2\mathbb{Z}^++1$, where $2\Z^+=\{2,4,6,\dots\}$ and $2\Z^++1=\{3,5,7,\dots\}$.
 	
 	\vspace{0.5em}
 	\noindent \textbf{Solution:}
@@ -2125,7 +2176,7 @@ According to the pigeonhole principle, no finite set is equipotent to a proper s
 	
 	\begin{itemize}
 		\item \textbf{$f$ is injective:} if $f(n)=f(m)$, then $n+1=m+1$, so $n=m$.
-		\item \textbf{$f$ is surjective:} if $k\in 2\mathbb{Z}^++1$, then $k-1\in 2\mathbb{Z}^+$ and $f(k-1)=k$.
+		\item \textbf{$f$ is surjective:} if $k\in 2\mathbb{Z}^++1$, then $k\ge3$, so $k-1\in 2\mathbb{Z}^+$ and $f(k-1)=k$.
 	\end{itemize}
 	
 	\noindent Hence $f$ is a bijection, and therefore $2\mathbb{Z}^+\approx 2\mathbb{Z}^++1$.
@@ -2189,8 +2240,9 @@ According to the pigeonhole principle, no finite set is equipotent to a proper s
 	\]
 \end{corollary}
 
+% Muhammed Alaa El-Din: I made symmetry explicit: the example gives ]0,1[ ~ ]a,b[, and symmetry is needed to turn it around.
 \begin{proof}
-	By example~\ref{exp:openinteq}, $\oi{a}{b}\approx\oi{0}{1}$ and $\oi{0}{1}\approx\oi{c}{d}$; conclude by transitivity.
+	By example~\ref{exp:openinteq} and symmetry, $\oi{a}{b}\approx\oi{0}{1}$; by the same example, $\oi{0}{1}\approx\oi{c}{d}$. Conclude by transitivity.
 \end{proof}
 
 \noindent In fact, unbounded intervals are also equipotent to bounded ones.
@@ -2263,12 +2315,14 @@ According to the pigeonhole principle, no finite set is equipotent to a proper s
 
 
 
+% Muhammed Alaa El-Din: I made the remaining cases explicit: the examples only treat ]0,\infty[ and R, and the other unbounded open intervals follow by translations and reflections.
 \begin{takeaway}
-	Any two non-trivial open intervals in $\R$ (bounded or not) are equipotent.
+	Any two non-trivial open intervals in $\R$ (bounded or not) are equipotent. The remaining unbounded cases follow from the examples by translations and reflections: $x\mapsto x+a$ gives $\oi{0}{\infty}\approx\oi{a}{\infty}$, and $x\mapsto b-x$ gives $\oi{0}{\infty}\approx\oi{-\infty}{b}$.
 \end{takeaway}
 
 \subsection{Open Versus Half-Open and Closed Intervals}
 
+% Muhammed Alaa El-Din: I made the bijectivity of f proved; the original only asserted "f is a bijection".
 \begin{example}
 	$\oi{0}{1}\approx\left]0,1\right]$. Define $f:\left]0,1\right]\to\oi{0}{1}$ by
 	\[
@@ -2295,7 +2349,7 @@ According to the pigeonhole principle, no finite set is equipotent to a proper s
 			\draw[->, >=stealth, thick, primaryColor] (3,0.1) to[bend right=40] (2.4,0.1);
 		\end{tikzpicture}
 	\end{center}
-	\textbf{$f$ is a bijection.}
+	\textbf{$f$ is a bijection.} Let $S=\{\tfrac1n:n\in\Z^+\}\subseteq\left]0,1\right]$. On $\left]0,1\right]\setminus S$, $f$ is the identity onto $\oi{0}{1}\setminus S$. On $S$, $f$ maps $\tfrac1n\mapsto\tfrac1{n+1}$, which is a bijection from $S$ onto $S\setminus\{1\}$. Since $\oi{0}{1}=\bigl(\oi{0}{1}\setminus S\bigr)\cup\bigl(S\setminus\{1\}\bigr)$ (disjoint), $f$ is a bijection from $\left]0,1\right]$ onto $\oi{0}{1}$.
 \end{example}
 
 \begin{corollary}
@@ -2339,6 +2393,7 @@ According to the pigeonhole principle, no finite set is equipotent to a proper s
 \end{remark}
 
 
+% Muhammed Alaa El-Din: I made the bijectivity of f proved, as in the previous example.
 \begin{example}
 	$\left[0,1\right]\approx\oi{0}{1}$. Again move a sequence of points along: define $f:\left[0,1\right]\to\oi{0}{1}$ by
 	\[
@@ -2348,7 +2403,7 @@ According to the pigeonhole principle, no finite set is equipotent to a proper s
 		x & \text{otherwise}.
 	\end{cases}
 	\]
-	Then $0\mapsto\tfrac12$, $1\mapsto\tfrac13$, $\tfrac12\mapsto\tfrac14,\dots$, and $f$ is a bijection onto $\oi{0}{1}$.
+	Then $0\mapsto\tfrac12$, $1\mapsto\tfrac13$, $\tfrac12\mapsto\tfrac14,\dots$, and $f$ is a bijection onto $\oi{0}{1}$: with $S=\{\tfrac1n:n\in\Z^+\}$, $f$ is the identity from $[0,1]\setminus(S\cup\{0\})$ onto $\oi{0}{1}\setminus S$, and it maps $\{0\}\cup S$ bijectively onto $S\setminus\{1\}=\{\tfrac12,\tfrac13,\dots\}$ ($0\mapsto\tfrac12$, and $\tfrac1n\mapsto\tfrac1{n+2}$ hits each of $\tfrac13,\tfrac14,\dots$ exactly once).
 	
 	\begin{center}
 		\begin{tikzpicture}[scale=1.0, font=\sffamily]
@@ -2395,8 +2450,9 @@ According to the pigeonhole principle, no finite set is equipotent to a proper s
 	\end{center}
 \end{example}
 
+% Muhammed Alaa El-Din: I made "non-trivial" precise (more than one point) and noted that the cases with infinite endpoints that are not written out work in the same way.
 \begin{takeaway}
-	Any two non-trivial intervals in $\R$ are equipotent. In particular, if $-\infty\le a<b\le\infty$ and $-\infty\le c<d\le\infty$, then
+	Any two non-trivial intervals in $\R$ (i.e.\ intervals with more than one point), whether open, half-open or closed, bounded or not, are equipotent; the cases not written out above are handled in the same way. In particular, if $-\infty\le a<b\le\infty$ and $-\infty\le c<d\le\infty$, then
 	\[
 	\oi{a}{b}\approx\oi{c}{d}.
 	\]
@@ -2404,8 +2460,9 @@ According to the pigeonhole principle, no finite set is equipotent to a proper s
 
 \subsection{Countable Sets}
 
+% Muhammed Alaa El-Din: I made a note that "subset of Z" can equivalently be "subset of Z^+" (the more common definition), because Z ~ Z^+ (proved at the end of this lecture).
 \begin{definition}{Countable Set}
-	A set $A$ is called \textbf{countable} if it is equipotent to a subset of $\Z$. Infinite countable sets are called \textbf{denumerable}.
+	A set $A$ is called \textbf{countable} if it is equipotent to a subset of $\Z$. Infinite countable sets are called \textbf{denumerable}. (Since $\Z\approx\Z^+$, see below, one may equivalently use subsets of $\Z^+$.)
 \end{definition}
 
 
@@ -2417,8 +2474,9 @@ According to the pigeonhole principle, no finite set is equipotent to a proper s
 	$\oi{0}{1}$ is not denumerable.
 \end{theorem}
 
+% Muhammed Alaa El-Din: I made the choice of digits safe. With digits 0 and 6, y could be 0.000... = 0 (if every diagonal digit is >= 5), and 0 is not in ]0,1[, so there would be no contradiction. Using digits 4 and 6 guarantees 0 < y < 1 and that y has a unique decimal expansion. I also fixed the expansions of the x_n (those not ending in 9's) and corrected "the converse" to "the contrary".
 \begin{proof}
-	Suppose the converse. That is, $\oi{0}{1}\approx\{x_1,x_2,x_3,\dots\}$. Write each $x_k$ in its decimal expansion:
+	Suppose the contrary. That is, $\oi{0}{1}=\{x_1,x_2,x_3,\dots\}$. Write each $x_k$ in its decimal expansion, choosing the expansion that does not end in an infinite string of $9$'s:
 	\begin{align*}
 		x_1 &= 0.\,x_1^{(1)}\,x_1^{(2)}\cdots x_1^{(n)}\cdots\\
 		x_2 &= 0.\,x_2^{(1)}\,x_2^{(2)}\cdots x_2^{(n)}\cdots\\
@@ -2429,11 +2487,11 @@ According to the pigeonhole principle, no finite set is equipotent to a proper s
 	\noindent Define $y=0.\,y^{(1)}\,y^{(2)}\cdots y^{(n)}\cdots$ where
 	\[
 	y^{(n)}=\begin{cases}
-		0 & \text{if } x_n^{(n)}\geq 5,\\[1mm]
+		4 & \text{if } x_n^{(n)}\geq 5,\\[1mm]
 		6 & \text{if } x_n^{(n)}< 5 .
 	\end{cases}
 	\]
-	Then $y^{(n)}\neq x_n^{(n)}$ for every $n$, so $y$ differs from $x_n$ in the $n$-th decimal digit. The digits of $y$ are only $0$ and $6$, so $y$ has no second expansion ending in $9$'s, and therefore $y\neq x_n$ $(\forall\, n\in\Z^+)$. This is a contradiction, since $y$ is not in the list $\{x_1,x_2,x_3,\dots\}$.
+	Since every digit of $y$ is $4$ or $6$, we have $0.4\le y\le0.7$, so $y\in\oi{0}{1}$; moreover $y$ contains neither $0$'s nor $9$'s, so it has only one decimal expansion. Now $y^{(n)}\neq x_n^{(n)}$ for every $n$, so the expansion of $y$ differs from the chosen expansion of $x_n$ in the $n$-th digit; since $y$ has a unique expansion, $y\neq x_n$ $(\forall\, n\in\Z^+)$. This is a contradiction, since $y\in\oi{0}{1}$ but $y$ is not in the list $\{x_1,x_2,x_3,\dots\}$.
 \end{proof}
 
 \begin{exercise} 	A finite union of countable sets is countable.
@@ -2448,12 +2506,13 @@ According to the pigeonhole principle, no finite set is equipotent to a proper s
 
 
 
+% Muhammed Alaa El-Din: I made the "onto" part justified (repeatedly divide by 2) instead of only asserting it.
 \begin{proof}
 	Define:
 	\[
 	f:\Z^+\times\Z^+\to\Z^+, \qquad f(m,n)=2^{m-1}(2n-1).
 	\]
-	\textbf{$f$ is onto:} every positive integer can be written as $2^{m-1}(2n-1)$, namely a power of $2$ times an odd number.
+	\textbf{$f$ is onto:} every positive integer $k$ can be written as $2^{m-1}(2n-1)$, namely a power of $2$ times an odd number: divide $k$ by $2$ as many times as possible, say $m-1\ge0$ times; the quotient is odd, so it equals $2n-1$ for some $n\in\Z^+$.
 	
 	\smallskip
 	\noindent\textbf{$f$ is one-to-one:} suppose $2^{m_1-1}(2n_1-1)=2^{m_2-1}(2n_2-1)$ and, say, $m_1>m_2$. Dividing by $2^{m_2-1}$ gives
@@ -2488,16 +2547,17 @@ According to the pigeonhole principle, no finite set is equipotent to a proper s
 	A subset of a countable set is countable.
 \end{exercise}
 
+% Muhammed Alaa El-Din: I made the direction and well-definedness of the map clear: f goes from the set of reduced pairs onto Q, and it is a bijection because every rational has a unique reduced form m/n with n > 0. I also added that Q is infinite, hence denumerable.
 \begin{example}[$\Q$ is countable]
-	Take
+	Let
 	\[
-	f(m,n)=\frac mn \quad\text{if } \gcd(m,n)=1 .
+	S=\bigl\{(m,n): m\in\Z,\ n\in\Z^+,\ \gcd(m,n)=1\bigr\}, \qquad f:S\to\Q, \quad f(m,n)=\frac mn .
 	\]
-	Then
+	Every rational number has a unique representation $\tfrac mn$ in lowest terms with $n>0$ (for $0$ it is $\tfrac01$), so $f$ is a bijection and
 	\[
-	\Q\approx\bigl\{(m,n): m\in\Z,\ n\in\Z^+,\ \gcd(m,n)=1\bigr\},
+	\Q\approx S,
 	\]
-	a subset of $\Z\times\Z^+\approx\Z^+$. Hence $\Q$ is countable.
+	a subset of $\Z\times\Z^+\approx\Z^+$. Hence $\Q$ is countable (by the exercise on subsets of countable sets); since $\Q$ is infinite, it is denumerable.
 \end{example}
 	
 \end{document}
