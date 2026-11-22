@@ -1995,31 +1995,53 @@ the class of the constant sequence $x,x,x,\dots$ (a constant sequence is clearly
 
 \begin{center}
 	\begin{tikzpicture}[scale=1.0, font=\sffamily]
-		% ---------- Space (X,d) ----------
+		% ---------- Space (X,d): with holes ----------
 		\draw[thick, primaryColor, fill=primaryColor, fill opacity=0.08] (-3.5,0) ellipse (2 and 1.6);
 		\node[primaryColor, font=\bfseries] at (-3.5,2.0) {$(X,d)$};
 		
-		\fill (-3.0,0.8)  circle (1.8pt) node[left=3pt] {$x$};
-		\fill (-3.0,-0.8) circle (1.8pt) node[left=3pt] {$y$};
+		\fill (-3.0,0.8)  circle (1.8pt) node[above=2pt, font=\small] {$x$};
+		\fill (-3.0,-0.8) circle (1.8pt) node[below=2pt, font=\small] {$y$};
 		\draw[<->, >=stealth, thick, primaryColor] (-3.0,0.7) -- (-3.0,-0.7)
 		node[midway, left=3pt, font=\small] {$d(x,y)$};
 		
-		% ---------- Space (X*,d*) ----------
-		\draw[thick, theoremColor, fill=theoremColor, fill opacity=0.05] (1.5,-2.2) rectangle (8.5,2.2);
-		\node[theoremColor, font=\bfseries] at (5.0,2.6) {$(X^{*},d^{*})$};
+		% holes: points missing from X
+		\foreach \p in {(-4.9,0.6),(-4.9,-0.6),(-2.5,0.45)} {
+			\draw[thick, cautionColor, fill=white] \p circle (2.8pt);
+		}
+		% a Cauchy sequence in X heading toward a hole
+		\foreach \p in {(-1.95,-0.15),(-2.115,0.03),(-2.2525,0.18),(-2.3625,0.3)} {
+			\fill[primaryColor] \p circle (1.7pt);
+		}
+		\node[primaryColor, font=\scriptsize, anchor=north] at (-1.95,-0.25) {$\{x_n\}$};
 		
-		\draw[thick, accentColor, fill=accentColor, fill opacity=0.12] (5.0,0) ellipse (2 and 1.6);
-		\node[accentColor, font=\small\bfseries] at (7,1.25) {$\phi(X)$};
+		% ---------- Space (X*,d*): same shape, holes filled ----------
+		\draw[thick, theoremColor, fill=theoremColor, fill opacity=0.05] (4.5,0) ellipse (2 and 1.6);
+		\node[theoremColor, font=\bfseries] at (4.5,2.0) {$(X^{*},d^{*})$};
 		
-		\fill (4.2,0.8)  circle (1.8pt) node[right=3pt, font=\small] {$\widehat{x}=\phi(x)$};
-		\fill (4.2,-0.8) circle (1.8pt) node[right=3pt, font=\small] {$\widehat{y}=\phi(y)$};
-		\draw[<->, >=stealth, thick, accentColor] (4.2,0.7) -- (4.2,-0.7)
-		node[midway , right=3pt, font=\small] {$d^{*}(\widehat{x},\widehat{y})$};
+		\fill (5.0,0.8)  circle (1.8pt) node[above=2pt, font=\small] {$\widehat{x}=\phi(x)$};
+		\fill (5.0,-0.8) circle (1.8pt) node[below=2pt, font=\small] {$\widehat{y}=\phi(y)$};
+		\draw[<->, >=stealth, thick, accentColor] (5.0,0.7) -- (5.0,-0.7)
+		node[midway, left=3pt, font=\small] {$d^{*}(\widehat{x},\widehat{y})$};
+		
+		% holes filled by special points (ringed, filled)
+		\foreach \p in {(3.1,0.6),(3.1,-0.6),(5.5,0.45)} {
+			\fill[cautionColor] \p circle (2.4pt);
+			\draw[thin, cautionColor] \p circle (4.6pt);
+		}
+		% images of the Cauchy sequence converge to the filled point
+		\foreach \p in {(6.05,-0.15),(5.885,0.03),(5.7475,0.18),(5.6375,0.3)} {
+			\fill[accentColor] \p circle (1.7pt);
+		}
+		\node[accentColor, font=\scriptsize, anchor=north] at (6.0,-0.25) {$\phi(x_n)$};
+		\node[cautionColor, font=\small, anchor=west] at (5.75,0.6) {$x^{*}$};
 		
 		% ---------- The map phi ----------
-		\draw[->, >=stealth, thick, gray] (-2.9,0.8)  -- (4.1,0.8)  node[midway, above] {$\phi$};
-		\draw[->, >=stealth, thick, gray] (-2.9,-0.8) -- (4.1,-0.8) node[midway, below] {$\phi$};
+		\draw[->, >=stealth, thick, gray] (-2.9,0.8)  -- (4.8,0.8)  node[midway, above] {$\phi$};
+		\draw[->, >=stealth, thick, gray] (-2.9,-0.8) -- (4.8,-0.8) node[midway, below] {$\phi$};
 		
+		% legends
+		\node[cautionColor, font=\small, align=center] at (-3.5,-2.3) {hollow points:\\missing from $X$};
+		\node[cautionColor, font=\small, align=center] at (4.5,-2.3) {ringed points:\\limits of Cauchy sequences, now in $X^{*}$};
 	\end{tikzpicture}
 \end{center}
 
